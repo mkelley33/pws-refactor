@@ -25,7 +25,7 @@ const UserSchema = new Schema({
     type: String,
     trim: true,
     required: messages.blank,
-    maxlength: [50, messages.maxlength(50)],
+    maxlength: '50',
   },
   lastName: {
     type: String,

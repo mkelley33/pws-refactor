@@ -7,10 +7,14 @@
     "node": "18.16.0"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node index.js --trace-warnings",
-    "build": "node scripts/build.js",
-    "start": "export NODE_ENV=production && node dist/index.js",
-    "test": "./node_modules/.bin/mocha --require @babel/register --require test/helpers --reporter spec test/**/*.js"
+    "build": "./node_modules/.bin/tsc -b -v",
+    "clean": "rimraf ./src/**/bin ./bin ./src/**/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
+    "rebuild": "npm run clean && npm run build",
+    "buildw": "tsc -b -v -w --preserveWatchOutput -watch --extendedDiagnostics",
+    "eslint": "./node_modules/.bin/eslint \"./src/**/**.ts\"",
+    "node": "set TS_NODE_FILES=true & node --inspect --loader ts-node/esm src/index.ts",
+    "nodemon": "./node_modules/.bin/nodemon --watch src/**/*.ts --watch src/**/*.js --exec node --inspect --loader ts-node/esm ./src/index.ts",
+    "tsc-watch": "./node_modules/.bin/tsc-watch -b -v -i -w --noclear --compiler \"./node_modules/.bin/tsc\" --onSuccess \"node --inspect --es-module-specifier-resolution=node ./bin/index.js\""
   },
   "author": "Michaux Kelley",
   "license": "ISC",
@@ -19,6 +23,7 @@
     "@types/node": "^20.3.1",
     "@types/react": "^18.2.13",
     "@types/react-dom": "^18.2.6",
+    "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.2",
     "body-parser": "^1.20.2",
     "compression": "^1.7.4",
@@ -50,6 +55,7 @@
     "@types/babel__core": "^7.20.1",
     "@types/babel__preset-env": "^7.9.2",
     "@types/babel__register": "^7.17.0",
+    "@types/bcryptjs": "^2.4.2",
     "@types/bluebird": "^3.5.38",
     "@types/body-parser": "^1.19.2",
     "@types/chai": "^4.3.5",
@@ -77,6 +83,7 @@
     "shelljs": "^0.8.5",
     "supertest": "^6.3.3",
     "ts-node": "^10.9.1",
+    "tsc-watch": "^6.0.4",
     "typescript": "^5.1.3"
   }
 }

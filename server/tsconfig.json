@@ -3,7 +3,7 @@
     "target": "ES2020",
     "module": "commonjs",
     "outDir": "bin",
-    "rootDir": "src",
+    "rootDir": "/",
     "strict": true,
     "noImplicitAny": false,
     "strictNullChecks": true,
@@ -23,11 +23,12 @@
      "useUnknownInCatchVariables": false,  // TypeScript 4.4+ only!
 },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.js"
+    "app/**/*.ts",
+    "config/**/*.js"
   ],
   "exclude": [
     "node_modules",
     "<node_internals>/**",
+    "./built/**/*"
   ]
 }
