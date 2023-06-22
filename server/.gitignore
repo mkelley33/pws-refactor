@@ -30,4 +30,7 @@ dist/
 .AppleDouble
 .LSOverride
 
+out/
+# TS -incremental file
+tsconfig.tsbuildinfo
 node_modules
