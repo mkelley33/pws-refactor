@@ -1,7 +1,7 @@
 {
   "compilerOptions": { /* Docs: [https://www.typescriptlang.org/tsconfig](https://www.typescriptlang.org/tsconfig) */
-    "target": "ES2020",
-    "module": "commonjs",
+    "target": "ES2022",
+    "module": "ES2022",
     "outDir": "bin",
     "rootDir": "/",
     "strict": true,
@@ -20,7 +20,13 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowUnreachableCode": true,
-     "useUnknownInCatchVariables": false,  // TypeScript 4.4+ only!
+    "useUnknownInCatchVariables": false,  // TypeScript 4.4+ only!
+},
+"ts-node": {
+  "esm": true,
+  "compilerOptions": {
+    "module": "nodenext",
+  }
 },
   "include": [
     "app/**/*.ts",

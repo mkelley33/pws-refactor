@@ -4,9 +4,9 @@ export default {
   host: 'localhost',
   clientPort: ':8000',
   mail: {
-    user: 'michauxkelley@gmail.com',
-    pass: process.env.EMAIL_PASS,
-    sender: 'Michaux Kelley <michauxkelley@gmail.com>',
+    getUser() { return process.env.EMAIL },
+    getEmailPassword() { return process.env.EMAIL_PASS },
+    getSender() { return process.env.EMAIL_SENDER },
   },
   MONGOOSE_DEBUG: true,
   jwtSecret: process.env.JWT_SECRET,
