@@ -3,7 +3,9 @@ import Token from '../models/token.model';
 import nodeMailer from 'nodemailer';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
-import config from '../../config/env';
+import cfg from '../../config/env';
+
+const config = await cfg;
 
 function sendVerificationEmail(user) {
   // TODO: add a timestamp to the token so that there is a way to retrieve the latest one created for the user
@@ -22,8 +24,8 @@ function sendVerificationEmail(user) {
     port: 465,
     secure: true,
     auth: {
-      user: config.mail.user,
-      pass: config.mail.pass,
+      user: config.default.mail.getUser(),
+      pass: config.default.mail.getEmailPassword(),
     },
   });
   const verificationUrl = `${config.protocol}://${config.host}${config.clientPort}/email-verification/${token.token}`;
@@ -58,21 +60,26 @@ function search(req, res, next) {
 
 function verification(req, res, next) {
   Token.findOne({ token: req.params.token })
-    .then(token => {
+    .then((token) => {
       // If a token exists then a user will exist that matches it, so no need to
       // check for a not found error
-      User.findOne({ _id: token.userId }).then(user => {
-        if (user.isVerified) {
-          return res.status(400).json({ message: 'already verified' });
-        }
-        user.isVerified = true;
-        user.verifiedAt = Date.now();
-        user.save().then(() => {
-          res.status(200).json({ message: 'verified' });
+      if (token) {
+        User.findOne({ _id: token.userId }).then((user) => {
+          if (user) {
+            if (user.isVerified) {
+              return res.status(400).json({ message: 'already verified' });
+            }
+            user.isVerified = true;
+            user.verifiedAt = new Date();
+            user.save().then(() => {
+              res.status(200).json({ message: 'verified' });
+            });
+          }
         });
-      });
+      }
     })
-    .catch(err => {
+    .catch((err) => {
+      // TODO: Log err in verification function of user.controller.js
       return res.status(400).json({
         message: 'expired token',
       });
@@ -82,11 +89,12 @@ function verification(req, res, next) {
 function resendVerificationEmail(req, res, next) {
   // TODO: implement way to prevent user from being verified if banned
   User.findOne({ email: req.body.email })
-    .then(user => {
+    .then((user) => {
       sendVerificationEmail(user);
       res.json({ message: 'verification email resent' });
     })
-    .catch(err => {
+    .catch((err) => {
+      // TODO: Log err in resendVerificationEmail function of user.controller.js
       res.status(400).json({
         message: 'user not found',
       });
@@ -94,12 +102,12 @@ function resendVerificationEmail(req, res, next) {
 }
 
 function load(req, res, next, id) {
-  User.get(id)
-    .then(user => {
+  User.findById(id)
+    .then((user) => {
       req.user = user; // eslint-disable-line no-param-reassign
       return next();
     })
-    .catch(e => next(e));
+    .catch((e) => next(e));
 }
 
 function get(req, res) {
@@ -115,13 +123,17 @@ function getProfile(req, res, next) {
     }
     const { userId } = decoded;
     const user = await User.findById(userId).exec();
-    res.json({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      userId: user._id,
-      roles: user.roles,
-    });
+    if (user) {
+      res.json({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        userId: user._id,
+        roles: user.roles,
+      });
+    } else {
+      // TODO: Log err in getProfile function of user.controller.js
+    }
   });
 }
 
@@ -129,18 +141,18 @@ function create(req, res, next) {
   const { firstName, lastName, username, email, password, phone } = req.body;
   new User({ firstName, lastName, username, email, password, phone })
     .save()
-    .then(savedUser => {
+    .then((savedUser) => {
       sendVerificationEmail(savedUser);
       res.json(savedUser);
     })
-    .catch(e => next(e));
+    .catch((e) => next(e));
 }
 
 function updateUser(user, errors, req, res, next) {
   Object.assign(req.user, user)
     .save()
-    .then(savedUser => res.json({ savedUser, errors }))
-    .catch(e => next(e));
+    .then((savedUser) => res.json({ savedUser, errors }))
+    .catch((e) => next(e));
 }
 
 function update(req, res, next) {
@@ -148,7 +160,7 @@ function update(req, res, next) {
   const errors = [];
   // TODO: what if user isn't verified?
   if (req.user.isVerified) {
-    User.findById(req.params.userId).then(user => {
+    User.findById(req.params.userId).then((user) => {
       if (currentPassword) {
         user.comparePassword(currentPassword, (err, isMatch) => {
           if (isMatch) {
@@ -172,10 +184,10 @@ function list(req, res, next) {
   // TODO: Only allow admin to list users.
   const { limit = 50, skip = 0 } = req.query;
   User.list({ limit, skip })
-    .then(users => {
+    .then((users) => {
       res.json(users);
     })
-    .catch(e => next(e));
+    .catch((e) => next(e));
 }
 
 function remove(req, res, next) {
@@ -183,8 +195,8 @@ function remove(req, res, next) {
   const user = req.user;
   user
     .remove()
-    .then(deletedUser => res.json(deletedUser))
-    .catch(e => next(e));
+    .then((deletedUser) => res.json(deletedUser))
+    .catch((e) => next(e));
 }
 
 export default { load, get, create, update, list, remove, verification, resendVerificationEmail, getProfile };

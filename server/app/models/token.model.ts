@@ -1,14 +1,16 @@
 import mongoose from 'mongoose';
+import { Schema } from 'mongoose';
 
-const Schema = mongoose.Schema;
+interface IToken {
+  userId: mongoose.Schema.Types.ObjectId;
+  token: string;
+  createdAt: Date;
+}
 
-const TokenSchema = new Schema({
+const tokenSchema = new Schema<IToken>({
   userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
   token: { type: String, required: true },
   createdAt: { type: Date, required: true, default: Date.now, expires: 43200 }
 });
 
-/**
- * @typedef Token
- */
-export default mongoose.model('Token', TokenSchema);
+export default mongoose.model('Token', tokenSchema);

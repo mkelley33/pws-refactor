@@ -6,9 +6,9 @@ export default import(`./${process.env.NODE_ENV || 'development'}`).then((env) =
     api: {
       title: 'API: Users and Application Resources',
       version: '0.0.1',
-      description: 'A RESTful API for managing users and application resources.'
+      description: 'A RESTful API for managing users and application resources.',
     },
-    fileSizeLimit: 10 * 1024 * 1024
+    fileSizeLimit: 10 * 1024 * 1024,
   };
 
   return Object.assign(env, defaults);
