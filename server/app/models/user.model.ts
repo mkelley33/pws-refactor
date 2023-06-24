@@ -1,0 +1,155 @@
+import httpStatus from 'http-status';
+import mongoose from 'mongoose';
+import { Schema } from 'mongoose';
+import bcrypt from 'bcryptjs';
+import Promise from 'bluebird';
+
+import APIError from '../helpers/APIError';
+import { messages, patterns } from '../validation';
+import { randomUUID } from 'crypto';
+
+const ROLE_ADMIN = 'admin';
+const ROLE_FAMILY = 'family';
+const ROLE_FRIEND = 'friend';
+const ROLE_USER = 'user';
+
+const normalizePhone = (value: string) => {
+  if (value) return value.replace(/[\D]*/, '');
+  return value;
+};
+
+interface IUser {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  phone: string;
+  salt: string;
+  isVerified: boolean;
+  verifiedAt: Date;
+  createdAt: Date;
+  roles: IRolesType;
+}
+
+interface IRoleType {
+  type: string;
+  enum: string[];
+}
+
+interface IRolesType {
+  type: IRoleType[];
+  default: string[];
+}
+
+const userSchema = new Schema<IUser>({
+  firstName: {
+    type: String,
+    trim: true,
+    required: true,
+    maxlength: 50,
+  },
+  lastName: {
+    type: String,
+    trim: true,
+    required: true,
+    maxlength: 50,
+  },
+  email: {
+    type: String,
+    index: true,
+    trim: true,
+    lowercase: true,
+    match: [patterns.email, messages.email],
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    // TODO: verfiy this statement for bcryptjs: bcrypt limits max password length to 72 characters.
+    // For now, 72 will do just fine
+    maxlength: 72,
+    // TODO: Verify and ensure that no more than 2 identical characters in a row are used in a password.
+    // https://www.owasp.org/index.php/Authentication_Cheat_Sheet#Password_Complexity
+    match: [patterns.password, messages.password],
+    select: false,
+    trim: true,
+  },
+  salt: { type: String, default: () => randomUUID().toString() },
+  phone: {
+    type: String,
+    trim: true,
+    set: normalizePhone,
+    match: [patterns.phone, messages.phone],
+    index: true,
+  },
+  isVerified: {
+    type: Boolean,
+    default: function () {
+      return !!this.verifiedAt;
+    },
+  },
+  verifiedAt: Date,
+  createdAt: {
+    type: Date,
+    default: () => new Date(),
+  },
+  roles: {
+    type: [
+      {
+        type: String,
+        enum: [ROLE_ADMIN, ROLE_FAMILY, ROLE_FRIEND, ROLE_USER],
+      },
+    ],
+    default: [ROLE_USER],
+  },
+});
+
+userSchema.pre('save', function (next: mongoose.CallbackWithoutResultAndOptionalError) {
+  const user = this;
+  if (!user.isModified('password')) return next();
+  bcrypt.genSalt(10, function (err, salt) {
+    if (err) return next(err);
+    bcrypt.hash(user.password, salt, (err, hash) => {
+      if (err) return next(err);
+      user.salt = salt;
+      user.password = hash;
+      next();
+    });
+  });
+});
+
+userSchema.methods.comparePassword = function (pw: string, cb: (err: Error | null, isMatch?: boolean) => void) {
+  bcrypt.compare(pw, this.password, function (err, isMatch) {
+    if (err) return cb(err);
+    cb(null, isMatch);
+  });
+};
+
+userSchema.statics = {
+  get(id) {
+    return this.findById(id)
+      .exec()
+      .then((user: IUser) => {
+        if (user) return user;
+        const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
+        return Promise.reject(err);
+      });
+  },
+  list({ skip = 0, limit = 50 } = {}) {
+    return this.find().sort({ createdAt: -1 }).skip(skip).limit(limit).exec();
+  },
+  getByEmail(email) {
+    return this.findOne({ email }).select('+password').exec();
+  },
+};
+
+userSchema.set('toJSON', {
+  transform: function (_, ret) {
+    delete ret.password;
+    return ret;
+  },
+});
+
+export default mongoose.model('User', userSchema);
+export { ROLE_ADMIN, ROLE_FRIEND, ROLE_FAMILY, ROLE_USER };
