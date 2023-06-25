@@ -8,9 +8,7 @@ export default env.then((config) => {
 
   Promise = require('bluebird');
   mongoose.Promise = Promise;
-
-  const dbOptions = config.default.db.configureOptions();
-  mongoose.connect(config.default.db.uri, dbOptions);
+  mongoose.connect(config.default.db.uri, config.default.db.options);
 
   return config;
 });

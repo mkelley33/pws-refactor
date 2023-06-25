@@ -5,9 +5,10 @@ import app from './config/express';
 import debugging from 'debug';
 import dotenv from 'dotenv';
 
-
 if (config.env === 'development') {
   dotenv.config({ path: './.env.development' });
+} else if (config.env === 'test') {
+  dotenv.config({ path: './.env.test' });
 } else {
   dotenv.config({ path: './.env' });
 }
@@ -20,9 +21,8 @@ Promise = require('bluebird'); // eslint-disable-line no-global-assign
 // plugin bluebird promise in mongoose
 mongoose.Promise = Promise;
 
-const dbOptions = config.db.configureOptions();
 // connect to mongo db
-mongoose.connect(config.db.uri, dbOptions);
+mongoose.connect(config.db.uri, config.db.options);
 mongoose.connection.on('error', (res) => {
   console.log(res);
   throw new Error(`unable to connect to database: ${JSON.stringify(config.db)}`);

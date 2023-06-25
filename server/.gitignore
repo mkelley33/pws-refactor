@@ -2,6 +2,7 @@ public/images
 
 .env
 .env.development
+.env.test
 
 # Logs
 logs

@@ -1,16 +1,19 @@
+import dotenv from 'dotenv';
+dotenv.config({ path: './.env.test' });
+
 export default {
   env: 'test',
   jwtSecret: process.env.JWT_SECRET,
   db: {
     uri: 'mongodb://localhost/api-test',
     options: {
-      useMongoClient: true,
-      keepAlive: true,
+      useNewUrlParser: true,
       socketTimeoutMS: 0,
-      reconnectTries: 30,
-      user: process.env.LHS_USER,
-      pass: process.env.LHS_PASS,
+      useUnifiedTopology: true,
+      authSource: process.env.AUTH_SOURCE_TEST,
+      user: process.env.PWS_USER_TEST,
+      pass: process.env.PWS_PASS_TEST,
     },
   },
-  port: 4040
+  port: 4040,
 };

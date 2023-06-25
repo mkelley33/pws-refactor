@@ -16,9 +16,9 @@ export default {
     uri: `mongodb+srv://pws-user:${process.env.PWS_PASS}@cluster0-plswm.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
     options: {
       useNewUrlParser: true,
-      keepAlive: true,
       socketTimeoutMS: 0,
       useUnifiedTopology: true,
+      authSource: process.env.AUTH_SOURCE,
       user: process.env.PWS_USER,
       pass: process.env.PWS_PASS,
     },
