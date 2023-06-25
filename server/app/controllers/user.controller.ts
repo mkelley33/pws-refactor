@@ -4,8 +4,15 @@ import nodeMailer from 'nodemailer';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import cfg from '../../config/env';
+import { NextFunction, Request, Response } from 'express';
+import APIError from '../helpers/APIError';
+import httpStatus from 'http-status';
 
 const config = await cfg;
+
+interface IError {
+  error: string;
+}
 
 function sendVerificationEmail(user) {
   // TODO: add a timestamp to the token so that there is a way to retrieve the latest one created for the user
@@ -148,36 +155,36 @@ function create(req, res, next) {
     .catch((e) => next(e));
 }
 
-function updateUser(user, errors, req, res, next) {
-  Object.assign(req.user, user)
-    .save()
-    .then((savedUser) => res.json({ savedUser, errors }))
-    .catch((e) => next(e));
-}
-
-function update(req, res, next) {
+const update = (req: Request, res: Response, next: NextFunction) => {
   const { firstName, lastName, email, roles, currentPassword, password } = req.body;
-  const errors = [];
-  // TODO: what if user isn't verified?
-  if (req.user.isVerified) {
-    User.findById(req.params.userId).then((user) => {
-      if (currentPassword) {
+  const errors: IError[] = [];
+  const userId = req.params.userId;
+  User.findById(userId).then(async (user) => {
+    if (user) {
+      if (user?.isVerified && currentPassword) {
         user.comparePassword(currentPassword, (err, isMatch) => {
-          if (isMatch) {
-            user.password = password;
-          } else {
-            errors.push({ error: 'invalid credentials' });
-          }
+          if (err) next(err);
+          isMatch ? (user.password = password) : errors.push({ error: 'invalid credentials' });
         });
-      }
-      if (user.roles.includes(ROLE_ADMIN)) {
-        updateUser(Object.assign(user, { firstName, lastName, email, roles }), errors, req, res, next);
+
+        const isUserAdmin = user.roles.default.includes(ROLE_ADMIN);
+        const propertiesToUpdate = { firstName, lastName, email };
+        const updatedUser = Object.assign(user, { propertiesToUpdate });
+
+        if (isUserAdmin) updatedUser.roles = roles;
+
+        const savedUser = await user.save().catch((e) => next(e));
+
+        res.status(httpStatus.OK);
+        res.json({ savedUser, errors });
       } else {
-        updateUser(Object.assign(user, { firstName, lastName, email }), errors, req, res, next);
+        throw new APIError('User is not verified.', httpStatus.UNPROCESSABLE_ENTITY, false);
       }
-    });
-  }
-}
+    } else {
+      throw new APIError(`User does not exist with id of ${userId}`);
+    }
+  });
+};
 
 function list(req, res, next) {
   // TODO: Allow limit to be set up to a reasonable maximum.
