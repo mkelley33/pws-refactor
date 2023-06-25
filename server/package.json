@@ -13,7 +13,6 @@
     "buildw": "tsc -b -v -w --preserveWatchOutput -watch --extendedDiagnostics",
     "eslint": "./node_modules/.bin/eslint \"./src/**/**.ts\"",
     "node": "set TS_NODE_FILES=true & node --inspect --loader ts-node/esm src/index.ts",
-    "nodemon": "./node_modules/.bin/nodemon --watch src/**/*.ts --watch src/**/*.js --exec node --inspect --loader ts-node/esm ./src/index.ts",
     "tsc-watch": "./node_modules/.bin/tsc-watch -b -v -i -w --noclear --compiler \"./node_modules/.bin/tsc\" --onSuccess \"node --inspect --es-module-specifier-resolution=node ./bin/index.js\""
   },
   "author": "Michaux Kelley",
