@@ -76,3 +76,9 @@ to https://www.google.com/recaptcha/admin.
 1. Then, run `npm run dev`. NOTE: you will need to have a MongoDB instance installed and configured in the file `./config/env/development`.
 
 This should be enough to get you up and running. If you have any questions, please feel free to email me at michauxkelley@gmail.com.
+
+## Inspiration and code attributions
+
+This project was initially based on what I learned from the following repo:
+
+https://github.com/kunalkapadia/express-mongoose-es6-rest-api

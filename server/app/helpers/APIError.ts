@@ -1,3 +1,5 @@
+// Largely inspired by and based on https://github.com/kunalkapadia/express-mongoose-es6-rest-api/blob/develop/server/helpers/APIError.js
+
 import httpStatus from 'http-status';
 
 class ExtendableError extends Error {
