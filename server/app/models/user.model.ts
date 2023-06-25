@@ -1,6 +1,5 @@
 import httpStatus from 'http-status';
-import mongoose from 'mongoose';
-import { Schema } from 'mongoose';
+import mongoose, { Model, Document, Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import Promise from 'bluebird';
 
@@ -18,17 +17,17 @@ const normalizePhone = (value: string) => {
   return value;
 };
 
-interface IUser {
+interface IUserDocument extends Document {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
   phone: string;
-  salt: string;
   isVerified: boolean;
   verifiedAt: Date;
   createdAt: Date;
   roles: IRolesType;
+  comparePassword(password: string, cb: (err: Error | null, isMatch?: boolean) => void): void;
 }
 
 interface IRoleType {
@@ -41,7 +40,11 @@ interface IRolesType {
   default: string[];
 }
 
-const userSchema = new Schema<IUser>({
+interface IUserModel extends Model<IUserDocument> {
+  get(id: mongoose.Schema.Types.ObjectId): IUserDocument;
+}
+
+const userSchema = new Schema<IUserDocument, {}>({
   firstName: {
     type: String,
     trim: true,
@@ -75,7 +78,6 @@ const userSchema = new Schema<IUser>({
     select: false,
     trim: true,
   },
-  salt: { type: String, default: () => randomUUID().toString() },
   phone: {
     type: String,
     trim: true,
@@ -112,37 +114,39 @@ userSchema.pre('save', function (next: mongoose.CallbackWithoutResultAndOptional
     if (err) return next(err);
     bcrypt.hash(user.password, salt, (err, hash) => {
       if (err) return next(err);
-      user.salt = salt;
       user.password = hash;
       next();
     });
   });
 });
 
-userSchema.methods.comparePassword = function (pw: string, cb: (err: Error | null, isMatch?: boolean) => void) {
-  bcrypt.compare(pw, this.password, function (err, isMatch) {
-    if (err) return cb(err);
-    cb(null, isMatch);
-  });
-};
+userSchema.method(
+  'comparePassword',
+  function comparePassword(password: string, callback: (error: Error | null, isMatch?: boolean) => void): void {
+    bcrypt.compare(password, this.password, (error, data) => {
+      if (error) callback(error);
+      callback(null, data);
+    });
+  }
+);
 
-userSchema.statics = {
-  get(id) {
-    return this.findById(id)
-      .exec()
-      .then((user: IUser) => {
-        if (user) return user;
-        const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
-        return Promise.reject(err);
-      });
-  },
-  list({ skip = 0, limit = 50 } = {}) {
-    return this.find().sort({ createdAt: -1 }).skip(skip).limit(limit).exec();
-  },
-  getByEmail(email) {
-    return this.findOne({ email }).select('+password').exec();
-  },
-};
+// userSchema.statics = {
+//   get(id) {
+//     return this.findById(id)
+//       .exec()
+//       .then((user: IUserDocument) => {
+//         if (user) return user;
+//         const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
+//         return Promise.reject(err);
+//       });
+//   },
+//   list({ skip = 0, limit = 50 } = {}) {
+//     return this.find().sort({ createdAt: -1 }).skip(skip).limit(limit).exec();
+//   },
+//   getByEmail(email) {
+//     return this.findOne({ email }).select('+password').exec();
+//   },
+// };
 
 userSchema.set('toJSON', {
   transform: function (_, ret) {
@@ -151,5 +155,5 @@ userSchema.set('toJSON', {
   },
 });
 
-export default mongoose.model('User', userSchema);
+export default model<IUserDocument, IUserModel>('User', userSchema);
 export { ROLE_ADMIN, ROLE_FRIEND, ROLE_FAMILY, ROLE_USER };
