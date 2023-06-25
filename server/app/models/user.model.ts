@@ -1,11 +1,7 @@
-import httpStatus from 'http-status';
-import mongoose, { Model, Document, Schema, model } from 'mongoose';
+import mongoose, { Model, Document, Schema, model, HydratedDocument } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import Promise from 'bluebird';
-
-import APIError from '../helpers/APIError';
 import { messages, patterns } from '../validation';
-import { randomUUID } from 'crypto';
 
 const ROLE_ADMIN = 'admin';
 const ROLE_FAMILY = 'family';
@@ -41,10 +37,10 @@ interface IRolesType {
 }
 
 interface IUserModel extends Model<IUserDocument> {
-  get(id: mongoose.Schema.Types.ObjectId): IUserDocument;
+  list: (skip: number, limit: number) => Promise<HydratedDocument<IUserDocument>[]>;
 }
 
-const userSchema = new Schema<IUserDocument, {}>({
+const userSchema = new Schema<IUserDocument, IUserModel>({
   firstName: {
     type: String,
     trim: true,
@@ -130,6 +126,10 @@ userSchema.method(
   }
 );
 
+userSchema.static('list', function list(skip: number, limit: number) {
+  return this.find().sort({ createdAt: -1 }).skip(skip).limit(limit).exec();
+});
+
 // userSchema.statics = {
 //   get(id) {
 //     return this.findById(id)
@@ -141,7 +141,7 @@ userSchema.method(
 //       });
 //   },
 //   list({ skip = 0, limit = 50 } = {}) {
-//     return this.find().sort({ createdAt: -1 }).skip(skip).limit(limit).exec();
+//
 //   },
 //   getByEmail(email) {
 //     return this.findOne({ email }).select('+password').exec();
