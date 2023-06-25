@@ -2,6 +2,8 @@ import mongoose, { Model, Document, Schema, model, HydratedDocument } from 'mong
 import bcrypt from 'bcryptjs';
 import Promise from 'bluebird';
 import { messages, patterns } from '../validation';
+import APIError from '../helpers/APIError';
+import httpStatus from 'http-status';
 
 const ROLE_ADMIN = 'admin';
 const ROLE_FAMILY = 'family';
@@ -38,6 +40,7 @@ interface IRolesType {
 
 interface IUserModel extends Model<IUserDocument> {
   list: (skip: number, limit: number) => Promise<HydratedDocument<IUserDocument>[]>;
+  get: (id: typeof mongoose.Schema.Types.ObjectId) => Promise<HydratedDocument<IUserDocument, {}, {}>>;
 }
 
 const userSchema = new Schema<IUserDocument, IUserModel>({
@@ -128,6 +131,13 @@ userSchema.method(
 
 userSchema.static('list', function list(skip: number, limit: number) {
   return this.find().sort({ createdAt: -1 }).skip(skip).limit(limit).exec();
+});
+
+userSchema.static('get', async function get(id) {
+  const user = await this.findById(id).exec();
+  if (user) return user;
+  const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
+  return Promise.reject(err);
 });
 
 // userSchema.statics = {
