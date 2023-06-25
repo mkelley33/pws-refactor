@@ -155,7 +155,7 @@ function create(req, res, next) {
     .catch((e) => next(e));
 }
 
-const update = (req: Request, res: Response, next: NextFunction) => {
+const update = (req: Request, res: Response, next: NextFunction): void => {
   const { firstName, lastName, email, roles, currentPassword, password } = req.body;
   const errors: IError[] = [];
   const userId = req.params.userId;
