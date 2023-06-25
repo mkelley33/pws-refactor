@@ -41,6 +41,7 @@ interface IRolesType {
 interface IUserModel extends Model<IUserDocument> {
   list: (skip: number, limit: number) => Promise<HydratedDocument<IUserDocument>[]>;
   get: (id: typeof mongoose.Schema.Types.ObjectId) => Promise<HydratedDocument<IUserDocument, {}, {}>>;
+  getByEmail: (email: string) => Promise<HydratedDocument<IUserDocument, {}, {}>>;
 }
 
 const userSchema = new Schema<IUserDocument, IUserModel>({
@@ -140,23 +141,9 @@ userSchema.static('get', async function get(id) {
   return Promise.reject(err);
 });
 
-// userSchema.statics = {
-//   get(id) {
-//     return this.findById(id)
-//       .exec()
-//       .then((user: IUserDocument) => {
-//         if (user) return user;
-//         const err = new APIError('No such user exists!', httpStatus.NOT_FOUND);
-//         return Promise.reject(err);
-//       });
-//   },
-//   list({ skip = 0, limit = 50 } = {}) {
-//
-//   },
-//   getByEmail(email) {
-//     return this.findOne({ email }).select('+password').exec();
-//   },
-// };
+userSchema.static('getByEmail', function getByEmail(email: string) {
+  return this.findOne({ email }).select('+password').exec();
+});
 
 userSchema.set('toJSON', {
   transform: function (_, ret) {
