@@ -1,4 +1,4 @@
-import User from '../../../server/app/models/user.model';
+import User from '../../app/models/user.model';
 
 describe('User API Routes', () => {
   // beforeEach(() => {
@@ -28,7 +28,7 @@ describe('User API Routes', () => {
       password: 'cb01MK#3',
       email: 'ptb15@example.test.com',
     };
-    it('creates a new user', done => {
+    it('creates a new user', (done) => {
       request
         .post('/api/v1/users')
         .send(user)
