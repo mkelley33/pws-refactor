@@ -82,3 +82,7 @@ This should be enough to get you up and running. If you have any questions, plea
 This project was initially based on what I learned from the following repo:
 
 https://github.com/kunalkapadia/express-mongoose-es6-rest-api
+
+https://chiragrupani.medium.com/writing-unit-tests-in-typescript-d4719b8a0a40
+
+https://www.testim.io/blog/mocha-for-typescript-testing/
