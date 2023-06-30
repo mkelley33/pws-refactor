@@ -11,3 +11,4 @@ export default env.then((config) => {
 
   return Object.assign(config, devConfig);
 });
+  

@@ -1,26 +1,11 @@
 import User from '../../app/models/user.model';
+import chai, { expect } from 'chai';
+import chaiHttp from 'chai-http';
+import server from '../..';
+
+chai.use(chaiHttp);
 
 describe('User API Routes', () => {
-  // beforeEach(() => {
-  //   request.post('/api/v1/users')
-  //   // TODO: create user
-  //   // TODO: intercept create user token
-  //   // TODO: verify token
-  //   // TODO: sign in, .set('Cookie', [cookie.token])
-  //   request.get('/api/v1/sign-in')
-  // });
-
-  // describe('GET /users', () => {
-  //   it('returns an array of users', done => {
-  //     request.get('/api/v1/users').end((err, res) => {
-  //       expect(res.statusCode).to.equal(200);
-  //       expect(res.body).to.be.an('array');
-  //       expect(res.body).to.be.empty;
-  //       done();
-  //     });
-  //   });
-  // });
-
   describe('# POST /users', () => {
     const user = {
       firstName: 'Pat',
@@ -29,7 +14,8 @@ describe('User API Routes', () => {
       email: 'ptb15@example.test.com',
     };
     it('creates a new user', (done) => {
-      request
+      chai
+        .request(server)
         .post('/api/v1/users')
         .send(user)
         .end((err, res) => {

@@ -6,12 +6,13 @@
     "outDir": "bin",
     "rootDir": "/",
     "strict": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "strictNullChecks": true,
     "checkJs": true,
     "allowJs": true,
     "moduleResolution": "node",
-    "types": ["node"],
+    "types": ["node", "mocha"],
+    "typeRoots": ["node_modules/@types"],
     "lib": ["ES2022"],
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -25,6 +26,6 @@
       "module": "nodenext"
     }
   },
-  "include": ["app/**/*.ts", "config/**/*.js"],
+  "include": ["app/**/*.ts", "config/**/*.js", "test/**/*.ts"],
   "exclude": ["node_modules", "<node_internals>/**", "./built/**/*"]
 }
