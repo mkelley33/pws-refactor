@@ -1,4 +1,4 @@
-import User, { ROLE_ADMIN } from '../models/user.model';
+import User, { IUserDocument, ROLE_ADMIN } from '../models/user.model';
 import Token from '../models/token.model';
 import nodeMailer from 'nodemailer';
 import crypto from 'crypto';
@@ -14,7 +14,7 @@ interface IError {
   error: string;
 }
 
-function sendVerificationEmail(user) {
+function sendVerificationEmail(user: IUserDocument) {
   // TODO: add a timestamp to the token so that there is a way to retrieve the latest one created for the user
   const token = new Token({
     userId: user._id,
@@ -60,12 +60,12 @@ function sendVerificationEmail(user) {
   });
 }
 
-function search(req, res, next) {
-  // TODO: implement user search to find by e-mail, last name, first name, or role (ie. find all admins)
-  // TODO: only allow admin to perform user search.
-}
+// function search(req, res, next) {
+//   // TODO: implement user search to find by e-mail, last name, first name, or role (ie. find all admins)
+//   // TODO: only allow admin to perform user search.
+// }
 
-function verification(req, res, next) {
+function verification(req: Request, res: Response, next: NextFunction) {
   Token.findOne({ token: req.params.token })
     .then((token) => {
       // If a token exists then a user will exist that matches it, so no need to
@@ -190,7 +190,7 @@ function list(req, res, next) {
   // TODO: Allow limit to be set up to a reasonable maximum.
   // TODO: Only allow admin to list users.
   const { limit = 50, skip = 0 } = req.query;
-  User.list({ limit, skip })
+  User.list(limit, skip)
     .then((users) => {
       res.json(users);
     })
@@ -199,7 +199,8 @@ function list(req, res, next) {
 
 function remove(req, res, next) {
   // TODO: Only allow admin to remove users or allow user to remove self (delete account).
-  const user = req.user;
+  const { userId } = req.params;
+  const user = User.get(userId);
   user
     .remove()
     .then((deletedUser) => res.json(deletedUser))

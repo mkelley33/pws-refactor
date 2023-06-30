@@ -15,7 +15,7 @@ const normalizePhone = (value: string) => {
   return value;
 };
 
-interface IUserDocument extends Document {
+export interface IUserDocument extends Document {
   firstName: string;
   lastName: string;
   email: string;
@@ -28,7 +28,7 @@ interface IUserDocument extends Document {
   comparePassword(password: string, cb: (err: Error | null, isMatch?: boolean) => void): void;
 }
 
-interface IRoleType {
+export interface IRoleType {
   type: string;
   enum: string[];
 }

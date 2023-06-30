@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config({ path: './.env.development' });
-
 export default {
   env: 'development',
   protocol: 'http',

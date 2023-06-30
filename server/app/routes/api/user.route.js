@@ -38,7 +38,7 @@ const router = express.Router(); // eslint-disable-line new-cap
  *        schema:
  *          $ref: '#/definitions/User'
  */
-router.route('/').get(disableCache, withAuthenticationAndRole(ROLE_ADMIN), userCtrl.list);
+router.route('/').get(disableCache, withAuthenticationAndRole({ type: ROLE_ADMIN, enum: [ROLE_ADMIN] }), userCtrl.list);
 
 /**
  * @swagger
@@ -156,7 +156,7 @@ router.route('/:userId').put(withAuthentication, userCtrl.update);
  *      "400":
  *        description: Invalid ID supplied
  */
-router.delete(withAuthentication, userCtrl.remove);
+router.delete('/:userId', withAuthentication, userCtrl.remove);
 
 /**
  * @swagger
