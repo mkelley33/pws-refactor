@@ -1,7 +1,8 @@
-import User from '../../app/models/user.model';
+import User, { IUserDocument } from '../../app/models/user.model';
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../..';
+import APIError from '../../app/helpers/APIError';
 
 chai.use(chaiHttp);
 
@@ -18,13 +19,13 @@ describe('User API Routes', () => {
         .request(server)
         .post('/api/v1/users')
         .send(user)
-        .end((err, res) => {
+        .end((_err, res) => {
           expect(res.statusCode).to.equal(200);
           expect(res.body.firstName).to.equal(user.firstName);
           expect(res.body.lastName).to.equal(user.lastName);
           expect(res.body.email).to.equal(user.email);
           expect(res.body).to.not.have.property('password');
-          User.findByIdAndRemove({ _id: res.body._id }, (err, data) => {
+          User.findByIdAndRemove({ _id: res.body._id }, (err: APIError) => {
             if (err) {
               console.log(err);
             }
