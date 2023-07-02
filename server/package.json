@@ -15,9 +15,9 @@
     "eslint": "./node_modules/.bin/eslint \"./src/**/**.ts\"",
     "node": "set TS_NODE_FILES=true & node --inspect --loader ts-node/esm src/index.ts",
     "tsc-watch": "./node_modules/.bin/tsc-watch -b -v -i -w --noclear --compiler \"./node_modules/.bin/tsc\" --onSuccess \"node ./dist/index.js\"",
-    "test-ts-mocha": "ts-mocha -p tsconfig.json ./tests/**/*.test.ts",
     "test": "NODE_ENV=test mocha ./tests/**/*.ts",
-    "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test"
+    "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test",
+    "repl": "tsx"
   },
   "author": "Michaux Kelley",
   "license": "ISC",
@@ -92,6 +92,7 @@
     "ts-node-dev": "^2.0.0",
     "tsc-watch": "^6.0.4",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^3.12.7",
     "typescript": "^5.1.3"
   }
 }
