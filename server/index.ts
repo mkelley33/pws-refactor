@@ -4,7 +4,7 @@ import config from './config/env/index.js';
 import app from './config/express.js';
 import debugging from 'debug';
 import dotenv from 'dotenv';
-import logger from './config/winston.js';
+import Promise from 'bluebird';
 
 if (config.default.env === 'development') {
   dotenv.config({ path: './.env.development' });
@@ -14,20 +14,12 @@ if (config.default.env === 'development') {
   dotenv.config({ path: './.env' });
 }
 
-logger.log('info', config.default.db.options);
-
 const debug = debugging('index');
 
-// make bluebird default Promise
-Promise = require('bluebird'); // eslint-disable-line no-global-assign
-
-// plugin bluebird promise in mongoose
+// Use bluebird promises in mongoose
 mongoose.Promise = Promise;
-
-// connect to mongo db
 mongoose.connect(config.default.db.uri, config.default.db.options);
-mongoose.connection.on('error', (res) => {
-  console.log(res);
+mongoose.connection.on('error', () => {
   throw new Error(`unable to connect to database: ${JSON.stringify(config.db)}`);
 });
 
@@ -39,7 +31,7 @@ if (config.default.MONGOOSE_DEBUG) {
 }
 
 app.listen(config.port, () => {
-  debug(`server started on port ${config.port} (${config.env})`);
+  console.log(`server started on port ${config.default.port} (${config.default.env})`);
 });
 
 export default app;
