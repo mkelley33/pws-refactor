@@ -1,7 +1,6 @@
 import axios from 'axios';
 import chai from 'chai';
 import { ROLE_ADMIN, ROLE_FRIEND, ROLE_FAMILY, ROLE_USER } from '../../app/models/user.model.js';
-import APIError from '../../app/helpers/APIError.js';
 
 const expect = chai.expect;
 
