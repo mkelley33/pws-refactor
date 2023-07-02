@@ -74,7 +74,7 @@ function sendResetPasswordEmail(user: IUserDocument, token: any) {
     },
   });
 
-  const resetPasswordUrl = `${config.protocol}://${config.host}${config.clientPort}/reset-password/${token.token}`;
+  const resetPasswordUrl = `${config.default.protocol}://${config.default.host}${config.default.port}/reset-password/${token.token}`;
   const mailOptions = {
     from: config.mail.sender, // sender address
     to: user.email, // list of receivers

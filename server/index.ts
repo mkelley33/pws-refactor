@@ -5,6 +5,7 @@ import app from './config/express.js';
 import debugging from 'debug';
 import dotenv from 'dotenv';
 import Promise from 'bluebird';
+import http from 'http';
 
 if (config.default.env === 'development') {
   dotenv.config({ path: './.env.development' });
@@ -29,9 +30,9 @@ if (config.default.MONGOOSE_DEBUG) {
     debug(`${collectionName}.${method}`, util.inspect(query, false, 20), doc);
   });
 }
-
-app.listen(config.port, () => {
-  console.log(`server started on port ${config.default.port} (${config.default.env})`);
+const server = http.createServer(app);
+server.listen(8080, 'localhost', () => {
+  console.log(`Server started at host ${config.default.host} on port ${config.default.port} (${config.default.env})`);
 });
 
 export default app;

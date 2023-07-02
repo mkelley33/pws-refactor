@@ -76,7 +76,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const allowCrossDomain = function (req: Request, res: Response, next: NextFunction) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8000');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type,token');
   next();

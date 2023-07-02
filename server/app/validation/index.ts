@@ -9,12 +9,12 @@ const patterns = Object.freeze({
 });
 
 const messages = Object.freeze({
-  blank: "can't be blank",
-  email: 'must be a valid e-mail address',
+  blank: "Can't be blank",
+  email: 'Must be a valid e-mail address',
   password:
-    'must contain a combination of at least 1 lowercase letter, 1 uppercase letter, 1 number, 1 special character (!@#$%^&*), and be at least 8 characters long',
-  phone: 'format should resemble (555) 555-5555',
-  maxlength: (length: number) => `can't be longer than ${length} characters`,
+    'Must contain a combination of at least 1 lowercase letter, 1 uppercase letter, 1 number, 1 special character (!@#$%^&*), and be at least 8 characters long',
+  phone: 'Format should resemble (555) 555-5555',
+  maxlength: (length: number) => `Can't be longer than ${length} characters`,
 });
 
 export { messages, patterns };

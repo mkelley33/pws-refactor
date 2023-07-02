@@ -4,6 +4,10 @@ This site/app is a work in progress.
 
 # Getting Started
 
+I should note that most of these instructions were
+carried out on MacOS, so some things might require
+a little more research for other platforms.
+
 ## .env
 
 You'll need to create a `.env.development` file at a minimum to integrate the
@@ -62,6 +66,21 @@ The uri passed to mongoose connect should be the following for local development
 
 Don't escape any special characters in your password.
 Copy the .env.development.sample file to a new .env.development file you must create in the server directory.
+
+## Setting up mailcatcher
+
+This will allow you to visualize and intercept e-mail
+in the browser when your `NODE_ENV` is 'test'.
+
+1. `brew install mailcatcher`
+
+2. `brew services start mailcatcher`
+
+3. Open in your browser `http://127.0.0.1:1080/`
+
+4. `npm run test` (A user gets created and sent an e-mail) **Note**: the verification token is sent in
+   this e-mail.
+5. Return to your brower and refresh. You should see formatted mail messages.
 
 ## RECAPTCHA
 

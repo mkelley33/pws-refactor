@@ -5,7 +5,7 @@ const config = {
   env: 'development',
   protocol: 'http',
   host: 'localhost',
-  clientPort: ':8000',
+  port: ':8080',
   mail: {
     address: process.env.EMAIL,
     password: process.env.EMAIL_PASS,
@@ -14,7 +14,7 @@ const config = {
   MONGOOSE_DEBUG: true,
   jwtSecret: process.env.JWT_SECRET,
   db: {
-    uri: 'mongodb://127.0.0.1:27017/api-development',
+    uri: 'mongodb://127.0.0.1:27017/api-test',
     options: {
       useNewUrlParser: true,
       socketTimeoutMS: 0,
@@ -24,7 +24,6 @@ const config = {
       pass: process.env.PWS_PASS,
     },
   },
-  port: 8080,
 };
 
 export default config;

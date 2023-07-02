@@ -25,18 +25,39 @@ function sendVerificationEmail(user: IUserDocument) {
     // can later be read in tests
   }
 
-  const transporter = nodeMailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: config.default.mail.getUser(),
-      pass: config.default.mail.getEmailPassword(),
-    },
-  });
-  const verificationUrl = `${config.protocol}://${config.host}${config.clientPort}/email-verification/${token.token}`;
+  let smtpConfig = {};
+  if (['development', 'test'].includes(process.env.NODE_ENV ?? 'development')) {
+    console.log(process.env.NODE_ENV);
+    // This is the smtp config for mailcatcher
+    smtpConfig = {
+      host: '127.0.0.1',
+      port: 1025,
+      // TODO: Secure upgrade later with STARTTLS
+      secure: false,
+      auth: {
+        // user and pass can be anything but blank
+        type: 'basic',
+        user: 'user',
+        pass: 'password',
+      },
+    };
+  } else {
+    smtpConfig = {
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: config.default.mail.user,
+        pass: config.default.mail.password,
+      },
+    };
+  }
+
+  const transporter = nodeMailer.createTransport(smtpConfig);
+  const verificationUrl = `${config.default.protocol}://${config.default.host}${config.default.port}/email-verification/${token.token}`;
+  console.log(verificationUrl);
   const mailOptions = {
-    from: config.mail.sender, // sender address
+    from: config.default.mail.sender, // sender address
     to: user.email, // list of receivers
     subject: 'Please verify your e-mail to activate your account', // Subject line
     // TODO: Make a plain text version that has a link that can be copied

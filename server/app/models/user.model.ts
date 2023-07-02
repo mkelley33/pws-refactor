@@ -8,6 +8,7 @@ const ROLE_ADMIN = 'admin';
 const ROLE_FAMILY = 'family';
 const ROLE_FRIEND = 'friend';
 const ROLE_USER = 'user';
+const DEFAULT_MAX_LENGTH = 50;
 
 const normalizePhone = (value: string) => {
   if (value) return value.replace(/[\D]*/, '');
@@ -47,14 +48,15 @@ const userSchema = new Schema<IUserDocument, IUserModel>({
   firstName: {
     type: String,
     trim: true,
-    required: true,
-    maxlength: 50,
+    required: [true, messages.blank],
+    maxlength: [DEFAULT_MAX_LENGTH, messages.maxlength(DEFAULT_MAX_LENGTH)],
   },
   lastName: {
     type: String,
     trim: true,
-    required: true,
-    maxlength: 50,
+    required: [true, messages.blank],
+    // TODO: Figure out a way to validate and return message for maxLength
+    maxlength: [DEFAULT_MAX_LENGTH, messages.maxlength(DEFAULT_MAX_LENGTH)],
   },
   email: {
     type: String,
@@ -62,15 +64,14 @@ const userSchema = new Schema<IUserDocument, IUserModel>({
     trim: true,
     lowercase: true,
     match: [patterns.email, messages.email],
-    required: true,
+    required: [true, messages.blank],
     unique: true,
   },
   password: {
     type: String,
-    required: true,
-    // TODO: verfiy this statement for bcryptjs: bcrypt limits max password length to 72 characters.
-    // For now, 72 will do just fine
-    maxlength: 72,
+    required: [true, messages.blank],
+    // bcrypt doesn't allow passwords longer than 72 bytes or 18 utf-8 characters
+    maxlength: 18,
     // TODO: Verify and ensure that no more than 2 identical characters in a row are used in a password.
     // https://www.owasp.org/index.php/Authentication_Cheat_Sheet#Password_Complexity
     match: [patterns.password, messages.password],
