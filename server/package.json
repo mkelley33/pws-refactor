@@ -16,7 +16,7 @@
     "node": "set TS_NODE_FILES=true & node --inspect --loader ts-node/esm src/index.ts",
     "tsc-watch": "./node_modules/.bin/tsc-watch -b -v -i -w --noclear --compiler \"./node_modules/.bin/tsc\" --onSuccess \"node ./dist/index.js\"",
     "test-ts-mocha": "ts-mocha -p tsconfig.json ./tests/**/*.test.ts",
-    "test": "NODE_ENV=test mocha --require ts-node/register ./**/*.ts",
+    "test": "NODE_ENV=test mocha ./tests/**/*.ts",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test"
   },
   "author": "Michaux Kelley",
