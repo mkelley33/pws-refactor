@@ -6,7 +6,6 @@ import photoAlbumRoutes from './photo-albums.route.js';
 import recaptchaRoutes from './recaptcha.route.js';
 import contactRoutes from './contact.route.js';
 import APIError from '../../helpers/APIError.js';
-import { MongooseError } from 'mongoose';
 
 const router = express.Router(); // eslint-disable-line new-cap
 
