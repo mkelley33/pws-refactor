@@ -1,9 +1,8 @@
 import { use } from 'chai';
 import superagent from 'chai-superagent';
 import request from 'superagent';
-
+import chai from 'chai';
 import User from '../../app/models/user.model.js';
-import server from '../../index.js';
 import APIError from '../../app/helpers/APIError.js';
 
 use(superagent());
@@ -20,9 +19,11 @@ describe('User API Routes', () => {
     };
     it('creates a new user', (done) => {
       request
-        .post('/api/v1/users')
+        .post('http://localhost:8080/api/v1/users')
+        .type('json')
         .send(user)
         .end((_err: APIError, res: any) => {
+          if (_err) throw _err;
           expect(res.statusCode).to.equal(200);
           expect(res.body.firstName).to.equal(user.firstName);
           expect(res.body.lastName).to.equal(user.lastName);

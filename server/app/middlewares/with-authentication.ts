@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import config from '../../config/env';
-import { IRoleType } from '../models/user.model';
+import config from '../../config/env/index.js';
+import { IRoleType } from '../models/user.model.js';
 const env = await config;
 
 export default function withAuthentication(req: Request, res: Response, next: NextFunction) {

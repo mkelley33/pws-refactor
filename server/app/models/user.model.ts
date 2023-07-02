@@ -1,6 +1,5 @@
 import mongoose, { Model, Document, Schema, model, HydratedDocument } from 'mongoose';
 import bcrypt from 'bcryptjs';
-import Promise from 'bluebird';
 import { messages, patterns } from '../validation/index.js';
 import APIError from '../helpers/APIError.js';
 import httpStatus from 'http-status';

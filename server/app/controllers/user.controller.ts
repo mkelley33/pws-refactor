@@ -201,4 +201,10 @@ async function remove(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export default { create, update, list, remove, verification, resendVerificationEmail, getProfile };
+async function get(req: Request, res: Response, next: NextFunction) {
+  const { userId } = req.params;
+  const user = await User.findById(userId);
+  user ? res.json({ user }) : next(new APIError(`User was not found by id ${userId}`));
+}
+
+export default { create, update, list, remove, verification, resendVerificationEmail, getProfile, get };

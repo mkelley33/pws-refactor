@@ -1,6 +1,6 @@
 import path from 'path';
 
-export default await import(`./${process.env.NODE_ENV || 'development'}`).then((env) => {
+export default await import(`./${process.env.NODE_ENV || 'development'}.js`).then((env) => {
   const defaults = {
     root: path.join(path.dirname('.'), '/..'),
     api: {

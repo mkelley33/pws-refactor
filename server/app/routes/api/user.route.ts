@@ -202,6 +202,4 @@ router.route('/verification/resend').post(userCtrl.resendVerificationEmail);
  */
 router.route('/verification/:token').get(userCtrl.verification);
 
-router.param('userId', userCtrl.load);
-
 export default router;
