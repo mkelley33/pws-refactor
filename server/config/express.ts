@@ -16,8 +16,6 @@ import config from './env/index.js';
 import expressFileUpload from 'express-fileupload';
 import APIError from '../app/helpers/APIError.js';
 
-console.log(config);
-
 const app = express();
 // const cfg = await config;
 
