@@ -1,6 +1,7 @@
+import { Request, Response } from 'express';
 import request from 'request';
 
-function verify(req, res) {
+function verify(req: Request, res: Response) {
   const { token } = req.body;
 
   if (token === undefined || token === '' || token === null) {

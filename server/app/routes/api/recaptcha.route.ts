@@ -1,5 +1,5 @@
 import express from 'express';
-import recaptchaCtrl from '../../controllers/recaptcha.controller';
+import recaptchaCtrl from '../../controllers/recaptcha.controller.js';
 
 const router = express.Router();
 

@@ -1,8 +1,8 @@
 import mongoose, { Model, Document, Schema, model, HydratedDocument } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import Promise from 'bluebird';
-import { messages, patterns } from '../validation';
-import APIError from '../helpers/APIError';
+import { messages, patterns } from '../validation/index.js';
+import APIError from '../helpers/APIError.js';
 import httpStatus from 'http-status';
 
 const ROLE_ADMIN = 'admin';
@@ -39,8 +39,8 @@ interface IRolesType {
 }
 
 interface IUserModel extends Model<IUserDocument> {
-  list: (skip: number, limit: number) => Promise<HydratedDocument<IUserDocument>[]>;
-  get: (id: typeof mongoose.Schema.Types.ObjectId) => Promise<HydratedDocument<IUserDocument, {}, {}>>;
+  list: (limit: number, skip: number) => Promise<HydratedDocument<IUserDocument>[]>;
+  get: (id: mongoose.Types.ObjectId) => Promise<HydratedDocument<IUserDocument, {}, {}>>;
   getByEmail: (email: string) => Promise<HydratedDocument<IUserDocument, {}, {}>>;
 }
 

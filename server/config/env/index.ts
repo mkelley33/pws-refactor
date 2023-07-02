@@ -1,6 +1,6 @@
 import path from 'path';
 
-export default import(`./${process.env.NODE_ENV || 'development'}`).then((env) => {
+export default await import(`./${process.env.NODE_ENV || 'development'}`).then((env) => {
   const defaults = {
     root: path.join(path.dirname('.'), '/..'),
     api: {
@@ -11,5 +11,5 @@ export default import(`./${process.env.NODE_ENV || 'development'}`).then((env) =
     fileSizeLimit: 10 * 1024 * 1024,
   };
 
-  return Object.assign(env, defaults);
+  return { ...env, defaults };
 });

@@ -1,4 +1,7 @@
-export default {
+import dotenv from 'dotenv';
+dotenv.config({ path: './.env' });
+
+const config = {
   env: 'development',
   protocol: 'http',
   host: 'localhost',
@@ -23,3 +26,5 @@ export default {
   },
   port: 8080,
 };
+
+export default config;

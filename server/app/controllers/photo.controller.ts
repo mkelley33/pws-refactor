@@ -1,16 +1,15 @@
 import fs from 'fs-extra';
 import sharp from 'sharp';
 
-import Photo from '../models/photo.model';
-import PhotoAlbum from '../models/photo-album.model';
+import Photo from '../models/photo.model.js';
+import PhotoAlbum from '../models/photo-album.model.js';
+import { Request, Response, NextFunction } from 'express';
 
-function makeThumbs(dirPath, filePath, fileName) {
+function makeThumbs(dirPath: string, filePath: string, fileName: string) {
   const thumbsDir = `${dirPath}/thumbs`;
   fs.ensureDir(thumbsDir).then(() => {
     const thumbFilePath = `${thumbsDir}/${fileName}`;
-    sharp(filePath)
-      .resize(400)
-      .toFile(thumbFilePath);
+    sharp(filePath).resize(400).toFile(thumbFilePath);
   });
 }
 
@@ -22,7 +21,7 @@ function upload(req, res, next) {
     const dirPath = `${__dirname}/../../public/images/${userId}/`;
     const filePath = `${dirPath}${fileName}`;
     fs.ensureDir(dirPath).then(() => {
-      imageFile.mv(filePath, function(err) {
+      imageFile.mv(filePath, function (err) {
         if (err) {
           return res.status(500).send(err);
         }
@@ -61,22 +60,16 @@ function list(req, res, next) {
   );
 }
 
-function deletePhoto(req, res, next) {
-  Photo.findByIdAndDelete(req.params.id).then((photo, err) => {
-    if (err) {
-      next(err);
-    }
-    fs.unlink(`${__dirname}/../../public/images/${res.locals.authorizedData.userId}/${photo.filename}`, err => {
-      if (err) {
-        next(err);
-      }
+function deletePhoto(req: Request, res: Response, next: NextFunction) {
+  Photo.findByIdAndDelete(req.params.id).then((photo: any, err: any) => {
+    if (err) next(err);
+    fs.unlink(`${__dirname}/../../public/images/${res.locals.authorizedData.userId}/${photo.filename}`, (err) => {
+      if (err) next(err);
       fs.unlink(
         `${__dirname}/../../public/images/${res.locals.authorizedData.userId}/thumbs/${photo.filename}`,
-        err => {
-          if (err) {
-            next(err);
-          }
-          PhotoAlbum.updateMany({}, { $pull: { photos: { _id: photo._id } } }).then(data => {
+        (err) => {
+          if (err) next(err);
+          PhotoAlbum.updateMany({}, { $pull: { photos: { _id: photo._id } } }).then((_data: any) => {
             return res.json({ success: true });
           });
         }

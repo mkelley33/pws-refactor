@@ -1,25 +1,22 @@
 import jwt from 'jsonwebtoken';
+import { Response, Request, NextFunction } from 'express';
 import crypto from 'crypto';
 import config from '../../config/env';
 import nodeMailer from 'nodemailer';
 import User from '../models/user.model';
 import Token from '../models/token.model';
 
-function sendUnauthorized(res) {
+function sendUnauthorized(res: Response) {
   res.status(401).json({ errors: { invalidCredentials: 'The e-mail or password provided was incorrect.' } });
 }
 
-function isAuthenticated(req, res, next) {
+function isAuthenticated(req: Request, res: Response, next: NextFunction) {
   const token = req.cookies.token;
   if (!token) {
     res.status(401).send('Unauthorized: No token provided');
   } else {
-    jwt.verify(token, config.jwtSecret, err => {
-      if (err) {
-        res.status(403).json({ errors: { token: 'Unauthorized: token expired' } });
-      } else {
-        res.status(200).send();
-      }
+    jwt.verify(token, config.jwtSecret, (err) => {
+      err ? res.status(403).json({ errors: { token: 'Unauthorized: token expired' } }) : res.status(200).send();
     });
   }
 }
@@ -27,7 +24,7 @@ function isAuthenticated(req, res, next) {
 function signin(req, res, next) {
   const { email, password } = req.body;
   User.getByEmail(email)
-    .then(user => {
+    .then((user) => {
       if (user && user.isVerified) {
         user.comparePassword(password, (err, isMatch) => {
           if (isMatch) {
@@ -55,7 +52,7 @@ function signin(req, res, next) {
         sendUnauthorized(res);
       }
     })
-    .catch(e => next(e));
+    .catch((e) => next(e));
 }
 
 function signout(req, res) {
@@ -99,7 +96,7 @@ function sendResetPasswordEmail(user, token) {
 function forgotPassword(req, res, next) {
   const { email } = req.body;
   User.getByEmail(email)
-    .then(user => {
+    .then((user) => {
       const token = new Token({
         userId: user._id,
         token: crypto.randomBytes(16).toString('hex'),
@@ -108,13 +105,13 @@ function forgotPassword(req, res, next) {
       sendResetPasswordEmail(user, token);
       res.json({ success: 'E-mail sent successfully.' });
     })
-    .catch(e => next(e));
+    .catch((e) => next(e));
 }
 
 function resetPassword(req, res, next) {
   const { password, token } = req.body;
-  Token.findOne({ token }).then(token => {
-    User.findOne({ _id: token.userId }).then(user => {
+  Token.findOne({ token }).then((token) => {
+    User.findOne({ _id: token.userId }).then((user) => {
       user.password = password;
       user.save().then((data, err) => {
         if (err) {

@@ -1,14 +1,13 @@
-import User, { IUserDocument, ROLE_ADMIN } from '../models/user.model';
-import Token from '../models/token.model';
+import User, { IUserDocument, ROLE_ADMIN } from '../models/user.model.js';
+import Token from '../models/token.model.js';
 import nodeMailer from 'nodemailer';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
-import cfg from '../../config/env';
+import config from '../../config/env/index.js';
 import { NextFunction, Request, Response } from 'express';
-import APIError from '../helpers/APIError';
+import APIError from '../helpers/APIError.js';
 import httpStatus from 'http-status';
-
-const config = await cfg;
+import mongoose from 'mongoose';
 
 interface IError {
   error: string;
@@ -93,11 +92,11 @@ function verification(req: Request, res: Response, next: NextFunction) {
     });
 }
 
-function resendVerificationEmail(req, res, next) {
+function resendVerificationEmail(req: Request, res: Response, next: NextFunction) {
   // TODO: implement way to prevent user from being verified if banned
   User.findOne({ email: req.body.email })
     .then((user) => {
-      sendVerificationEmail(user);
+      if (user) sendVerificationEmail(user);
       res.json({ message: 'verification email resent' });
     })
     .catch((err) => {
@@ -108,23 +107,9 @@ function resendVerificationEmail(req, res, next) {
     });
 }
 
-function load(req, res, next, id) {
-  User.findById(id)
-    .then((user) => {
-      req.user = user; // eslint-disable-line no-param-reassign
-      return next();
-    })
-    .catch((e) => next(e));
-}
-
-function get(req, res) {
-  // TODO: send 404 if no user.
-  return res.json(req.user);
-}
-
-function getProfile(req, res, next) {
+function getProfile(req: Request, res: Response, next: NextFunction) {
   const token = req.cookies.token;
-  jwt.verify(token, config.jwtSecret, async (err, decoded) => {
+  jwt.verify(token, config.jwtSecret, async (err: any, decoded: any) => {
     if (err) {
       next(err);
     }
@@ -139,12 +124,12 @@ function getProfile(req, res, next) {
         roles: user.roles,
       });
     } else {
-      // TODO: Log err in getProfile function of user.controller.js
+      // TODO: Log err that user was not found in getProfile function of user.controller.ts
     }
   });
 }
 
-function create(req, res, next) {
+function create(req: Request, res: Response, next: NextFunction) {
   const { firstName, lastName, username, email, password, phone } = req.body;
   new User({ firstName, lastName, username, email, password, phone })
     .save()
@@ -186,25 +171,34 @@ const update = (req: Request, res: Response, next: NextFunction): void => {
   });
 };
 
-function list(req, res, next) {
+function list(req: Request, res: Response, next: NextFunction) {
   // TODO: Allow limit to be set up to a reasonable maximum.
   // TODO: Only allow admin to list users.
   const { limit = 50, skip = 0 } = req.query;
-  User.list(limit, skip)
+  User.list(+limit, +skip)
     .then((users) => {
       res.json(users);
     })
     .catch((e) => next(e));
 }
 
-function remove(req, res, next) {
-  // TODO: Only allow admin to remove users or allow user to remove self (delete account).
+async function remove(req: Request, res: Response, next: NextFunction) {
+  // TODO: Only allow admin to delete a user
+  // TODO: Allow user to remove self (delete account).
   const { userId } = req.params;
-  const user = User.get(userId);
-  user
-    .remove()
-    .then((deletedUser) => res.json(deletedUser))
-    .catch((e) => next(e));
+  if (userId) {
+    const user = await User.get(new mongoose.Types.ObjectId(userId));
+    if (user) {
+      user
+        .deleteOne()
+        .then((deletedUser) => res.json(deletedUser))
+        .catch((e) => next(e));
+    } else {
+      throw new APIError(`[userNotFound] User with id ${userId} was not found, and thus not deleted.`);
+    }
+  } else {
+    throw new APIError(`[userNotFound] The property userId was not on the request parameters, and thus not deleted.`);
+  }
 }
 
-export default { load, get, create, update, list, remove, verification, resendVerificationEmail, getProfile };
+export default { create, update, list, remove, verification, resendVerificationEmail, getProfile };

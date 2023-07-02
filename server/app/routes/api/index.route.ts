@@ -1,10 +1,12 @@
-import express from 'express';
-import userRoutes from './user.route';
-import authRoutes from './auth.route';
-import photoRoutes from './photo.route';
-import photoAlbumRoutes from './photo-albums.route';
-import recaptchaRoutes from './recaptcha.route';
-import contactRoutes from './contact.route';
+import express, { NextFunction, Request, Response } from 'express';
+import userRoutes from './user.route.js';
+import authRoutes from './auth.route.js';
+import photoRoutes from './photo.route.js';
+import photoAlbumRoutes from './photo-albums.route.js';
+import recaptchaRoutes from './recaptcha.route.js';
+import contactRoutes from './contact.route.js';
+import APIError from '../../helpers/APIError.js';
+import { MongooseError } from 'mongoose';
 
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -16,16 +18,11 @@ router.use('/recaptcha', recaptchaRoutes);
 router.use('/contact', contactRoutes);
 
 // Source: https://github.com/gothinkster/node-express-realworld-example-app/blob/master/routes/api/index.js
-router.use(function (err, req, res, next) {
+router.use(function (err: APIError, req: Request, res: Response, next: NextFunction) {
   if (err.name === 'ValidationError') {
-    return res.status(422).json({
-      errors: Object.keys(err.errors).reduce(function (errors, key) {
-        errors[key] = err.errors[key].message;
-        return errors;
-      }, {}),
-    });
+    return res.status(422).json({ ...err });
   } else if (err.name === 'MongoError') {
-    if (err.code === 11000 && err.errmsg.includes('email_1')) {
+    if (err.code === 11000 && err.errmsg && err.errmsg.includes('email_1')) {
       res.status(422).json({ errors: { email: 'That e-mail is already being used.' } });
     }
   } else {

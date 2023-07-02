@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
+  "type": "module",
   "engines": {
     "node": "18.16.0"
   },
@@ -13,8 +14,9 @@
     "buildw": "tsc -b -v -w --preserveWatchOutput -watch --extendedDiagnostics",
     "eslint": "./node_modules/.bin/eslint \"./src/**/**.ts\"",
     "node": "set TS_NODE_FILES=true & node --inspect --loader ts-node/esm src/index.ts",
-    "tsc-watch": "./node_modules/.bin/tsc-watch -b -v -i -w --noclear --compiler \"./node_modules/.bin/tsc\" --onSuccess \"node --inspect --es-module-specifier-resolution=node ./bin/index.js\"",
-    "test": "NODE_ENV=test mocha --check-leaks -r tsconfig-paths/register -r ts-node/register \"tests/**/*.test.ts\"",
+    "tsc-watch": "tsc-watch -b -v -i -w --noclear --compiler tsc -p ./tsconfig.json --onSuccess \"node ./dist/index.js\"",
+    "test-ts-mocha": "ts-mocha -p tsconfig.json ./tests/**/*.test.ts",
+    "test": "NODE_ENV=test mocha --require ts-node/register ./**/*.ts",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test"
   },
   "author": "Michaux Kelley",
@@ -47,17 +49,22 @@
     "winston": "^3.9.0"
   },
   "devDependencies": {
+    "@apify/tsconfig": "^0.1.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/bluebird": "^3.5.38",
     "@types/body-parser": "^1.19.2",
     "@types/chai": "^4.3.5",
+    "@types/chai-http": "^4.2.0",
     "@types/compression": "^1.7.2",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
+    "@types/debug": "^4.1.8",
     "@types/eslint": "^8.40.2",
+    "@types/expect": "^24.3.0",
     "@types/express": "^4.17.17",
     "@types/express-fileupload": "^1.4.1",
     "@types/fs-extra": "^11.0.1",
+    "@types/jest": "^29.5.2",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/method-override": "^0.0.32",
     "@types/mocha": "^10.0.1",
@@ -67,7 +74,9 @@
     "@types/request": "^2.48.8",
     "@types/shelljs": "^0.8.12",
     "@types/sinon": "^10.0.15",
+    "@types/supertest": "^2.0.12",
     "@types/swagger-jsdoc": "^6.0.1",
+    "@types/winston": "^2.4.4",
     "babel-plugin-add-module-exports": "^1.0.4",
     "chai": "^4.3.7",
     "chai-http": "^4.4.0",
@@ -77,9 +86,12 @@
     "request": "^2.88.2",
     "shelljs": "^0.8.5",
     "sinon": "^15.2.0",
+    "supertest": "^6.3.3",
     "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
     "tsc-watch": "^6.0.4",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.1.3"
   }
 }

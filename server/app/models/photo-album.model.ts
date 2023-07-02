@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { PhotoSchema } from './photo.model';
+import PhotoSchema from './photo.model.js';
 
 const Schema = mongoose.Schema;
 
@@ -13,7 +13,4 @@ const PhotoAlbumSchema = new Schema(
   { timestamps: true }
 );
 
-/**
- * @typedef PhotoAlbum
- */
 export default mongoose.model('PhotoAlbum', PhotoAlbumSchema);

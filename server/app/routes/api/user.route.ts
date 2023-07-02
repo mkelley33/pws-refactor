@@ -1,8 +1,8 @@
 import express from 'express';
-import userCtrl from '../../controllers/user.controller';
-import disableCache from '../../middlewares/disable-cache';
-import withAuthentication, { withAuthenticationAndRole } from '../../middlewares/with-authentication';
-import { ROLE_ADMIN } from '../../models/user.model';
+import userCtrl from '../../controllers/user.controller.js';
+import disableCache from '../../middlewares/disable-cache.js';
+import withAuthentication, { withAuthenticationAndRole } from '../../middlewares/with-authentication.js';
+import { ROLE_ADMIN } from '../../models/user.model.js';
 
 const router = express.Router(); // eslint-disable-line new-cap
 

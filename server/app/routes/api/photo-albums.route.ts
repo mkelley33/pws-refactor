@@ -1,6 +1,6 @@
 import express from 'express';
-import photoAlbumCtrl from '../../controllers/photo-album.controller';
-import withAuthentication, { withAuthenticationAndRole } from '../../middlewares/with-authentication';
+import photoAlbumCtrl from '../../controllers/photo-album.controller.js';
+import withAuthentication, { withAuthenticationAndRole } from '../../middlewares/with-authentication.js';
 
 const router = express.Router();
 

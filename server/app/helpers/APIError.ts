@@ -17,7 +17,10 @@ class APIError extends ExtendableError {
   constructor(
     public message: string,
     public status: number = httpStatus.INTERNAL_SERVER_ERROR,
-    public isPublic: boolean = false
+    public isPublic: boolean = false,
+    // code and errmsg are for error messages and codes coming from mongo
+    public code?: number,
+    public errmsg?: string[]
   ) {
     super(message, status, isPublic);
   }
