@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 Promise = require('bluebird');
-import User from '../app/models/user.model';
+import User from '../app/models/user.model.js';
 
 const config = dotenv.config({ path: './.env.development' });
 mongoose.Promise = Promise;
