@@ -1,7 +1,7 @@
 import mongoose, { HydratedDocument, Document, Model, model } from 'mongoose';
 import { Schema } from 'mongoose';
 
-interface IPhotoDocument extends Document {
+export interface IPhotoDocument extends Document {
   filename: string;
   userId: mongoose.Schema.Types.ObjectId;
   isPublic: mongoose.Schema.Types.Boolean;
@@ -36,4 +36,4 @@ photoSchema.static('findPaginated', function (filter, options) {
   return Promise.all([countQuery, findQuery]);
 });
 
-export default model<IPhotoDocument, IPhotoModel>('User', photoSchema);
+export default model<IPhotoDocument, IPhotoModel>('Photo', photoSchema);
