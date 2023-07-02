@@ -1,10 +1,13 @@
+import { use } from 'chai';
+import superagent from 'chai-superagent';
+import request from 'superagent';
+
 import User from '../../app/models/user.model.js';
 import server from '../../index.js';
 import APIError from '../../app/helpers/APIError.js';
-import chai = require('chai');
-import chaiHttp = require('chai-http');
 
-chai.use(chaiHttp);
+use(superagent());
+
 const expect = chai.expect;
 
 describe('User API Routes', () => {
@@ -16,8 +19,7 @@ describe('User API Routes', () => {
       email: 'ptb15@example.test.com',
     };
     it('creates a new user', (done) => {
-      chai
-        .request(server)
+      request
         .post('/api/v1/users')
         .send(user)
         .end((_err: APIError, res: any) => {
