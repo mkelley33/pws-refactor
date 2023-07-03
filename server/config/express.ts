@@ -1,20 +1,22 @@
 import express, { Request, Response, NextFunction } from 'express';
 import logger from 'morgan';
-import path from 'path';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compress from 'compression';
 import methodOverride from 'method-override';
 import cors from 'cors';
-import httpStatus from 'http-status';
 import expressWinston from 'express-winston';
 import helmet from 'helmet';
-import winstonInstance from './winston.js';
+import httpStatus from 'http-status';
+import path from 'path';
 import swaggerJSDoc from 'swagger-jsdoc';
+import * as url from 'url';
+import winstonInstance from './winston.js';
 import apiRouter from '../app/routes/api/index.route.js';
 import config from './env/index.js';
-import expressFileUpload from 'express-fileupload';
 import APIError from '../app/helpers/APIError.js';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const app = express();
 
@@ -84,19 +86,11 @@ const allowCrossDomain = function (req: Request, res: Response, next: NextFuncti
 
 app.use(allowCrossDomain);
 app.use(cookieParser());
-// app.use(
-//   expressFileUpload({
-//     limits: { fileSize: config.defaults.fileSizeLimit },
-//     safeFileNames: true,
-//     preserveExtension: 4,
-//     abortOnLimit: true,
-//   })
-// );
 
 // In production serve static files using NGINX, but in development let express serve them.
-// if (config.default.env === 'development') {
-//   app.use(express.static(path.join(__dirname, '..', 'public')));
-// }
+if (config.default.env === 'development') {
+  app.use(express.static(path.join(__dirname, '..', 'public')));
+}
 
 // Mount api routes on /api/v1 path.
 app.use('/api/v1', apiRouter);
