@@ -27,10 +27,8 @@ const {
 } = config;
 
 if (process.env.NODE_ENV === 'development') {
-  const swaggerDefinition = {
-    info: { title, version, description },
-    host: `${config.default.host}:${config.default.port}`,
-  };
+  const { host, port } = config.default.server;
+  const swaggerDefinition = { info: { title, version, description }, host: `${host}:${port}` };
 
   const options = {
     swaggerDefinition,
@@ -69,7 +67,7 @@ if (config.default.env === 'development') {
       meta: true, // optional: log meta data about request (defaults to true)
       msg: 'HTTP {{req.method}} {{req.url}} {{res.statusCode}} {{res.responseTime}}ms',
       bodyBlacklist: ['pass', 'user', 'password', 'oldPassword', 'newPassword', 'confirmPassword'],
-    })
+    }),
   );
 }
 
@@ -112,7 +110,7 @@ if (config.default.env !== 'test') {
   app.use(
     expressWinston.errorLogger({
       winstonInstance,
-    })
+    }),
   );
 }
 
@@ -121,7 +119,7 @@ app.use((err: APIError, _req: Request, res: Response) =>
   res.status(err.status).json({
     message: err.isPublic ? err.message : httpStatus[err.status],
     stack: config.default.env === 'development' ? err.stack : {},
-  })
+  }),
 );
 
 export default app;
