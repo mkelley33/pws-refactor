@@ -26,22 +26,24 @@ const {
   api: { title, version, description },
 } = config;
 
-const swaggerDefinition = {
-  info: { title, version, description },
-  host: `${config.default.host}:${config.default.port}`,
-};
+if (process.env.NODE_ENV === 'development') {
+  const swaggerDefinition = {
+    info: { title, version, description },
+    host: `${config.default.host}:${config.default.port}`,
+  };
 
-const options = {
-  swaggerDefinition,
-  apis: ['./app/routes/api/**/*.ts'],
-};
+  const options = {
+    swaggerDefinition,
+    apis: ['./app/routes/api/**/*.ts'],
+  };
 
-const swaggerSpec = swaggerJSDoc(options);
+  const swaggerSpec = swaggerJSDoc(options);
 
-app.get('/swagger.json', function (req, res) {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(swaggerSpec);
-});
+  app.get('/swagger.json', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(swaggerSpec);
+  });
+}
 
 if (config.default.env === 'development') {
   app.use(logger('dev'));
