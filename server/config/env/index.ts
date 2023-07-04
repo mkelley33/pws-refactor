@@ -11,5 +11,5 @@ export default await import(`./${process.env.NODE_ENV || 'development'}.js`).the
     fileSizeLimit: 10 * 1024 * 1024,
   };
 
-  return { ...env, defaults };
+  return { ...env, ...defaults };
 });

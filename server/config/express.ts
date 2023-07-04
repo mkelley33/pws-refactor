@@ -16,13 +16,15 @@ import apiRouter from '../app/routes/api/index.route.js';
 import config from './env/index.js';
 import APIError from '../app/helpers/APIError.js';
 
+// Ignore any red squigglies under import.meta in vscode.
+// This happens because vscode doesn't recognize that we are in fact using ES2022
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const app = express();
 
 const {
   api: { title, version, description },
-} = config.defaults;
+} = config;
 
 const swaggerDefinition = {
   info: { title, version, description },
@@ -77,8 +79,10 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-const allowCrossDomain = function (req: Request, res: Response, next: NextFunction) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+const allowCrossDomain = function (_req: Request, res: Response, next: NextFunction) {
+  const { protocol, host, port } = config.default.server;
+  // TODO: Add Access-Control-Allow-Origin for client hitting the API
+  res.header('Access-Control-Allow-Origin', `${protocol}://${host}${port}`);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type,token');
   next();
@@ -96,12 +100,12 @@ if (config.default.env === 'development') {
 app.use('/api/v1', apiRouter);
 
 // // catch 404 and forward to error handler
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((_req: Request, _res: Response, next: NextFunction) => {
   const err = new APIError('API not found', httpStatus.NOT_FOUND);
   return next(err);
 });
 
-// // Log error in winston transports except when executing test suite
+// Log error in winston transports except when executing test suite
 if (config.default.env !== 'test') {
   app.use(
     expressWinston.errorLogger({
@@ -110,18 +114,12 @@ if (config.default.env !== 'test') {
   );
 }
 
-// error handler, send stacktrace only during development
-app.use(
-  (
-    err: APIError,
-    _req: Request,
-    res: Response,
-    _next: NextFunction // eslint-disable-line no-unused-vars
-  ) =>
-    res.status(err.status).json({
-      message: err.isPublic ? err.message : httpStatus[err.status],
-      stack: config.default.env === 'development' ? err.stack : {},
-    })
+// Error handler, send stacktrace only during development
+app.use((err: APIError, _req: Request, res: Response) =>
+  res.status(err.status).json({
+    message: err.isPublic ? err.message : httpStatus[err.status],
+    stack: config.default.env === 'development' ? err.stack : {},
+  })
 );
 
 export default app;

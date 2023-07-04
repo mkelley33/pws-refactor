@@ -1,17 +1,21 @@
 import dotenv from 'dotenv';
-dotenv.config({ path: './.env' });
+dotenv.config({ path: './.env.development' });
 
-const config = {
+export default {
   env: 'development',
-  protocol: 'http',
-  host: 'localhost',
-  port: ':8080',
+  server: {
+    protocol: 'http',
+    host: 'localhost',
+    port: ':8080',
+  },
   mail: {
     address: process.env.EMAIL,
     password: process.env.EMAIL_PASS,
     sender: process.env.EMAIL_SENDER,
   },
-  MONGOOSE_DEBUG: true,
+  mongoose: {
+    debug: true,
+  },
   jwtSecret: process.env.JWT_SECRET,
   db: {
     uri: 'mongodb://127.0.0.1:27017/api-test',
@@ -25,5 +29,3 @@ const config = {
     },
   },
 };
-
-export default config;

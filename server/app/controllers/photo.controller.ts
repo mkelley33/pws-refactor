@@ -37,7 +37,7 @@ function makeThumbs(dirPath: string, filePath: string, fileName: string) {
 function upload(req: Request, res: Response, next: NextFunction) {
   const busboyConfig: BusboyConfig = {
     headers: req.headers,
-    limits: { fileSize: config.defaults.fileSizeLimit },
+    limits: { fileSize: config.fileSizeLimit },
   };
   const busboyConfigured = busboy(busboyConfig);
   busboyConfigured.on(
@@ -77,7 +77,7 @@ function upload(req: Request, res: Response, next: NextFunction) {
 // TODO: Make the new photo and photo album uploaded transactional. If one fails, make sure both are deleted.
 
 async function list(req: Request, res: Response, next: NextFunction) {
-  // TODO: In photo.controller - put a little error handling in here
+  // TODO: In photo.controller list function - put a little error handling in here
   // By default get only photos by user
   // If params are for shared, get shared photos
   const { skip = 0, limit = 20 } = req.query;
