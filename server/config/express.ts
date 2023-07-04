@@ -39,7 +39,7 @@ if (process.env.NODE_ENV === 'development') {
 
   const swaggerSpec = swaggerJSDoc(options);
 
-  app.get('/swagger.json', function (req, res) {
+  app.get('/swagger.json', function (_req, res) {
     res.setHeader('Content-Type', 'application/json');
     res.send(swaggerSpec);
   });
