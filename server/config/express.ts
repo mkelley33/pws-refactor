@@ -28,7 +28,10 @@ const {
 
 if (process.env.NODE_ENV === 'development') {
   const { host, port } = config.default.server;
-  const swaggerDefinition = { info: { title, version, description }, host: `${host}:${port}` };
+  const swaggerDefinition = {
+    info: { title, version, description },
+    host: `${host}:${port}`,
+  };
 
   const options = {
     swaggerDefinition,
