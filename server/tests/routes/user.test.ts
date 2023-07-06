@@ -64,63 +64,62 @@ describe('User API Routes', () => {
         expect(e.response.status).to.equal(422);
         expect(e.response.statusText).to.equal('Unprocessable Entity');
         expect(e.response.data.errors.password.message).to.be.equal(
-          'Must contain a combination of at least 1 lowercase letter, 1 uppercase letter, 1 number, 1 special character (!@#$%^&*), and be at least 8 characters long'
+          'Must contain a combination of at least 1 lowercase letter, 1 uppercase letter, 1 number, 1 special character (!@#$%^&*), and be at least 8 characters long',
         );
       }
     });
-  });
+    it('Does not create a new user without a valid email', async function () {
+      const user = {
+        firstName: 'Ceschi',
+        lastName: 'Ramos',
+        password: 'easy',
+        email: 'email',
+      };
 
-  it('Does not create a new user without a valid email', async function () {
-    const user = {
-      firstName: 'Ceschi',
-      lastName: 'Ramos',
-      password: 'easy',
-      email: 'email',
-    };
+      try {
+        const uri = 'http://localhost:8080/api/v1/users';
+        await axios.post(uri, user);
+      } catch (e: any) {
+        expect(e.response.status).to.equal(422);
+        expect(e.response.statusText).to.equal('Unprocessable Entity');
+        expect(e.response.data.errors.email.message).to.be.equal('Must be a valid e-mail address');
+      }
+    });
 
-    try {
-      const uri = 'http://localhost:8080/api/v1/users';
-      await axios.post(uri, user);
-    } catch (e: any) {
-      expect(e.response.status).to.equal(422);
-      expect(e.response.statusText).to.equal('Unprocessable Entity');
-      expect(e.response.data.errors.email.message).to.be.equal('Must be a valid e-mail address');
-    }
-  });
+    it('Does not create a new user with a first name longer than 50 characters', async function () {
+      const user = {
+        firstName: 'C'.repeat(51),
+        lastName: 'Ramos',
+        password: 'easy',
+        email: 'email@example.test.com',
+      };
 
-  it('Does not create a new user with a first name longer than 50 characters', async function () {
-    const user = {
-      firstName: 'C'.repeat(51),
-      lastName: 'Ramos',
-      password: 'easy',
-      email: 'email@example.test.com',
-    };
+      try {
+        const uri = 'http://localhost:8080/api/v1/users';
+        await axios.post(uri, user);
+      } catch (e: any) {
+        expect(e.response.status).to.equal(422);
+        expect(e.response.statusText).to.equal('Unprocessable Entity');
+        expect(e.response.data.errors.firstName.message).to.be.equal("Can't be longer than 50 characters");
+      }
+    });
 
-    try {
-      const uri = 'http://localhost:8080/api/v1/users';
-      await axios.post(uri, user);
-    } catch (e: any) {
-      expect(e.response.status).to.equal(422);
-      expect(e.response.statusText).to.equal('Unprocessable Entity');
-      expect(e.response.data.errors.firstName.message).to.be.equal("Can't be longer than 50 characters");
-    }
-  });
+    it('Does not create a new user with a last name longer than 50 characters', async function () {
+      const user = {
+        firstName: 'Ceschi',
+        lastName: 'R'.repeat(51),
+        password: 'Easy123!',
+        email: 'email@example.test.com',
+      };
 
-  it('Does not create a new user with a last name longer than 50 characters', async function () {
-    const user = {
-      firstName: 'Ceschi',
-      lastName: 'R'.repeat(51),
-      password: 'Easy123!',
-      email: 'email@example.test.com',
-    };
-
-    try {
-      const uri = 'http://localhost:8080/api/v1/users';
-      await axios.post(uri, user);
-    } catch (e: any) {
-      expect(e.response.status).to.equal(422);
-      expect(e.response.statusText).to.equal('Unprocessable Entity');
-      expect(e.response.data.errors.lastName.message).to.be.equal("Can't be longer than 50 characters");
-    }
+      try {
+        const uri = 'http://localhost:8080/api/v1/users';
+        await axios.post(uri, user);
+      } catch (e: any) {
+        expect(e.response.status).to.equal(422);
+        expect(e.response.statusText).to.equal('Unprocessable Entity');
+        expect(e.response.data.errors.lastName.message).to.be.equal("Can't be longer than 50 characters");
+      }
+    });
   });
 });
