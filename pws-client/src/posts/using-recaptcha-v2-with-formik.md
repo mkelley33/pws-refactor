@@ -3,8 +3,6 @@ title: 'Using Google Recaptcha V2 with Formik and Node.js'
 date: '2020-06-22'
 ---
 
-## About
-
 This post intends to demonstrate how to integrate recaptcha with formik
 as well the code for verifying on a node.js server the token google returns
 once a CAPTCHA is submitted.

@@ -43,7 +43,7 @@ const appHeader = css`
   border-bottom: 1px solid #ccc;
   box-shadow: inset 0 1px 0 #0f56ba;
   color: white;
-  border-bottom: 7px solid var(--mediumGrey);
+  border-bottom: 7px solid var(--default-variableBlue);
   padding-top: 1rem;
   display: flex;
   justify-content: center;
@@ -55,18 +55,18 @@ const appHeaderPhoto = css`
   background-size: cover;
   width: 5rem;
   height: 5rem;
-  border: 2px solid var(--default-lightBlue);
+  border: 2px solid var(--default-white);
   border-radius: 50%;
   margin: 0 auto;
 `;
 
 const appHeaderHandle = css`
   margin-top: 0.25rem;
+  text-align: center;
 `;
 
 const appHeaderNav = css`
   width: 100%;
-  border: 1px solid #fff;
   li {
     display: inline-block;
   }
@@ -79,15 +79,22 @@ const appHeaderNav = css`
   }
 `;
 
+const appHeaderMenuNav = css`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+`;
+
 const appHeaderLoginNav = css`
-  width: 400px;
-  border: 1px solid #fff;
+  width: 200px;
   display: flex;
   float: right;
   flex-flow: row wrap;
   justify-content: space-evenly;
-  li {
-  }
+`;
+
+const appHeaderNavReorder = css`
+  order: -1;
 `;
 
 const Layout = (props: any): JSX.Element => {
@@ -102,7 +109,7 @@ const Layout = (props: any): JSX.Element => {
         <div css={appHeaderPhoto}></div>
         <div css={appHeaderHandle}>@mkelley33</div>
         <nav css={appHeaderNav}>
-          <ul>
+          <ul css={appHeaderMenuNav}>
             <li>
               <Link to='/'>About</Link>
             </li>
@@ -117,7 +124,7 @@ const Layout = (props: any): JSX.Element => {
             </li>
           </ul>
         </nav>
-        <nav css={appHeaderNav}>
+        <nav css={[appHeaderNav, appHeaderNavReorder]}>
           <ul css={appHeaderLoginNav}>
             <li>
               {!props.authenticated && <Link to='/register'>Register</Link>}
