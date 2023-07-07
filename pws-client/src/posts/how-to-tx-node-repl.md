@@ -1,9 +1,14 @@
-# How to use the tsx REPL to explore your ES2022 modules
+---
+title: 'How to use the tsx REPL to explore your ES2022 models'
+date: '2023-07-07'
+---
 
 Open a new shell, and install the following dependencies\:
 
-- `npm i -D tsx dotenv @esbuild-kit/esm-loader`
-- `npm i -S mongoose`
+```bash
+$ npm i -D tsx dotenv @esbuild-kit/esm-loader`
+$ npm i -S mongoose
+```
 
 ## Configure tsconfig.json
 
@@ -46,7 +51,9 @@ Set the following in your **tsconfig.json**\:
 
 Now, you're ready to start the tsx REPL. Open a shell and type the following\:
 
-`npx tsx --loader @esbuild-kit/esm-loader`
+```bash
+$ npx tsx --loader @esbuild-kit/esm-loader
+```
 
 And now you should see a `>` indicating that you are in the tsx REPL.
 
@@ -57,7 +64,7 @@ Continuing in the REPL\:
 Let's say some of your configuration lives in a file in the root level directory named `.env.development`.
 This will hold environmental variables that are used in a configuration:
 
-```sh
+```bash
 PWS_USER=admin
 PWS_PASS=replace-with-your-password
 AUTH_SOURCE=api-development
@@ -68,7 +75,30 @@ JWT_SECRET=your-jwt-secret
 
 I've created a script that will set up a mongoose
 connection. It also puts all of your environment
-variables on `process.env`.
+variables on `process.env`. Save the following in
+a file named `config.ts` in a directory named `scripts`
+under your root directory.
+
+```javascript
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+Promise = require('bluebird');
+import User from '../app/models/user.model.js';
+
+const config = dotenv.config({ path: './.env.development' });
+mongoose.Promise = Promise;
+mongoose.connect('mongodb://127.0.0.1:27017/api-test', {
+  socketTimeoutMS: 0,
+  authSource: process.env.AUTH_SOURCE,
+  user: process.env.PWS_USER,
+  pass: process.env.PWS_PASS,
+});
+
+export default config;
+export { User };
+```
+
+Then open a tsx REPL to use it\:
 
 ```javascript
 > const config = require('../server/scripts/config.ts');
@@ -81,7 +111,7 @@ variables on `process.env`.
 
 Type `config.User` followed by a dot ., and then press `tab` to see what's available to you. Like so\:
 
-```sh
+```bash
 config.User.find
 config.User.findById
 config.User.findByIdAndDelete
@@ -92,3 +122,7 @@ config.User.findOne
 ```
 
 And that's all there is to importing some configuration, connecting to mongoose, and exploring your models with the tsx REPL.
+
+## For further reading\:
+
+https://github.com/esbuild-kit/tsx
