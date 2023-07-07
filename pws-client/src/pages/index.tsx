@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Layout from '@components/Layout';
+import Layout from '@components/layout';
 
 const getDateDiffInYears = (secondDate: Date, firstDate: Date) => {
   let diff = (secondDate.getTime() - firstDate.getTime()) / 1000;

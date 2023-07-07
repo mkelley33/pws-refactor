@@ -24,6 +24,10 @@ const defaultTheme = {
   lightBlue: '#61dafb',
 };
 
+const main = css`
+  padding: 1rem 4rem;
+`;
+
 const appHeader = css`
   background: linear-gradient(
     360deg,
@@ -90,7 +94,9 @@ const Layout = (props: any): JSX.Element => {
           </ul>
         </nav>
       </header>
-      <main style={cssTheme}>{props.children}</main>
+      <main style={cssTheme} css={main}>
+        {props.children}
+      </main>
     </>
   );
 };
