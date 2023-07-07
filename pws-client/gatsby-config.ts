@@ -10,13 +10,11 @@ module.exports = {
             resolve: `gatsby-remark-images`,
           },
           {
-            resolve: `gatsby-remark-prismjs`,
+            resolve: `gatsby-remark-highlight-code`,
             options: {
-              classPrefix: 'language-',
-              aliases: {
-                js: 'javascript',
-              },
-              showLineNumbers: true,
+              terminal: 'carbon',
+              lineNumbers: true,
+              theme: 'cobalt',
             },
           },
         ],

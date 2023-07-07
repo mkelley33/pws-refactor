@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'gatsby';
 import { css } from '@emotion/react';
 import profilePic from '../../images/profile-pic.jpg';
+import { defineCustomElements as deckDeckGoHighlightElement } from '@deckdeckgo/highlight-code/dist/loader';
+
+deckDeckGoHighlightElement();
 
 const makeCssTheme = (jsTheme: object, namespace: string) =>
   Object.entries(jsTheme).reduce(
