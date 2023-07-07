@@ -6,13 +6,17 @@ import { navigate } from 'gatsby';
 
 import Layout from '@components/layout';
 import api from '../api';
-import TextInput from '@components/common/forms/TextInput';
-import TextArea from '@components/common/forms/TextArea';
+import TextInput from '@components/common/forms/text-input';
+import TextArea from '@components/common/forms/text-area';
 
 const formikEnhancer = withFormik({
   validationSchema: Yup.object().shape({
-    firstName: Yup.string().min(2, "Your first name must be a minimum of two characters long.").required('First name is required'),
-    lastName: Yup.string().min(2, "Your first name must be a minimum of two characters long.").required('Last name is required'),
+    firstName: Yup.string()
+      .min(2, 'Your first name must be a minimum of two characters long.')
+      .required('First name is required'),
+    lastName: Yup.string()
+      .min(2, 'Your first name must be a minimum of two characters long.')
+      .required('Last name is required'),
     email: Yup.string().email('Invalid email address').required('Email is required'),
     message: Yup.string().required('Message is required'),
     recaptcha: Yup.string().required(),
@@ -22,10 +26,10 @@ const formikEnhancer = withFormik({
       .post(`/contact`, payload, {
         withCredentials: true,
       })
-      .then(res => {
+      .then((res) => {
         navigate('/post-contact');
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error('Something went wrong', {
           position: toast.POSITION.TOP_CENTER,
           hideProgressBar: true,
@@ -43,18 +47,17 @@ const formikEnhancer = withFormik({
   displayName: 'ContactForm',
 });
 
-const ContactForm = props => {
+const ContactForm = (props: any) => {
   document.title = 'Contact Form';
   const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue } = props;
 
-  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://www.google.com/recaptcha/api.js';
     script.async = true;
     script.defer = true;
-    window.onSubmit = token => {
-      api.post('/recaptcha', { token }).then(res => {
+    (window as any).onSubmit = (token: string) => {
+      api.post('/recaptcha', { token }).then((res: any) => {
         if (res.data.error) {
           setFieldValue('recaptcha', '');
         } else {
@@ -62,10 +65,9 @@ const ContactForm = props => {
         }
       });
     };
-    window.onExpired = () => setFieldValue('recaptcha', '');
+    (window as any).onExpired = () => setFieldValue('recaptcha', '');
     document.body.appendChild(script);
   }, []);
-  /* eslint-enable react-hooks/exhaustive-deps */
 
   return (
     <Layout>

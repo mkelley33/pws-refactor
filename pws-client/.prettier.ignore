@@ -1,0 +1,5 @@
+# .prettier.ignore
+.cache
+package.json
+package-lock.json
+public
