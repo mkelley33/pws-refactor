@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql, Link } from 'gatsby';
 
 import Layout from '@components/layout';
-import styles from './blog.module.css';
+import * as styles from './blog.module.css';
 
 const BlogTemplate = ({ data, pageContext }) => {
   const { currentPage, isFirstPage, isLastPage, totalPages } = pageContext;
