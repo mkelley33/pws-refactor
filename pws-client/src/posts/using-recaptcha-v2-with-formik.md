@@ -40,10 +40,10 @@ const formikEnhancer = withFormik({
   handleSubmit: (payload, { setSubmitting }) => {
     axios
       .post(`/contact`, payload)
-      .then(res => {
+      .then((res) => {
         navigate('/');
       })
-      .catch(err => {
+      .catch((err) => {
         toast.error('Something went wrong', {
           position: toast.POSITION.TOP_CENTER,
           hideProgressBar: true,
@@ -59,7 +59,7 @@ const formikEnhancer = withFormik({
   displayName: 'ContactForm',
 });
 
-const ContactForm = props => {
+const ContactForm = (props) => {
   document.title = 'Contact Form';
   const { values, handleSubmit, isSubmitting, setFieldValue } = props;
 
@@ -70,8 +70,8 @@ const ContactForm = props => {
     script.src = 'https://www.google.com/recaptcha/api.js';
     script.async = true;
     script.defer = true;
-    window.onSubmit = token => {
-      api.post('/recaptcha', { token }).then(res => {
+    window.onSubmit = (token) => {
+      api.post('/recaptcha', { token }).then((res) => {
         if (res.data.error) {
           setFieldValue('recaptcha', '');
         } else {
@@ -87,14 +87,14 @@ const ContactForm = props => {
   return (
     <form onSubmit={handleSubmit}>
       {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-      <input id="recaptcha" name="recaptcha" type="hidden" value="" />
+      <input id='recaptcha' name='recaptcha' type='hidden' value='' />
       <div
-        className="g-recaptcha"
+        className='g-recaptcha'
         data-sitekey={RECAPTCHA_SITE_KEY}
-        data-callback="onSubmit"
-        data-expired-callback="onExpired"
+        data-callback='onSubmit'
+        data-expired-callback='onExpired'
       ></div>
-      <button type="submit" disabled={isSubmitting}>
+      <button type='submit' disabled={isSubmitting}>
         Submit
       </button>
     </form>
