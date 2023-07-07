@@ -54,6 +54,23 @@ const appHeaderPhoto = css`
   margin: 0 auto;
 `;
 
+const appHeaderHandle = css`
+  margin-top: 0.25rem;
+`;
+
+const appHeaderNav = css`
+  li {
+    display: inline-block;
+  }
+
+  a {
+    color: var(--default-lightBlue);
+    &:hover {
+      color: #fff;
+    }
+  }
+`;
+
 const Layout = (props: any): JSX.Element => {
   const cssTheme = React.useMemo(
     () => makeCssTheme(defaultTheme, 'default'),
@@ -63,8 +80,9 @@ const Layout = (props: any): JSX.Element => {
   return (
     <>
       <header style={cssTheme} css={appHeader}>
-        <div css={appHeaderPhoto}>@mkelley33</div>
-        <nav>
+        <div css={appHeaderPhoto}></div>
+        <div css={appHeaderHandle}>@mkelley33</div>
+        <nav css={appHeaderNav}>
           <ul>
             <li>
               <Link to='/'>About</Link>
