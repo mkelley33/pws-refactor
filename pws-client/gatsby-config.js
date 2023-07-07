@@ -4,14 +4,6 @@ module.exports = {
   plugins: [
     'gatsby-plugin-tsconfig-paths',
     {
-      resolve: `gatsby-plugin-alias-imports`,
-      options: {
-        alias: {
-          '@components': path.resolve(__dirname, 'src/components'),
-        },
-      },
-    },
-    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: 'mkelley33',
