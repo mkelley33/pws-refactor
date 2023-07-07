@@ -1,7 +1,27 @@
-const path = require('path');
+import path from 'path';
 
 module.exports = {
   plugins: [
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [
+          {
+            resolve: `gatsby-remark-images`,
+          },
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
+              classPrefix: 'language-',
+              aliases: {
+                js: 'javascript',
+              },
+              showLineNumbers: true,
+            },
+          },
+        ],
+      },
+    },
     'gatsby-plugin-tsconfig-paths',
     {
       resolve: `gatsby-plugin-manifest`,
