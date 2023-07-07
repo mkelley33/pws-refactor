@@ -114,9 +114,7 @@ import request from 'request';
 function verify(req, res) {
   const { token } = req.body;
 
-  if (token === undefined || token === '' || token === null) {
-    return res.json({ error: 'unverified' });
-  }
+  if (!token) return res.json({ error: 'unverified' });
 
   const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}&remoteip=${req.connection.remoteAddress}`;
 
