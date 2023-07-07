@@ -1,6 +1,5 @@
 import type { GatsbyConfig } from 'gatsby';
 import path from 'path';
-import util from 'util';
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -51,7 +50,5 @@ const config: GatsbyConfig = {
     },
   ],
 };
-
-config.plugins?.forEach((plugin) => console.log(util.inspect(plugin)));
 
 export default config;
