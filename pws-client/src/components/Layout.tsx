@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'gatsby';
 import { css } from '@emotion/react';
+import profilePic from '../../images/profile-pic.jpg';
 
 const makeCssTheme = (jsTheme: object, namespace: string) =>
   Object.entries(jsTheme).reduce(
@@ -37,7 +38,7 @@ const appHeader = css`
 `;
 
 const appHeaderPhoto = css`
-  background: transparent url('../images/profile-pic.jpg') no-repeat;
+  background: transparent url(${profilePic}) no-repeat;
   background-size: cover;
   width: 5rem;
   height: 5rem;
