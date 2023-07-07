@@ -53,8 +53,8 @@ const Layout = (props: any): JSX.Element => {
   );
 
   return (
-    <div style={cssTheme}>
-      <header css={appHeader}>
+    <>
+      <header style={cssTheme} css={appHeader}>
         <div css={appHeaderPhoto}>@mkelley33</div>
         <nav>
           <ul>
@@ -86,8 +86,8 @@ const Layout = (props: any): JSX.Element => {
           </ul>
         </nav>
       </header>
-      <main>{props.children}</main>
-    </div>
+      <main style={cssTheme}>{props.children}</main>
+    </>
   );
 };
 
