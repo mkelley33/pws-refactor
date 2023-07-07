@@ -16,12 +16,17 @@ const makeCssTheme = (jsTheme: object, namespace: string) =>
   );
 
 const defaultTheme = {
-  name: 'default',
-  darkGrey: 'rgba(40, 44, 52, 1)',
-  semiDarkGrey: 'rgba(54, 60, 71, 1)',
-  mediumGrey: 'rgba(64, 71, 85, 1)',
-  mediumLightGrey: 'rgba(104, 107, 112, 1)',
-  lightBlue: '#61dafb',
+  cobalt2blue: '#00389c',
+  black: '#222222',
+  red: '#ff2600',
+  blue: '#1478DB',
+  white: '#f5f5f5',
+  lightBlack: '#808080',
+  lightBlue: '#0047ab',
+  variableBlue: '#0d3a58',
+  dustyBlue: '#34424C',
+  highlightBlue: '#1F4662',
+  selectionBlue: '#0050a4',
 };
 
 const main = css`
@@ -30,11 +35,13 @@ const main = css`
 
 const appHeader = css`
   background: linear-gradient(
-    360deg,
-    var(--default-darkGrey) 0%,
-    var(--default-semiDarkGrey) 66%,
-    var(--default-mediumGrey) 100%
+    to bottom,
+    var(--default-lightBlue) 0%,
+    var(--default-cobalt2blue) 100%
   );
+  border: 1px solid #00298d;
+  border-bottom: 1px solid #ccc;
+  box-shadow: inset 0 1px 0 #0f56ba;
   color: white;
   border-bottom: 7px solid var(--mediumGrey);
   padding-top: 1rem;
