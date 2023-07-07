@@ -15,7 +15,7 @@ function sendContactEmail(firstName: string, lastName: string, email: string, me
 
   const mailOptions = {
     from: config.default.mail.sender,
-    to: config.default.mail.user,
+    to: email,
     subject: 'New contact message', // Subject line
     text: `From: ${firstName} ${lastName}\n
 ${email}\n
