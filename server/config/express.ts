@@ -84,8 +84,9 @@ app.use(cors(corsOptions));
 
 const allowCrossDomain = function (_req: Request, res: Response, next: NextFunction) {
   const { protocol, host, port } = config.default.server;
-  // TODO: Add Access-Control-Allow-Origin for client hitting the API
+  const { protocol: clientProtocol, host: clientHost, port: clientPort } = config.default.client;
   res.header('Access-Control-Allow-Origin', `${protocol}://${host}${port}`);
+  res.header('Access-Control-Allow-Origin', `${clientProtocol}://${clientHost}${clientPort}`);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type,token');
   next();

@@ -8,6 +8,11 @@ export default {
     host: 'localhost',
     port: ':8080',
   },
+  client: {
+    protocol: 'http',
+    host: 'localhost',
+    port: ':8000',
+  },
   mail: {
     address: process.env.EMAIL,
     password: process.env.EMAIL_PASS,
