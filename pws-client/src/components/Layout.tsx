@@ -47,7 +47,6 @@ const appHeader = css`
   padding-top: 1rem;
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
 `;
 
@@ -66,15 +65,28 @@ const appHeaderHandle = css`
 `;
 
 const appHeaderNav = css`
+  width: 100%;
+  border: 1px solid #fff;
   li {
     display: inline-block;
   }
 
   a {
-    color: var(--default-lightBlue);
+    color: var(--default-white);
     &:hover {
       color: #fff;
     }
+  }
+`;
+
+const appHeaderLoginNav = css`
+  width: 400px;
+  border: 1px solid #fff;
+  display: flex;
+  float: right;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  li {
   }
 `;
 
@@ -104,7 +116,9 @@ const Layout = (props: any): JSX.Element => {
               <Link to='/photos'>Photos</Link>
             </li>
           </ul>
-          <ul>
+        </nav>
+        <nav css={appHeaderNav}>
+          <ul css={appHeaderLoginNav}>
             <li>
               {!props.authenticated && <Link to='/register'>Register</Link>}
             </li>
@@ -115,7 +129,11 @@ const Layout = (props: any): JSX.Element => {
                 <Link to='/sign-in'>Sign In</Link>
               )}
             </li>
-            <li>{props.authenticated && <Link to='/profile'>Profile</Link>}</li>
+            {props.authenticated && (
+              <li>
+                <Link to='/profile'>Profile</Link>
+              </li>
+            )}
           </ul>
         </nav>
       </header>
