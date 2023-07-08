@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Layout from '@components/layout';
-import '../styles/global.css';
+import 'normalize.css';
 
 const getDateDiffInYears = (secondDate: Date, firstDate: Date) => {
   let diff = (secondDate.getTime() - firstDate.getTime()) / 1000;
@@ -13,7 +13,6 @@ const IndexPage = (): JSX.Element => {
 
   React.useEffect(() => {
     setNumYearsHacking(getDateDiffInYears(new Date(2005, 8, 1), new Date()));
-    console.log('render');
   }, [numYearsHacking]);
 
   return (
@@ -21,14 +20,13 @@ const IndexPage = (): JSX.Element => {
       <section>
         <h1>About me</h1>
         <p>
-          My name's Michaux Kelley. I’m a software developer, modern dude,
-          natural-born-world-shaker, aspiring lepidopterist, philatelist, punk,
-          writer, poet, and JavaScript hacker.
+          I'm Michaux Kelley&mdash;a software developer, music lover, player of instruments, modern dude,
+          natural-born-world-shaker, aspiring lepidopterist, philatelist, punk, writer, poet, and JavaScript/TypeScript
+          hacker.
         </p>
         <p>
-          I've been in software development for about {numYearsHacking} years
-          now and have coded everything from full stack to more recently as a
-          full-on front-end engineer. What can I say? I love to code!
+          I've been in software development for about {numYearsHacking} years now and have coded everything from full
+          stack to more recently as a full-on front-end engineer. What can I say? I love to code!
         </p>
       </section>
     </Layout>

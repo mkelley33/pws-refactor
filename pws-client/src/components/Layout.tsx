@@ -12,7 +12,7 @@ const makeCssTheme = (jsTheme: object, namespace: string) =>
       ...cssTheme,
       [`--${namespace}-${key}`]: value,
     }),
-    {}
+    {},
   );
 
 const defaultTheme = {
@@ -34,11 +34,7 @@ const main = css`
 `;
 
 const appHeader = css`
-  background: linear-gradient(
-    to bottom,
-    var(--default-lightBlue) 0%,
-    var(--default-cobalt2blue) 100%
-  );
+  background: linear-gradient(to bottom, var(--default-lightBlue) 0%, var(--default-cobalt2blue) 100%);
   border: 1px solid #00298d;
   border-bottom: 1px solid #ccc;
   box-shadow: inset 0 1px 0 #0f56ba;
@@ -98,10 +94,7 @@ const appHeaderNavReorder = css`
 `;
 
 const Layout = (props: any): JSX.Element => {
-  const cssTheme = React.useMemo(
-    () => makeCssTheme(defaultTheme, 'default'),
-    [defaultTheme]
-  );
+  const cssTheme = React.useMemo(() => makeCssTheme(defaultTheme, 'default'), [defaultTheme]);
 
   return (
     <>
@@ -111,34 +104,26 @@ const Layout = (props: any): JSX.Element => {
         <nav css={appHeaderNav}>
           <ul css={appHeaderMenuNav}>
             <li>
-              <Link to='/'>About</Link>
+              <Link to="/">About</Link>
             </li>
             <li>
-              <Link to='/blog'>Blog</Link>
+              <Link to="/blog">Blog</Link>
             </li>
             <li>
-              <Link to='/contact'>Contact</Link>
+              <Link to="/contact">Contact</Link>
             </li>
             <li>
-              <Link to='/photos'>Photos</Link>
+              <Link to="/photos">Photos</Link>
             </li>
           </ul>
         </nav>
         <nav css={[appHeaderNav, appHeaderNavReorder]}>
           <ul css={appHeaderLoginNav}>
-            <li>
-              {!props.authenticated && <Link to='/register'>Register</Link>}
-            </li>
-            <li>
-              {props.authenticated ? (
-                <Link to='/sign-out'>Sign Out</Link>
-              ) : (
-                <Link to='/sign-in'>Sign In</Link>
-              )}
-            </li>
+            <li>{!props.authenticated && <Link to="/register">Register</Link>}</li>
+            <li>{props.authenticated ? <Link to="/sign-out">Sign Out</Link> : <Link to="/sign-in">Sign In</Link>}</li>
             {props.authenticated && (
               <li>
-                <Link to='/profile'>Profile</Link>
+                <Link to="/profile">Profile</Link>
               </li>
             )}
           </ul>

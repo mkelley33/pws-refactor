@@ -1,6 +1,7 @@
 import React from 'react';
 
-const Label = ({ error, className, children, ...props }) => {
+// TODO: replace any with a better interface
+const Label = ({ className, children, ...props }: any) => {
   return (
     <label className={className} {...props}>
       {children}

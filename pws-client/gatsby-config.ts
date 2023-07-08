@@ -26,8 +26,7 @@ module.exports = {
       options: {
         name: 'mkelley33',
         short_name: 'mkelley33',
-        description:
-          'This is the personal web app of Michaux Kelley aka @mkelley33',
+        description: 'This is the personal web app of Michaux Kelley aka @mkelley33',
         start_url: '/',
         display: 'standalone',
         icon: './icons/favicon-32x32.png', // This path is relative to the root of the site.
@@ -57,7 +56,17 @@ module.exports = {
         path: `${__dirname}/src/posts`,
       },
     },
-    'gatsby-plugin-emotion',
+    {
+      resolve: 'gatsby-plugin-emotion',
+      options: {
+        // Accepts the following options, all of which are defined by `@emotion/babel-plugin` plugin.
+        // The values for each key in this example are the defaults the plugin uses.
+        sourceMap: true,
+        autoLabel: 'dev-only',
+        labelFormat: '[local]',
+        cssPropOptimization: true,
+      },
+    },
     'gatsby-plugin-image',
     'gatsby-plugin-mdx',
     'gatsby-plugin-sharp',
