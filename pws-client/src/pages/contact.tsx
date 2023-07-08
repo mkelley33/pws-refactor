@@ -1,56 +1,28 @@
-import React, { useEffect } from 'react';
-import { withFormik } from 'formik';
 import * as Yup from 'yup';
-import { toast } from 'react-toastify';
 import { navigate } from 'gatsby';
+import { toast } from 'react-toastify';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-import Layout from '@components/layout';
 import api from '../api';
+import Layout from '@components/layout';
 import TextInput from '@components/common/forms/text-input';
 import TextArea from '@components/common/forms/text-area';
 
-const formikEnhancer = withFormik({
-  validationSchema: Yup.object().shape({
-    firstName: Yup.string()
-      .min(2, 'Your first name must be a minimum of two characters long.')
-      .required('First name is required'),
-    lastName: Yup.string()
-      .min(2, 'Your first name must be a minimum of two characters long.')
-      .required('Last name is required'),
-    email: Yup.string().email('Invalid email address').required('Email is required'),
-    message: Yup.string().required('Message is required'),
-    recaptcha: Yup.string().required(),
-  }),
-  handleSubmit: (payload, { setSubmitting }) => {
-    api
-      .post(`/contact`, payload)
-      .then((_res) => {
-        navigate('/post-contact');
-      })
-      .catch((_err) => {
-        // TODO: Add logging error message
-        toast.error('Something went wrong', {
-          position: toast.POSITION.TOP_CENTER,
-          hideProgressBar: true,
-        });
-      })
-      .finally(() => {
-        setSubmitting(false);
-      });
-  },
-  mapPropsToValues: () => ({
-    firstName: '',
-    lastName: '',
-    email: '',
-    message: '',
-    recaptcha: '',
-  }),
-  displayName: 'ContactForm',
+const schema = Yup.object().shape({
+  firstName: Yup.string()
+    .min(2, 'Your first name must be a minimum of two characters long.')
+    .required('First name is required'),
+  lastName: Yup.string()
+    .min(2, 'Your first name must be a minimum of two characters long.')
+    .required('Last name is required'),
+  email: Yup.string().email('Invalid email address').required('Email is required'),
+  message: Yup.string().required('Message is required'),
+  recaptcha: Yup.string().required(),
 });
 
-const ContactForm = (props: any) => {
-  const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue } = props;
-
+const ContactForm = () => {
   useEffect(() => {
     document.title = 'Contact Form';
     // Formik causes multiple renders so don't add script multiple times
@@ -62,62 +34,62 @@ const ContactForm = (props: any) => {
       script.defer = true;
       (window as any).onSubmit = (token: string) => {
         api.post('/recaptcha', { token }).then((res: any) => {
-          if (res.data.error) {
-            setFieldValue('recaptcha', '');
-          } else {
-            setFieldValue('recaptcha', token);
-          }
+          if (res.data.error) setValue('recaptcha', '');
+          else setValue('recaptcha', token);
         });
       };
-      (window as any).onExpired = () => setFieldValue('recaptcha', '');
+      (window as any).onExpired = () => setValue('recaptcha', '');
       document.body.appendChild(script);
     }
   }, []);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isDirty, isValid },
+    reset,
+    setValue,
+  } = useForm({
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      message: '',
+      recaptcha: '',
+    },
+    mode: 'onBlur',
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmitHandler = (data: any) => {
+    // TODO: Add a loading spinner for form submission
+    if (isValid) {
+      api
+        .post(`/contact`, data)
+        .then((_res) => {
+          navigate('/post-contact');
+        })
+        .catch((_err) => {
+          // TODO: Add logging error message
+          toast.error('Something went wrong', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: true,
+          });
+        });
+    }
+  };
 
   return (
     <Layout>
       <section>
         <h1>Contact</h1>
-        <form onSubmit={handleSubmit}>
-          <TextInput
-            id="firstName"
-            type="text"
-            label="First Name"
-            error={touched.firstName && errors.firstName}
-            value={values.firstName}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          <TextInput
-            id="lastName"
-            type="text"
-            label="Last Name"
-            error={touched.lastName && errors.lastName}
-            value={values.lastName}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          <TextInput
-            id="email"
-            type="email"
-            label="Email"
-            autoComplete="username email"
-            error={touched.email && errors.email}
-            value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          <TextArea
-            id="message"
-            label="Message"
-            error={touched.message && errors.message}
-            value={values.message}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            rows={6}
-          />
+        <form onSubmit={handleSubmit(onSubmitHandler)}>
+          <TextInput id="firstName" type="text" label="First Name" register={register} />
+          <TextInput id="lastName" type="text" label="Last Name" register={register} />
+          <TextInput id="email" type="email" label="Email" autoComplete="username email" register={register} />
+          <TextArea id="message" label="Message" rows={6} register={register} />
           {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <input id="recaptcha" name="recaptcha" type="hidden" value="" />
+          <input id="recaptcha" type="hidden" value="" {...register('recaptcha')} />
           <div className="form-group">
             <div
               className="g-recaptcha"
@@ -126,13 +98,11 @@ const ContactForm = (props: any) => {
               data-expired-callback="onExpired"
             ></div>
           </div>
-          <button type="submit" disabled={isSubmitting} className="btn btn-primary">
-            Submit
-          </button>
+          <input type="submit" disabled={isSubmitting || !isDirty} value="Submit" />
         </form>
       </section>
     </Layout>
   );
 };
 
-export default formikEnhancer(ContactForm);
+export default ContactForm;
