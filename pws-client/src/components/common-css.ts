@@ -12,7 +12,17 @@ export const srOnly = css({
 });
 
 export const formControl = css({
+  fontSize: '1.5rem',
   border: '1px solid #ccc',
   borderRadius: '5px',
   color: '#222',
+  width: '20rem',
+  height: '3rem',
+  padding: '0.15rem 0.35rem',
+});
+
+export const formGroup = css({
+  width: '100%',
+  padding: '0.45rem 0.75rem',
+  lineHeight: 1.5,
 });
