@@ -1,19 +1,8 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/react';
+import { css } from '@emotion/react';
 import clsx from 'clsx';
+import { srOnly } from '@components/common-css';
 import Label from './label';
 import InputFeedback from './input-feedback';
-
-const srOnly = css({
-  position: 'absolute',
-  width: '1px',
-  height: '1px',
-  padding: 0,
-  margin: '-1px',
-  overflow: 'hidden',
-  clip: 'rect(0, 0, 0, 0)',
-  border: 0,
-});
 
 const textInput = css({
   border: '1px solid #ccc',
