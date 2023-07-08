@@ -31,6 +31,9 @@ const defaultTheme = {
 
 const main = css`
   padding: 1rem 4rem;
+  @media (max-width: 320px) {
+    padding: 1rem;
+  }
 `;
 
 const appHeader = css`
@@ -70,7 +73,7 @@ const appHeaderNav = css`
   a {
     color: var(--default-white);
     &:hover {
-      color: #fff;
+      text-decoration: none;
     }
   }
 `;
