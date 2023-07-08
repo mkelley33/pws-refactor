@@ -4,9 +4,9 @@ import config from '../../config/env/index.js';
 
 function sendContactEmail(firstName: string, lastName: string, email: string, message: string, next: NextFunction) {
   const transporter = nodeMailer.createTransport({
-    service: 'gmail',
-    host: 'smtp.gmail.com',
-    port: 587,
+    service: config.default.mail.service,
+    host: config.default.mail.smtp,
+    port: config.default.mail.port,
     auth: {
       user: config.default.mail.address,
       pass: config.default.mail.password,

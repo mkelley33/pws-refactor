@@ -17,6 +17,9 @@ export default {
     address: process.env.EMAIL,
     password: process.env.EMAIL_PASS,
     sender: process.env.EMAIL_SENDER,
+    service: process.env.EMAIL_SERVICE, // 'gmail'
+    host: process.env.EMAIL_SMTP, // 'smtp.gmail.com'
+    port: process.env.EMAIL_PORT, // 587
   },
   mongoose: {
     debug: true,
