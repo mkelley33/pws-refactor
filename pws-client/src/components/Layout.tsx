@@ -40,7 +40,6 @@ const appHeader = css`
   box-shadow: inset 0 1px 0 #0f56ba;
   color: white;
   border-bottom: 7px solid var(--default-variableBlue);
-  padding-top: 1rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
