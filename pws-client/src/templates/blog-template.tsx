@@ -1,4 +1,3 @@
-import React from 'react';
 import { graphql, Link } from 'gatsby';
 
 import Layout from '@components/layout';
@@ -7,8 +6,7 @@ import { blogPostsHeading } from './blog.module.css';
 const BlogTemplate = ({ data, pageContext }) => {
   const { currentPage, isFirstPage, isLastPage, totalPages } = pageContext;
   const nextPage = `/blog/${String(currentPage + 1)}`;
-  const prevPage =
-    currentPage - 1 === 1 ? '/blog' : `/blog/${String(currentPage - 1)}`;
+  const prevPage = currentPage - 1 === 1 ? '/blog' : `/blog/${String(currentPage - 1)}`;
   document.title = 'Blog Posts';
   return (
     <Layout>
@@ -16,17 +14,14 @@ const BlogTemplate = ({ data, pageContext }) => {
       {data.allMarkdownRemark.edges.map(({ node }) => (
         <div key={node.id}>
           <h2 className={blogPostsHeading}>
-            <Link to={`/posts${node.fields.slug}`}>
-              {node.frontmatter.title}
-            </Link>{' '}
-            - {node.frontmatter.date}
+            <Link to={`/posts${node.fields.slug}`}>{node.frontmatter.title}</Link> - {node.frontmatter.date}
           </h2>
           <p>{node.excerpt}</p>
         </div>
       ))}
       <div>
         {!isFirstPage && (
-          <Link to={prevPage} rel='prev'>
+          <Link to={prevPage} rel="prev">
             Prev Page
           </Link>
         )}
@@ -37,7 +32,7 @@ const BlogTemplate = ({ data, pageContext }) => {
             </Link>
           ))}
         {!isLastPage && (
-          <Link to={nextPage} rel='next'>
+          <Link to={nextPage} rel="next">
             Next page
           </Link>
         )}
@@ -48,11 +43,7 @@ const BlogTemplate = ({ data, pageContext }) => {
 
 export const query = graphql`
   query ($skip: Int!, $limit: Int!) {
-    allMarkdownRemark(
-      skip: $skip
-      limit: $limit
-      sort: { frontmatter: { date: DESC } }
-    ) {
+    allMarkdownRemark(skip: $skip, limit: $limit, sort: { frontmatter: { date: DESC } }) {
       totalCount
       edges {
         node {
