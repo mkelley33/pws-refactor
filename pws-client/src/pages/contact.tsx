@@ -52,21 +52,25 @@ const ContactForm = (props: any) => {
   const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue } = props;
 
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://www.google.com/recaptcha/api.js';
-    script.async = true;
-    script.defer = true;
-    (window as any).onSubmit = (token: string) => {
-      api.post('/recaptcha', { token }).then((res: any) => {
-        if (res.data.error) {
-          setFieldValue('recaptcha', '');
-        } else {
-          setFieldValue('recaptcha', token);
-        }
-      });
-    };
-    (window as any).onExpired = () => setFieldValue('recaptcha', '');
-    document.body.appendChild(script);
+    // Formik causes multiple renders so don't add script multiple times
+    if (document.querySelector('#recaptcha')) {
+      const script = document.createElement('script');
+      script.id = 'recaptcha';
+      script.src = 'https://www.google.com/recaptcha/api.js';
+      script.async = true;
+      script.defer = true;
+      (window as any).onSubmit = (token: string) => {
+        api.post('/recaptcha', { token }).then((res: any) => {
+          if (res.data.error) {
+            setFieldValue('recaptcha', '');
+          } else {
+            setFieldValue('recaptcha', token);
+          }
+        });
+      };
+      (window as any).onExpired = () => setFieldValue('recaptcha', '');
+      document.body.appendChild(script);
+    }
   }, []);
 
   return (

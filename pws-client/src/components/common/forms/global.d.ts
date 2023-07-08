@@ -1,14 +1,14 @@
-import { ChangeEventHandler } from 'react';
-
 declare global {
   interface ITextField {
     // Only inputs have types
-    type?: 'string';
-    id: 'string';
-    label: 'string';
-    error: 'string';
-    value: 'string';
+    autoComplete: string;
+    error: string;
+    id: string;
+    label: string;
     onChange: ChangeEventHandler<HTMLInputElement> | ChangeEventHandler<HTMLTextAreaElement>;
+    onBlur: BlurEventHandler<HTMLInputElement> | BlurEventHandler<HTMLTextAreaElement>;
+    type?: string;
+    value: string;
     props: any;
   }
 }

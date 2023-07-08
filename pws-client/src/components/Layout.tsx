@@ -43,6 +43,7 @@ const appHeader = css`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  min-width: 320px;
 `;
 
 const appHeaderPhoto = css`
