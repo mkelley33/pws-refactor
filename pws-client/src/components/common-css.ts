@@ -10,3 +10,9 @@ export const srOnly = css({
   clip: 'rect(0, 0, 0, 0)',
   border: 0,
 });
+
+export const formControl = css({
+  border: '1px solid #ccc',
+  borderRadius: '5px',
+  color: '#222',
+});

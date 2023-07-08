@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-
+import { srOnly, formControl } from '@components/common-css';
 import Label from './label';
 import InputFeedback from './input-feedback';
 
@@ -14,10 +14,10 @@ const TextArea = ({ label, className, id, error, value, onChange, ...props }: an
   );
   return (
     <div className={classes}>
-      <Label className="sr-only" htmlFor={id} error={error}>
+      <Label css={srOnly} htmlFor={id} error={error}>
         {label}
       </Label>
-      <textarea id={id} className="form-control" value={value} onChange={onChange} placeholder={label} {...props} />
+      <textarea id={id} css={formControl} value={value} onChange={onChange} placeholder={label} {...props} />
       <InputFeedback error={error} />
     </div>
   );
