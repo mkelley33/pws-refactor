@@ -23,19 +23,20 @@ const formikEnhancer = withFormik({
   }),
   handleSubmit: (payload, { setSubmitting }) => {
     api
-      .post(`/contact`, payload, {
-        withCredentials: true,
-      })
-      .then((res) => {
+      .post(`/contact`, payload)
+      .then((_res) => {
         navigate('/post-contact');
       })
-      .catch((err) => {
+      .catch((_err) => {
+        // TODO: Add logging error message
         toast.error('Something went wrong', {
           position: toast.POSITION.TOP_CENTER,
           hideProgressBar: true,
         });
+      })
+      .finally(() => {
+        setSubmitting(false);
       });
-    setSubmitting(false);
   },
   mapPropsToValues: () => ({
     firstName: '',
@@ -48,10 +49,10 @@ const formikEnhancer = withFormik({
 });
 
 const ContactForm = (props: any) => {
-  document.title = 'Contact Form';
   const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue } = props;
 
   useEffect(() => {
+    document.title = 'Contact Form';
     // Formik causes multiple renders so don't add script multiple times
     if (document.querySelector('#recaptcha')) {
       const script = document.createElement('script');
