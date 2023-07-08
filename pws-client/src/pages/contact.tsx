@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import api from '../api';
+import { formGroup } from '@components/common-css';
 import Layout from '@components/layout';
 import TextInput from '@components/common/forms/text-input';
 import TextArea from '@components/common/forms/text-area';
@@ -90,7 +91,7 @@ const ContactForm = () => {
           <TextArea id="message" label="Message" rows={6} register={register} />
           {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
           <input id="recaptcha" type="hidden" value="" {...register('recaptcha')} />
-          <div className="form-group">
+          <div css={formGroup}>
             <div
               className="g-recaptcha"
               data-sitekey={process.env.RECAPTCHA_SITE_KEY}
