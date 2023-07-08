@@ -1,37 +1,39 @@
 import nodeMailer from 'nodemailer';
-import config from '../../config/env/index.js';
 import { Request, Response, NextFunction } from 'express';
+import config from '../../config/env/index.js';
 
 function sendContactEmail(firstName: string, lastName: string, email: string, message: string, next: NextFunction) {
   const transporter = nodeMailer.createTransport({
+    service: 'gmail',
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    port: 587,
     auth: {
-      user: config.default.mail.user,
-      pass: config.default.mail.pass,
+      user: config.default.mail.address,
+      pass: config.default.mail.password,
     },
   });
 
   const mailOptions = {
-    from: config.default.mail.sender,
-    to: email,
+    from: email,
+    to: config.default.mail.address,
     subject: 'New contact message', // Subject line
     text: `From: ${firstName} ${lastName}\n
-${email}\n
-${message}\n
-    `,
+  ${email}\n
+  ${message}\n
+      `,
   };
 
   transporter.sendMail(mailOptions, (error) => {
     if (error) return next(error);
   });
+
+  return next('route');
 }
 
 function contact(req: Request, res: Response, next: NextFunction) {
   const { firstName, lastName, email, message } = req.body;
   sendContactEmail(firstName, lastName, email, message, next);
-  res.status(200).json({ success: true });
+  return res.status(200).json({ success: true });
 }
 
 export default { contact };
