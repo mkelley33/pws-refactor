@@ -28,7 +28,7 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { navigate } from 'gatsby';
 import axios from 'axios';
-// Be sure to gitignore this file
+// Be sure to gitignore this file. This would also make a good candidate env variable.
 import { RECATPTCHA_SITE_KEY } from 'constants';
 
 const formikEnhancer = withFormik({
@@ -58,29 +58,27 @@ const formikEnhancer = withFormik({
 });
 
 const ContactForm = (props) => {
-  document.title = 'Contact Form';
   const { values, handleSubmit, isSubmitting, setFieldValue } = props;
 
-  // This was necessary in order to disable the linter warning about setFieldValue
-  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://www.google.com/recaptcha/api.js';
-    script.async = true;
-    script.defer = true;
-    window.onSubmit = (token) => {
-      api.post('/recaptcha', { token }).then((res) => {
-        if (res.data.error) {
-          setFieldValue('recaptcha', '');
-        } else {
-          setFieldValue('recaptcha', token);
-        }
-      });
-    };
-    window.onExpired = () => setFieldValue('recaptcha', '');
-    document.body.appendChild(script);
+    document.title = 'Contact Form';
+    // Formik causes multiple renders so don't add script multiple times
+    if (document.querySelector('#recaptcha')) {
+      const script = document.createElement('script');
+      script.id = 'recaptcha';
+      script.src = 'https://www.google.com/recaptcha/api.js';
+      script.async = true;
+      script.defer = true;
+      (window as any).onSubmit = (token: string) => {
+        api.post('/recaptcha', { token }).then((res: any) => {
+          if (res.data.error) setFieldValue('recaptcha', '');
+          else setFieldValue('recaptcha', token);
+        });
+      };
+      (window as any).onExpired = () => setFieldValue('recaptcha', '');
+      document.body.appendChild(script);
+    }
   }, []);
-  /* eslint-enable react-hooks/exhaustive-deps */
 
   return (
     <form onSubmit={handleSubmit}>
