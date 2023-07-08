@@ -1,9 +1,8 @@
-import { css } from '@emotion/react';
 import { srOnly, formControl, formGroup } from '@components/common-css';
 import Label from './label';
 import InputFeedback from './input-feedback';
 
-const TextArea = ({ label, id, error, value, onChange, ...props }: any) => {
+const TextArea = ({ label, id, error, value, onChange, ...props }: ITextField) => {
   return (
     <div css={formGroup}>
       <Label css={srOnly} htmlFor={id} error={error}>
@@ -14,7 +13,7 @@ const TextArea = ({ label, id, error, value, onChange, ...props }: any) => {
         css={formControl}
         style={{ height: 168 }}
         value={value}
-        onChange={onChange}
+        onChange={onChange as React.ChangeEventHandler<HTMLTextAreaElement>}
         placeholder={label}
         {...props}
       />
