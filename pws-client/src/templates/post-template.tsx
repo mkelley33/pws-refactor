@@ -5,7 +5,7 @@ import { graphql } from 'gatsby';
 
 const PostTemplate = ({ data: post }) => (
   <Layout>
-    <h2>{post.markdownRemark.frontmatter.title}</h2>
+    <h1>{post.markdownRemark.frontmatter.title}</h1>
     <div dangerouslySetInnerHTML={{ __html: post.markdownRemark.html }} />
   </Layout>
 );
