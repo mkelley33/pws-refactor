@@ -12,19 +12,13 @@ interface ICheckboxProps {
   defaultChecked: boolean;
 }
 
-const Checkbox = ({
-  field: { name, onChange },
-  id,
-  label,
-  className,
-  ...props
-}: ICheckboxProps) => {
+const Checkbox = ({ field: { name, onChange }, id, label, className, ...props }: ICheckboxProps) => {
   return (
     <div>
       <input
         name={name}
         id={id}
-        type='checkbox'
+        type="checkbox"
         value={props.value}
         onChange={onChange}
         defaultChecked={props.defaultChecked}

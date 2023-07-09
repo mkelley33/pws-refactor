@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 const CheckboxGroup = (props: any): JSX.Element => {
   const handleChange = (event: any) => {
     const target = event.currentTarget;
-    let valueArray = [...props.value] || [];
+    const valueArray = [...props.value] || [];
     if (target.checked) {
       valueArray.push(target.value);
     } else {

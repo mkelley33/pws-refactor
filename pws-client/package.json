@@ -61,7 +61,7 @@
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-prettier": "^5.0.0-alpha.1",
     "eslint-plugin-react-hooks": "^5.0.0-canary-fdc8c81e0-20230707",
     "eslint-webpack-plugin": "^4.0.1",
     "flowtype": "^2.0.0",
