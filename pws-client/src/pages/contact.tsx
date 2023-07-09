@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import { navigate } from 'gatsby';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import api from '../api';
@@ -22,6 +22,14 @@ const schema = Yup.object().shape({
   message: Yup.string().required('Message is required'),
   recaptcha: Yup.string().required(),
 });
+
+interface IContactForm {
+  firstName: string;
+  lastName: string;
+  email: string;
+  message: string;
+  recaptcha: string;
+}
 
 const ContactForm = () => {
   useEffect(() => {
@@ -48,9 +56,8 @@ const ContactForm = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isDirty, isValid },
-    reset,
     setValue,
-  } = useForm({
+  } = useForm<IContactForm>({
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -62,7 +69,7 @@ const ContactForm = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmitHandler = (data: any) => {
+  const onSubmitHandler: SubmitHandler<IContactForm> = (data) => {
     // TODO: Add a loading spinner for form submission
     if (isValid) {
       api
@@ -82,24 +89,34 @@ const ContactForm = () => {
 
   return (
     <Layout>
-      <section>
+      <section style={{ textAlign: 'center' }}>
         <h1>Contact</h1>
         <form onSubmit={handleSubmit(onSubmitHandler)}>
-          <TextInput id="firstName" type="text" label="First Name" register={register} />
-          <TextInput id="lastName" type="text" label="Last Name" register={register} />
-          <TextInput id="email" type="email" label="Email" autoComplete="username email" register={register} />
-          <TextArea id="message" label="Message" rows={6} register={register} />
+          <TextInput id="firstName" name="firstName" type="text" label="First Name" register={register} />
+          <TextInput id="lastName" name="lastName" type="text" label="Last Name" register={register} />
+          <TextInput
+            id="email"
+            name="email"
+            type="email"
+            label="Email"
+            autoComplete="username email"
+            register={register}
+          />
+          <TextArea id="message" name="message" label="Message" register={register} />
           {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
           <input id="recaptcha" type="hidden" value="" {...register('recaptcha')} />
           <div css={formGroup}>
             <div
+              style={{ width: '304px', margin: '0 auto' }}
               className="g-recaptcha"
               data-sitekey={process.env.RECAPTCHA_SITE_KEY}
               data-callback="onSubmit"
               data-expired-callback="onExpired"
             ></div>
           </div>
-          <input type="submit" disabled={isSubmitting || !isDirty} value="Submit" />
+          <div css={formGroup}>
+            <input type="submit" disabled={isSubmitting || !isDirty} />
+          </div>
         </form>
       </section>
     </Layout>

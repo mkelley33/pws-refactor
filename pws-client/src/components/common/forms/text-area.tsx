@@ -2,7 +2,7 @@ import { srOnly, formControl, formGroup } from '@components/common-css';
 import Label from './label';
 import InputFeedback from './input-feedback';
 
-const TextArea = ({ label, register, id, error, onChange, ...props }: any) => (
+const TextArea = ({ label, register, id, error, ...props }: any) => (
   <div css={formGroup}>
     <Label css={srOnly} htmlFor={id} error={error}>
       {label}
