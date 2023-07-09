@@ -20,7 +20,7 @@ const TextInput = ({ autoComplete, id, errors, label, register, type = 'text' }:
     <input
       id={id}
       autoComplete={autoComplete}
-      css={[formControl, Object.entries(errors).length ? formErrorControl : null]}
+      css={[formControl, errors[id]?.message ? formErrorControl : null]}
       {...register(id)}
       type={type}
       placeholder={label}

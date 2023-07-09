@@ -17,7 +17,7 @@ const TextArea = ({ id, errors, label, register }: ITextArea) => (
     </Label>
     <textarea
       id={id}
-      css={[formControl, Object.entries(errors).length ? formErrorControl : null]}
+      css={[formControl, errors[id]?.message ? formErrorControl : null]}
       {...register(id)}
       style={{ height: 168 }}
       placeholder={label}
