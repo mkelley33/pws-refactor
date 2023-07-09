@@ -1,4 +1,4 @@
-import * as Yup from 'yup';
+import * as yup from 'yup';
 import { navigate } from 'gatsby';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
@@ -11,16 +11,22 @@ import Layout from '@components/layout';
 import TextInput from '@components/common/forms/text-input';
 import TextArea from '@components/common/forms/text-area';
 
-const schema = Yup.object().shape({
-  firstName: Yup.string()
+// https://github.com/orgs/react-hook-form/discussions/10653
+// https://github.com/orgs/react-hook-form/discussions/3099
+// Another example of isValid not working:
+// https://codesandbox.io/s/react-hook-form-validationschema-v6-forked-9ezus?file=/src/index.js
+const schema = yup.object().shape({
+  firstName: yup
+    .string()
     .min(2, 'Your first name must be a minimum of two characters long.')
     .required('First name is required'),
-  lastName: Yup.string()
+  lastName: yup
+    .string()
     .min(2, 'Your first name must be a minimum of two characters long.')
     .required('Last name is required'),
-  email: Yup.string().email('Invalid email address').required('Email is required'),
-  message: Yup.string().required('Message is required'),
-  recaptcha: Yup.string().required(),
+  email: yup.string().email('Invalid email address').required('Email is required'),
+  message: yup.string().required('Message is required'),
+  recaptcha: yup.string().required(),
 });
 
 interface IContactForm {
@@ -65,12 +71,15 @@ const ContactForm = () => {
       message: '',
       recaptcha: '',
     },
-    mode: 'onBlur',
+    mode: 'onChange',
     resolver: yupResolver(schema),
   });
 
   const onSubmitHandler: SubmitHandler<IContactForm> = (data) => {
     // TODO: Add a loading spinner for form submission
+    console.log(data);
+    console.log(errors);
+    console.log(isValid);
     if (isValid) {
       api
         .post(`/contact`, data)
@@ -91,7 +100,7 @@ const ContactForm = () => {
     <Layout>
       <section style={{ textAlign: 'center' }}>
         <h1>Contact</h1>
-        <form onSubmit={handleSubmit(onSubmitHandler)}>
+        <form noValidate onSubmit={handleSubmit(onSubmitHandler)}>
           <TextInput id="firstName" name="firstName" type="text" label="First Name" register={register} />
           <TextInput id="lastName" name="lastName" type="text" label="Last Name" register={register} />
           <TextInput

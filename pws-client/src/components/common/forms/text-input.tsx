@@ -7,7 +7,7 @@ const TextInput = ({ type, register, id, label, error, onChange, ...props }: any
     <Label css={srOnly} htmlFor={id} error={error}>
       {label}
     </Label>
-    <input css={formControl} {...register(id)} type={type} placeholder={label} {...props} />
+    <input id={id} css={formControl} {...register(id)} type={type} placeholder={label} {...props} />
     <InputFeedback error={error} />
   </div>
 );

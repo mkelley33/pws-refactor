@@ -7,7 +7,7 @@ const TextArea = ({ label, register, id, error, ...props }: any) => (
     <Label css={srOnly} htmlFor={id} error={error}>
       {label}
     </Label>
-    <textarea css={formControl} {...register(id)} style={{ height: 168 }} placeholder={label} {...props} />
+    <textarea id={id} css={formControl} {...register(id)} style={{ height: 168 }} placeholder={label} {...props} />
     <InputFeedback error={error} />
   </div>
 );
