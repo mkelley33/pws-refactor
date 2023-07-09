@@ -2,8 +2,36 @@ import { graphql, Link } from 'gatsby';
 
 import Layout from '@components/layout';
 import { blogPostsHeading } from './blog.module.css';
+import { ReactNode } from 'react';
 
-const BlogTemplate = ({ data, pageContext }) => {
+interface INode {
+  node: {
+    id: string;
+    fields: {
+      slug: string;
+    };
+    frontmatter: {
+      title: string;
+      date: ReactNode;
+    };
+    excerpt: string;
+  };
+}
+interface IBlog {
+  data: {
+    allMarkdownRemark: {
+      edges: INode[];
+    };
+  };
+  pageContext: {
+    currentPage: number;
+    isFirstPage: boolean;
+    isLastPage: boolean;
+    totalPages: number;
+  };
+}
+
+const BlogTemplate = ({ data, pageContext }: IBlog) => {
   const { currentPage, isFirstPage, isLastPage, totalPages } = pageContext;
   const nextPage = `/blog/${String(currentPage + 1)}`;
   const prevPage = currentPage - 1 === 1 ? '/blog' : `/blog/${String(currentPage - 1)}`;
