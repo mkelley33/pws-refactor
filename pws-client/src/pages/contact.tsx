@@ -77,10 +77,9 @@ const ContactForm = () => {
 
   const onSubmitHandler: SubmitHandler<IContactForm> = (data) => {
     // TODO: Add a loading spinner for form submission
-    console.log(data);
-    console.log(errors);
-    console.log(isValid);
-    if (isValid) {
+    // TODO: remove the following check once the yupResolver bug is fixed
+    // See commented out URLs at the top of this file for more information
+    if (!Object.entries(errors).length) {
       api
         .post(`/contact`, data)
         .then((_res) => {
