@@ -1,7 +1,6 @@
 import { graphql, Link } from 'gatsby';
 
 import Layout from '@components/layout';
-import { blogPostsHeading } from './blog.module.css';
 import { ReactNode } from 'react';
 
 interface INode {
@@ -41,7 +40,7 @@ const BlogTemplate = ({ data, pageContext }: IBlog) => {
       <h1>Blog Posts</h1>
       {data.allMarkdownRemark.edges.map(({ node }) => (
         <div key={node.id}>
-          <h2 className={blogPostsHeading}>
+          <h2>
             <Link to={`/posts${node.fields.slug}`}>{node.frontmatter.title}</Link> - {node.frontmatter.date}
           </h2>
           <p>{node.excerpt}</p>

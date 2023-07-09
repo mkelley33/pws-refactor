@@ -37,6 +37,10 @@ interface IContactForm {
   recaptcha: string;
 }
 
+interface IWindow extends Window {
+  onSubmit?: (token: string) => void;
+}
+
 const ContactForm = () => {
   useEffect(() => {
     document.title = 'Contact Form';
@@ -47,7 +51,7 @@ const ContactForm = () => {
       script.src = 'https://www.google.com/recaptcha/api.js';
       script.async = true;
       script.defer = true;
-      (window as any).onSubmit = (token: string) => {
+      (window as IWindow).onSubmit = (token: string) => {
         api.post('/recaptcha', { token }).then((res: any) => {
           if (res.data.error) setValue('recaptcha', '');
           else setValue('recaptcha', token);
@@ -99,7 +103,12 @@ const ContactForm = () => {
     <Layout>
       <section style={{ textAlign: 'center' }}>
         <h1>Contact</h1>
-        <form noValidate onSubmit={handleSubmit(onSubmitHandler)}>
+        <form
+          noValidate
+          onSubmit={handleSubmit(onSubmitHandler, (errors) => {
+            console.log(errors);
+          })}
+        >
           <TextInput id="firstName" label="First Name" register={register} errors={errors} />
           <TextInput id="lastName" label="Last Name" register={register} errors={errors} />
           <TextInput

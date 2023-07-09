@@ -20,13 +20,13 @@ const IndexPage = (): JSX.Element => {
       <section>
         <h1>About me</h1>
         <p>
-          I'm Michaux Kelley&mdash;a software developer, music lover, player of instruments, modern dude,
+          I&apos;m Michaux Kelley&mdash;a software developer, music lover, player of instruments, modern dude,
           natural-born-world-shaker, aspiring lepidopterist, philatelist, punk, writer, poet, and JavaScript/TypeScript
           hacker.
         </p>
         <p>
-          I've been in software development for about {numYearsHacking} years now and have coded everything from full
-          stack to more recently as a full-on front-end engineer. What can I say? I love to code!
+          I&apos;ve been in software development for about {numYearsHacking} years now and have coded everything from
+          full stack to more recently as a full-on front-end engineer. What can I say? I love to code!
         </p>
       </section>
     </Layout>

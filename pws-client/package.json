@@ -8,7 +8,8 @@
     "gatsby"
   ],
   "scripts": {
-    "develop": "concurrently --kill-others \"gatsby develop\" \"eslint . --fix\"",
+    "develop": "gatsby develop",
+    "lint": "npx eslint . --fix",
     "start": "npm run develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
@@ -62,11 +63,11 @@
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-prettier": "^5.0.0-alpha.1",
     "eslint-plugin-react-hooks": "^5.0.0-canary-fdc8c81e0-20230707",
     "eslint-webpack-plugin": "^4.0.1",
     "flowtype": "^2.0.0",
-    "gatsby-plugin-eslint": "^4.0.4",
     "gatsby-plugin-tsconfig-paths": "~1.0.6",
     "prettier": "3.0.0",
     "typescript": "~5.1.6"
