@@ -39,6 +39,11 @@ interface IContactForm {
 
 interface IWindow extends Window {
   onSubmit?: (token: string) => void;
+  onExpired?: () => void;
+}
+
+interface IRecaptcha {
+  error: string;
 }
 
 const ContactForm = () => {
@@ -52,12 +57,12 @@ const ContactForm = () => {
       script.async = true;
       script.defer = true;
       (window as IWindow).onSubmit = (token: string) => {
-        api.post('/recaptcha', { token }).then((res: any) => {
+        api.post<IRecaptcha>('/recaptcha', { token }).then((res) => {
           if (res.data.error) setValue('recaptcha', '');
           else setValue('recaptcha', token);
         });
       };
-      (window as any).onExpired = () => setValue('recaptcha', '');
+      (window as IWindow).onExpired = () => setValue('recaptcha', '');
       document.body.appendChild(script);
     }
   }, []);
@@ -65,7 +70,7 @@ const ContactForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isDirty, isValid },
+    formState: { errors, isSubmitting, isDirty },
     setValue,
   } = useForm<IContactForm>({
     defaultValues: {
@@ -86,10 +91,10 @@ const ContactForm = () => {
     if (!Object.entries(errors).length) {
       api
         .post(`/contact`, data)
-        .then((_res) => {
-          navigate('/post-contact');
+        .then(async () => {
+          await navigate('/post-contact');
         })
-        .catch((_err) => {
+        .catch(() => {
           // TODO: Add logging error message
           toast.error('Something went wrong', {
             position: toast.POSITION.TOP_CENTER,
