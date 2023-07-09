@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import api from '../api';
-import { formGroup } from '@components/common-css';
+import { formGroup, formErrorText } from '@components/common-css';
 import Layout from '@components/layout';
 import TextInput from '@components/common/forms/text-input';
 import TextArea from '@components/common/forms/text-area';
@@ -22,7 +22,7 @@ const schema = yup.object().shape({
     .required('First name is required'),
   lastName: yup
     .string()
-    .min(2, 'Your first name must be a minimum of two characters long.')
+    .min(2, 'Your last name must be a minimum of two characters long.')
     .required('Last name is required'),
   email: yup.string().email('Invalid email address').required('Email is required'),
   message: yup.string().required('Message is required'),
@@ -71,7 +71,7 @@ const ContactForm = () => {
       message: '',
       recaptcha: '',
     },
-    mode: 'onChange',
+    mode: 'onBlur',
     resolver: yupResolver(schema),
   });
 
@@ -100,17 +100,17 @@ const ContactForm = () => {
       <section style={{ textAlign: 'center' }}>
         <h1>Contact</h1>
         <form noValidate onSubmit={handleSubmit(onSubmitHandler)}>
-          <TextInput id="firstName" name="firstName" type="text" label="First Name" register={register} />
-          <TextInput id="lastName" name="lastName" type="text" label="Last Name" register={register} />
+          <TextInput id="firstName" label="First Name" register={register} errors={errors} />
+          <TextInput id="lastName" label="Last Name" register={register} errors={errors} />
           <TextInput
             id="email"
-            name="email"
             type="email"
             label="Email"
             autoComplete="username email"
             register={register}
+            errors={errors}
           />
-          <TextArea id="message" name="message" label="Message" register={register} />
+          <TextArea id="message" label="Message" register={register} errors={errors} />
           {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
           <input id="recaptcha" type="hidden" value="" {...register('recaptcha')} />
           <div css={formGroup}>
@@ -121,6 +121,7 @@ const ContactForm = () => {
               data-callback="onSubmit"
               data-expired-callback="onExpired"
             ></div>
+            {errors.recaptcha && <div css={formErrorText}>{errors.recaptcha.message}</div>}
           </div>
           <div css={formGroup}>
             <input type="submit" disabled={isSubmitting || !isDirty} />

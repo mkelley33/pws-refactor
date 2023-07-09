@@ -16,13 +16,27 @@ export const formControl = css({
   border: '1px solid #ccc',
   borderRadius: '5px',
   color: '#222',
-  width: '20rem',
+  width: '15rem',
   height: '2rem',
   padding: '0.15rem 0.35rem',
+  '&:focus': {
+    outline: 'none',
+  },
+});
+
+export const formErrorControl = css({
+  border: '1px solid #ec1a3d',
 });
 
 export const formGroup = css({
   width: '100%',
   padding: '0.45rem 0.75rem',
   lineHeight: 1.5,
+  '@media (max-width: 320px)': {
+    padding: '0.45rem 0',
+  },
+});
+
+export const formErrorText = css({
+  color: '#ec1a3d',
 });

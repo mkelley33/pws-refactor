@@ -11,4 +11,7 @@ declare global {
     value: string;
     props: any;
   }
+  interface IErrors {
+    [state: string]: { message: string };
+  }
 }

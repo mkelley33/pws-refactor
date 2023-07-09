@@ -32,7 +32,7 @@ const defaultTheme = {
 const main = css`
   padding: 1rem 4rem;
   @media (max-width: 320px) {
-    padding: 1rem;
+    padding: 0 0.5rem;
   }
 `;
 

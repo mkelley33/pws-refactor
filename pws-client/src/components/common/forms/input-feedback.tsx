@@ -1,6 +1,4 @@
-import React from 'react';
-
-const InputFeedback = ({ error }) =>
-  error ? <div className="invalid-feedback">{error}</div> : null;
+import { formErrorText } from '@components/common-css';
+const InputFeedback = ({ error }: { error: string }) => (error ? <div css={formErrorText}>{error}</div> : null);
 
 export default InputFeedback;
