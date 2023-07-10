@@ -1,4 +1,4 @@
-import { srOnly, formControl, formGroup, formErrorText, formErrorControl } from '@components/common-css';
+import { srOnly, formControl, formGroup, formErrorControl } from '@components/common-css';
 import Label from './label';
 import InputFeedback from './input-feedback';
 import { UseFormRegister } from 'react-hook-form';

@@ -1,7 +1,15 @@
-import React, { ReactElement } from 'react';
+import React, { ChangeEvent, ReactElement } from 'react';
 
-const CheckboxGroup = (props: any): JSX.Element => {
-  const handleChange = (event: any) => {
+interface CheckboxGroup {
+  id: string;
+  className?: string;
+  children: ReactElement;
+  onChange: (id: string, valueArray: string[]) => void;
+  value: string[];
+}
+
+const CheckboxGroup = (props: CheckboxGroup) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.currentTarget;
     const valueArray = [...props.value] || [];
     if (target.checked) {

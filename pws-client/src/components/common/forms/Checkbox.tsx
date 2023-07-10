@@ -14,7 +14,7 @@ interface ICheckboxProps {
 
 const Checkbox = ({ field: { name, onChange }, id, label, className, ...props }: ICheckboxProps) => {
   return (
-    <div>
+    <div className={className}>
       <input
         name={name}
         id={id}
