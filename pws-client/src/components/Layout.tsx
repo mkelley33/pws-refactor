@@ -1,16 +1,13 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Link } from 'gatsby';
 import { css } from '@emotion/react';
 import profilePic from '../../images/profile-pic.jpg';
-import { defineCustomElements as deckDeckGoHighlightElement } from '@deckdeckgo/highlight-code/dist/loader';
-
-deckDeckGoHighlightElement();
 
 const makeCssTheme = (jsTheme: object, namespace: string) =>
   Object.entries(jsTheme).reduce(
     (cssTheme, [key, value]) => ({
       ...cssTheme,
-      [`--${namespace}-${key}`]: value,
+      [`--${namespace}-${key}`]: value as string,
     }),
     {},
   );
@@ -96,7 +93,12 @@ const appHeaderNavReorder = css`
   order: -1;
 `;
 
-const Layout = (props: any): JSX.Element => {
+interface ILayout {
+  children: ReactNode;
+  authenticated: boolean;
+}
+
+const Layout = (props: ILayout) => {
   const cssTheme = React.useMemo(() => makeCssTheme(defaultTheme, 'default'), [defaultTheme]);
 
   return (

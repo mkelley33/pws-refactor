@@ -8,7 +8,7 @@ interface ITextInput {
   id: string;
   errors: IErrors;
   label: string;
-  register: UseFormRegister<any>;
+  register: UseFormRegister<object>;
   type?: string;
 }
 

@@ -57,10 +57,15 @@ const ContactForm = () => {
       script.async = true;
       script.defer = true;
       (window as IWindow).onSubmit = (token: string) => {
-        api.post<IRecaptcha>('/recaptcha', { token }).then((res) => {
-          if (res.data.error) setValue('recaptcha', '');
-          else setValue('recaptcha', token);
-        });
+        api
+          .post<IRecaptcha>('/recaptcha', { token })
+          .then((res) => {
+            if (res.data.error) setValue('recaptcha', '');
+            else setValue('recaptcha', token);
+          })
+          .catch(() => {
+            setValue('recaptcha', '');
+          });
       };
       (window as IWindow).onExpired = () => setValue('recaptcha', '');
       document.body.appendChild(script);
