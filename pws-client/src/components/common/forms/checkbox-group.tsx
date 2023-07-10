@@ -8,10 +8,15 @@ interface CheckboxGroup {
   value: string[];
 }
 
+interface IChild {
+  id: string;
+}
+
 const CheckboxGroup = (props: CheckboxGroup) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.currentTarget;
     const valueArray = [...props.value] || [];
+
     if (target.checked) {
       valueArray.push(target.value);
     } else {
@@ -26,7 +31,7 @@ const CheckboxGroup = (props: CheckboxGroup) => {
       {React.Children.map(children, (child: ReactElement) => {
         return React.cloneElement(child, {
           field: {
-            value: value.includes(child.props.id),
+            value: value.includes((child.props as IChild).id),
             onChange: handleChange,
           },
         });
