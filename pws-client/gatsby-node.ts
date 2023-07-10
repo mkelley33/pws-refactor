@@ -1,13 +1,27 @@
-const path = require('path');
-const { createFilePath } = require('gatsby-source-filesystem');
+import path from 'path';
+import { CreateFilePathArgs, createFilePath } from 'gatsby-source-filesystem';
 
 const PostTemplate = path.resolve('./src/templates/post-template.tsx');
 const BlogTemplate = path.resolve('./src/templates/blog-template.tsx');
 
-exports.onCreateNode = ({ node, getNode, actions }) => {
+interface IOnCreateNode {
+  node: { internal: { type: string } };
+  getNode: object;
+  actions: {
+    createNodeField: (nodeField: INodeField) => void;
+  };
+}
+
+interface INodeField {
+  node: object;
+  name: string;
+  value: string;
+}
+
+export const onCreateNode = ({ node, getNode, actions }: IOnCreateNode) => {
   const { createNodeField } = actions;
   if (node.internal.type === 'MarkdownRemark') {
-    const slug = createFilePath({ node, getNode, basePath: 'posts' });
+    const slug = createFilePath({ node, getNode, basePath: 'posts' } as CreateFilePathArgs);
     createNodeField({
       node,
       name: 'slug',
@@ -16,10 +30,22 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
   }
 };
 
-// gatsby-node.js
+interface IActions {
+  createPage: (page: object) => void;
+}
+
+interface IOnCreatePage {
+  page: {
+    path: string;
+    matchPath: string;
+  };
+  actions: IActions;
+}
+
+// gatsby-node.ts
 // Implement the Gatsby API “onCreatePage”. This is
 // called after every page is created.
-exports.onCreatePage = async ({ page, actions }) => {
+export const onCreatePage = ({ page, actions }: IOnCreatePage) => {
   const { createPage } = actions;
 
   // page.matchPath is a special key that's used for matching pages
@@ -37,7 +63,20 @@ exports.onCreatePage = async ({ page, actions }) => {
   }
 };
 
-exports.createPages = async ({ graphql, actions }) => {
+interface ICreatePages {
+  graphql: (query: string) => Promise<{ data: { allMarkdownRemark: { edges: [] } } }>;
+  actions: IActions;
+}
+
+interface INode {
+  node: {
+    fields: {
+      slug: string;
+    };
+  };
+}
+
+export const createPages = async ({ graphql, actions }: ICreatePages) => {
   const { createPage } = actions;
   const result = await graphql(`
     {
@@ -54,7 +93,7 @@ exports.createPages = async ({ graphql, actions }) => {
   `);
 
   const posts = result.data.allMarkdownRemark.edges;
-  posts.forEach(({ node: post }) => {
+  posts.forEach(({ node: post }: INode) => {
     createPage({
       path: `posts${post.fields.slug}`,
       component: PostTemplate,
@@ -66,6 +105,20 @@ exports.createPages = async ({ graphql, actions }) => {
 
   const postsPerPage = 5;
   const totalPages = Math.ceil(posts.length / postsPerPage);
+
+  interface IPage {
+    path: string;
+    component: typeof BlogTemplate | typeof PostTemplate;
+    context: {
+      slug?: string;
+      limit: number;
+      skip: number;
+      isFirstPage: boolean;
+      isLastPage: boolean;
+      currentPage: number;
+      totalPages: number;
+    };
+  }
 
   Array.from({ length: totalPages }).forEach((_, index) => {
     const currentPage = index + 1;
@@ -83,6 +136,6 @@ exports.createPages = async ({ graphql, actions }) => {
         currentPage,
         totalPages,
       },
-    });
+    } as IPage);
   });
 };

@@ -347,7 +347,7 @@ describe('Profile', () => {
       });
       fireEvent.change(confirmPassword, {
         target: {
-          value: 'ASDFJKLa3',
+          value: 'ASDFJKLa3!',
         },
       });
     });
