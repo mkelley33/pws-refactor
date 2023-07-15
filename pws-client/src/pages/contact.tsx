@@ -24,11 +24,11 @@ const schema = yup.object().shape({
 });
 
 interface IContactForm {
-  firstName: string;
-  lastName: string;
-  email: string;
-  message: string;
-  recaptcha: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  message?: string;
+  recaptcha?: string;
 }
 
 interface IWindow extends Window {
@@ -79,7 +79,7 @@ const ContactForm = () => {
       message: '',
       recaptcha: '',
     },
-    mode: 'onBlur',
+    mode: 'all',
     resolver: yupResolver(schema),
   });
 
@@ -116,9 +116,9 @@ const ContactForm = () => {
             label="Email"
             autoComplete="username email"
             register={register}
-            errors={errors}
+            errors={errors as IErrors}
           />
-          <TextArea id="message" label="Message" register={register} errors={errors} />
+          <TextArea id="message" label="Message" register={register} errors={errors as IErrors} />
           {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
           <input id="recaptcha" type="hidden" value="" {...register('recaptcha')} />
           <div css={formGroup}>
