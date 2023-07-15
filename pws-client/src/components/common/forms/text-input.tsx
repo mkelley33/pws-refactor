@@ -1,4 +1,4 @@
-import { srOnly, formControl, formGroup, formErrorControl } from '@components/common-css';
+import { formControl, formGroup, formErrorControl } from '@components/common-css';
 import Label from './label';
 import InputFeedback from './input-feedback';
 import { UseFormRegister } from 'react-hook-form';
@@ -14,9 +14,7 @@ interface ITextInput {
 
 const TextInput = ({ autoComplete, id, errors, label, register, type = 'text' }: ITextInput) => (
   <div css={formGroup}>
-    <Label css={srOnly} htmlFor={id}>
-      {label}
-    </Label>
+    <Label htmlFor={id}>{label}</Label>
     <input
       id={id}
       autoComplete={autoComplete}

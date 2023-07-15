@@ -95,7 +95,7 @@ const appHeaderNavReorder = css`
 
 interface ILayout {
   children: ReactNode;
-  authenticated: boolean;
+  authenticated?: boolean;
 }
 
 const Layout = (props: ILayout) => {

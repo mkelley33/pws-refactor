@@ -16,14 +16,8 @@ import TextArea from '@components/common/forms/text-area';
 // Another example of isValid not working:
 // https://codesandbox.io/s/react-hook-form-validationschema-v6-forked-9ezus?file=/src/index.js
 const schema = yup.object().shape({
-  firstName: yup
-    .string()
-    .min(2, 'Your first name must be a minimum of two characters long.')
-    .required('First name is required'),
-  lastName: yup
-    .string()
-    .min(2, 'Your last name must be a minimum of two characters long.')
-    .required('Last name is required'),
+  firstName: yup.string().required('First name is required'),
+  lastName: yup.string().required('Last name is required'),
   email: yup.string().email('Invalid email address').required('Email is required'),
   message: yup.string().required('Message is required'),
   recaptcha: yup.string().required(),
@@ -113,14 +107,9 @@ const ContactForm = () => {
     <Layout>
       <section style={{ textAlign: 'center' }}>
         <h1>Contact</h1>
-        <form
-          noValidate
-          onSubmit={handleSubmit(onSubmitHandler, (errors) => {
-            console.log(errors);
-          })}
-        >
-          <TextInput id="firstName" label="First Name" register={register} errors={errors} />
-          <TextInput id="lastName" label="Last Name" register={register} errors={errors} />
+        <form noValidate onSubmit={handleSubmit(onSubmitHandler)}>
+          <TextInput id="firstName" label="First Name" register={register} errors={errors as IErrors} />
+          <TextInput id="lastName" label="Last Name" register={register} errors={errors as IErrors} />
           <TextInput
             id="email"
             type="email"

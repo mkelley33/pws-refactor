@@ -1,3 +1,4 @@
+import { srOnly } from '@components/common-css';
 import { ReactNode } from 'react';
 
 interface ILabel {
@@ -6,5 +7,9 @@ interface ILabel {
   className?: string;
   htmlFor: string;
 }
-const Label = ({ children, htmlFor }: ILabel) => <label htmlFor={htmlFor}>{children}</label>;
+const Label = ({ children, htmlFor }: ILabel) => (
+  <label css={srOnly} htmlFor={htmlFor}>
+    {children}
+  </label>
+);
 export default Label;

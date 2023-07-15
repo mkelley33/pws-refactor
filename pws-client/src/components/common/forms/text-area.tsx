@@ -1,4 +1,4 @@
-import { srOnly, formControl, formGroup, formErrorControl } from '@components/common-css';
+import { formControl, formGroup, formErrorControl } from '@components/common-css';
 import Label from './label';
 import InputFeedback from './input-feedback';
 import { UseFormRegister } from 'react-hook-form';
@@ -12,9 +12,7 @@ interface ITextArea {
 
 const TextArea = ({ id, errors, label, register }: ITextArea) => (
   <div css={formGroup}>
-    <Label css={srOnly} htmlFor={id}>
-      {label}
-    </Label>
+    <Label htmlFor={id}>{label}</Label>
     <textarea
       id={id}
       css={[formControl, errors[id]?.message ? formErrorControl : null]}
