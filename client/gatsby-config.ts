@@ -73,6 +73,6 @@ module.exports = {
     'gatsby-plugin-typescript',
   ],
   siteMetadata: {
-    siteUrl: 'mkelley33.com',
+    siteUrl: 'https://pwsrefactordevelop.gatsbyjs.io',
   },
 };
