@@ -51,7 +51,7 @@ Set the following in your **tsconfig.json**\:
 
 Now, you're ready to start the tsx REPL. Open a shell and type the following\:
 
-```bash
+```shell
 $ npx tsx --loader @esbuild-kit/esm-loader
 ```
 
@@ -64,7 +64,7 @@ Continuing in the REPL\:
 Let's say some of your configuration lives in a file in the root level directory named `.env.development`.
 This will hold environmental variables that are used in a configuration:
 
-```bash
+```shell
 PWS_USER=admin
 PWS_PASS=replace-with-your-password
 AUTH_SOURCE=api-development
@@ -111,7 +111,7 @@ Then open a tsx REPL to use it\:
 
 Type `config.User` followed by a dot ., and then press `tab` to see what's available to you. Like so\:
 
-```bash
+```shell
 config.User.find
 config.User.findById
 config.User.findByIdAndDelete
