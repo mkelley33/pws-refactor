@@ -43,9 +43,9 @@ interface IRecaptcha {
 const ContactForm = () => {
   useEffect(() => {
     // Formik causes multiple renders so don't add script multiple times
-    if (document.querySelector('#recaptcha')) {
+    if (!document.querySelector('#recaptchaScript')) {
       const script = document.createElement('script');
-      script.id = 'recaptcha';
+      script.id = 'recaptchaScript';
       script.src = 'https://www.google.com/recaptcha/api.js';
       script.async = true;
       script.defer = true;
@@ -54,7 +54,7 @@ const ContactForm = () => {
           .post<IRecaptcha>('/recaptcha', { token })
           .then((res) => {
             if (res.data.error) setValue('recaptcha', '');
-            else setValue('recaptcha', token);
+            else setValue('recaptcha', token, { shouldValidate: true });
           })
           .catch(() => {
             setValue('recaptcha', '');
@@ -68,7 +68,7 @@ const ContactForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isDirty },
+    formState: { errors, isSubmitting, isDirty, isValid },
     setValue,
   } = useForm<IContactForm>({
     defaultValues: {
@@ -84,9 +84,7 @@ const ContactForm = () => {
 
   const onSubmitHandler: SubmitHandler<IContactForm> = (data) => {
     // TODO: Add a loading spinner for form submission
-    // TODO: remove the following check once the yupResolver bug is fixed
-    // See commented out URLs at the top of this file for more information
-    if (!Object.entries(errors).length) {
+    if (isValid) {
       api
         .post(`/contact`, data)
         .then(async () => {
@@ -119,7 +117,7 @@ const ContactForm = () => {
           />
           <TextArea id="message" label="Message" register={register} errors={errors as IErrors} />
           {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <input id="recaptcha" type="hidden" value="" {...register('recaptcha')} />
+          <input id="recaptcha" type="hidden" {...register('recaptcha')} />
           <div css={formGroup}>
             <div
               style={{ width: '304px', margin: '0 auto' }}
