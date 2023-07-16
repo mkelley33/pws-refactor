@@ -21,7 +21,7 @@ have React version 16.8 installed as this tutorial uses hooks.
 
 Put the following code in the component where you want to use reCAPTCHA\:
 
-```jsx
+```javascript
 import React, { useEffect, useRef } from 'react';
 import { withFormik } from 'formik';
 import * as Yup from 'yup';
@@ -68,13 +68,13 @@ const ContactForm = (props) => {
       script.src = 'https://www.google.com/recaptcha/api.js';
       script.async = true;
       script.defer = true;
-      (window as any).onSubmit = (token: string) => {
+      window.onSubmit = (token: string) => {
         api.post('/recaptcha', { token }).then((res: any) => {
           if (res.data.error) setFieldValue('recaptcha', '');
           else setFieldValue('recaptcha', token);
         });
       };
-      (window as any).onExpired = () => setFieldValue('recaptcha', '');
+      window.onExpired = () => setFieldValue('recaptcha', '');
       document.body.appendChild(script);
     }
   }, []);
