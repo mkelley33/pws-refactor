@@ -62,9 +62,9 @@ const ContactForm = (props) => {
 
   useEffect(() => {
     // Formik causes multiple renders so don't add script multiple times
-    if (document.querySelector('#recaptcha')) {
+    if (!document.querySelector('#recaptchaScript')) {
       const script = document.createElement('script');
-      script.id = 'recaptcha';
+      script.id = 'recaptchaScript';
       script.src = 'https://www.google.com/recaptcha/api.js';
       script.async = true;
       script.defer = true;
