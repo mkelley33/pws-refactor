@@ -72,4 +72,7 @@ module.exports = {
     'gatsby-transformer-sharp',
     'gatsby-plugin-typescript',
   ],
+  siteMetadata: {
+    siteUrl: 'mkelley33.com',
+  },
 };
