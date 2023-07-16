@@ -61,7 +61,6 @@ const ContactForm = (props) => {
   const { values, handleSubmit, isSubmitting, setFieldValue } = props;
 
   useEffect(() => {
-    document.title = 'Contact Form';
     // Formik causes multiple renders so don't add script multiple times
     if (document.querySelector('#recaptcha')) {
       const script = document.createElement('script');

@@ -42,7 +42,6 @@ interface IRecaptcha {
 
 const ContactForm = () => {
   useEffect(() => {
-    document.title = 'Contact Form';
     // Formik causes multiple renders so don't add script multiple times
     if (document.querySelector('#recaptcha')) {
       const script = document.createElement('script');

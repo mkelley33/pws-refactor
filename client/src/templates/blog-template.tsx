@@ -34,7 +34,7 @@ const BlogTemplate = ({ data, pageContext }: IBlog) => {
   const { currentPage, isFirstPage, isLastPage, totalPages } = pageContext;
   const nextPage = `/blog/${String(currentPage + 1)}`;
   const prevPage = currentPage - 1 === 1 ? '/blog' : `/blog/${String(currentPage - 1)}`;
-  document.title = 'Blog Posts';
+
   return (
     <Layout>
       <h1>Blog Posts</h1>
