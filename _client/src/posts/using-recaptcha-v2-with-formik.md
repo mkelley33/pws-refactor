@@ -3,6 +3,8 @@ title: 'Using Google Recaptcha V2 with Formik and Node.js'
 date: '2020-06-22'
 ---
 
+## About
+
 This post intends to demonstrate how to integrate recaptcha with formik
 as well the code for verifying on a node.js server the token google returns
 once a CAPTCHA is submitted.
@@ -28,7 +30,7 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { navigate } from 'gatsby';
 import axios from 'axios';
-// Be sure to gitignore this file. This would also make a good candidate env variable.
+// Be sure to gitignore this file
 import { RECATPTCHA_SITE_KEY } from 'constants';
 
 const formikEnhancer = withFormik({
@@ -38,10 +40,10 @@ const formikEnhancer = withFormik({
   handleSubmit: (payload, { setSubmitting }) => {
     axios
       .post(`/contact`, payload)
-      .then((res) => {
+      .then(res => {
         navigate('/');
       })
-      .catch((err) => {
+      .catch(err => {
         toast.error('Something went wrong', {
           position: toast.POSITION.TOP_CENTER,
           hideProgressBar: true,
@@ -57,40 +59,42 @@ const formikEnhancer = withFormik({
   displayName: 'ContactForm',
 });
 
-const ContactForm = (props) => {
+const ContactForm = props => {
+  document.title = 'Contact Form';
   const { values, handleSubmit, isSubmitting, setFieldValue } = props;
 
+  // This was necessary in order to disable the linter warning about setFieldValue
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    document.title = 'Contact Form';
-    // Formik causes multiple renders so don't add script multiple times
-    if (document.querySelector('#recaptcha')) {
-      const script = document.createElement('script');
-      script.id = 'recaptcha';
-      script.src = 'https://www.google.com/recaptcha/api.js';
-      script.async = true;
-      script.defer = true;
-      (window as any).onSubmit = (token: string) => {
-        api.post('/recaptcha', { token }).then((res: any) => {
-          if (res.data.error) setFieldValue('recaptcha', '');
-          else setFieldValue('recaptcha', token);
-        });
-      };
-      (window as any).onExpired = () => setFieldValue('recaptcha', '');
-      document.body.appendChild(script);
-    }
+    const script = document.createElement('script');
+    script.src = 'https://www.google.com/recaptcha/api.js';
+    script.async = true;
+    script.defer = true;
+    window.onSubmit = token => {
+      api.post('/recaptcha', { token }).then(res => {
+        if (res.data.error) {
+          setFieldValue('recaptcha', '');
+        } else {
+          setFieldValue('recaptcha', token);
+        }
+      });
+    };
+    window.onExpired = () => setFieldValue('recaptcha', '');
+    document.body.appendChild(script);
   }, []);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   return (
     <form onSubmit={handleSubmit}>
       {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-      <input id='recaptcha' name='recaptcha' type='hidden' value='' />
+      <input id="recaptcha" name="recaptcha" type="hidden" value="" />
       <div
-        className='g-recaptcha'
+        className="g-recaptcha"
         data-sitekey={RECAPTCHA_SITE_KEY}
-        data-callback='onSubmit'
-        data-expired-callback='onExpired'
+        data-callback="onSubmit"
+        data-expired-callback="onExpired"
       ></div>
-      <button type='submit' disabled={isSubmitting}>
+      <button type="submit" disabled={isSubmitting}>
         Submit
       </button>
     </form>
@@ -110,7 +114,9 @@ import request from 'request';
 function verify(req, res) {
   const { token } = req.body;
 
-  if (!token) return res.json({ error: 'unverified' });
+  if (token === undefined || token === '' || token === null) {
+    return res.json({ error: 'unverified' });
+  }
 
   const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}&remoteip=${req.connection.remoteAddress}`;
 

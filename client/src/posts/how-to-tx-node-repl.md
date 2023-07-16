@@ -5,7 +5,7 @@ date: '2023-07-07'
 
 Open a new shell, and install the following dependencies\:
 
-```bash
+```shell
 $ npm i -D tsx dotenv @esbuild-kit/esm-loader`
 $ npm i -S mongoose
 ```
@@ -14,7 +14,7 @@ $ npm i -S mongoose
 
 Set the following in your **tsconfig.json**\:
 
-```json
+```javascript
 {
   "compilerOptions": {
     /* Docs: [https://www.typescriptlang.org/tsconfig](https://www.typescriptlang.org/tsconfig) */

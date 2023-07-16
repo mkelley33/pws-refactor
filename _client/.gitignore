@@ -1,0 +1,36 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+.env
+.env.development
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+lib-cov
+lcov.info
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.gz
+results
+
+dist/
+
+## Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# OS X
+.DS_Store
+.AppleDouble
+.LSOverride
+
+node_modules
