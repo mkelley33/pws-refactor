@@ -1,6 +1,5 @@
 import path from 'path';
 import { CreateFilePathArgs, createFilePath } from 'gatsby-source-filesystem';
-import redirects from './redirects.json';
 
 const PostTemplate = path.resolve('./src/templates/post-template.tsx');
 const BlogTemplate = path.resolve('./src/templates/blog-template.tsx');
@@ -31,17 +30,8 @@ export const onCreateNode = ({ node, getNode, actions }: IOnCreateNode) => {
   }
 };
 
-interface IRedirect {
-  fromPath: string;
-  toPath: string;
-  redirectInBrowser: boolean;
-  isPermanent: true;
-  statusCode?: number;
-}
-
 interface IActions {
   createPage: (page: object) => void;
-  createRedirect: (redirect: IRedirect) => void;
 }
 
 interface IOnCreatePage {
@@ -147,10 +137,5 @@ export const createPages = async ({ graphql, actions }: ICreatePages) => {
         totalPages,
       },
     } as IPage);
-  });
-
-  const { createRedirect } = actions;
-  (redirects as IRedirect[]).forEach((redirect: IRedirect) => {
-    createRedirect(redirect);
   });
 };
