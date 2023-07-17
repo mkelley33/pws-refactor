@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect } from 'react';
 import { Link } from 'gatsby';
-import { css } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 import profilePic from '../../images/profile-pic.jpg';
 import { defineCustomElements as deckDeckGoHighlightElement } from '@deckdeckgo/highlight-code/dist/loader';
 
@@ -94,6 +94,19 @@ const appHeaderMenuNav = css`
 //   order: -1;
 // `;
 
+const fadeIn = keyframes({
+  from: {
+    opacity: 0,
+  },
+  to: {
+    opacity: 1,
+  },
+});
+
+const fadeInAnimation = css({
+  animation: `${fadeIn} 1s ease-in`,
+});
+
 interface ILayout {
   children: ReactNode;
   // authenticated?: boolean;
@@ -142,7 +155,7 @@ const Layout = (props: ILayout) => {
           </ul>
         </nav> */}
       </header>
-      <main style={cssTheme} css={main}>
+      <main style={cssTheme} css={[main, fadeInAnimation]}>
         {props.children}
       </main>
     </>
