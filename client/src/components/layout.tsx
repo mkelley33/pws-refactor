@@ -31,28 +31,55 @@ const defaultTheme = {
 const main = css`
   padding: 1rem 4rem;
   @media (max-width: 320px) {
+    max-width: 300px;
     padding: 0 0.5rem;
+    h1 {
+      font-size: 1.25rem;
+    }
+    p {
+      font-size: 0.85rem;
+    }
+  }
+`;
+
+const footer = css`
+  font-size: 2rem;
+  clear: both;
+  text-align: center;
+  border-top: 2px solid var(--default-variableBlue);
+
+  @media (max-width: 320px) {
+    margin: 0 auto;
+    p {
+      font-size: 0.75rem;
+      padding: 0.5rem 0 0 0;
+      margin-block-start: 0;
+      margin-block-end: 0;
+    }
   }
 `;
 
 const appHeader = css`
   background: #020204 url(${nebulousPic}) 0 0 no-repeat;
-  /* background: linear-gradient(to bottom, var(--default-lightBlue) 0%, var(--default-cobalt2blue) 100%); */
-  border-bottom: 1px solid #00298d;
-  border-bottom: 1px solid #ccc;
   color: white;
   border-bottom: 7px solid var(--default-variableBlue);
   display: flex;
   justify-content: center;
   flex-direction: column;
-  min-width: 320px;
   min-height: 200px;
+  @media (max-width: 320px) {
+    max-width: 320px;
+    width: 100%;
+  }
 `;
 
 const appHeaderHandle = css`
   margin-top: 0.25rem;
   text-align: center;
   font-size: 3rem;
+  @media (max-width: 320px) {
+    font-size: 2rem;
+  }
 `;
 
 const appHeaderNav = css`
@@ -106,6 +133,8 @@ interface ILayout {
 }
 
 const Layout = (props: ILayout) => {
+  const copyrightYear = new Date().getFullYear();
+
   useEffect(() => {
     const initHighlightedCode = async () => {
       await deckDeckGoHighlightElement();
@@ -150,6 +179,9 @@ const Layout = (props: ILayout) => {
       <main style={cssTheme} css={[main, fadeInAnimation]}>
         {props.children}
       </main>
+      <footer style={cssTheme} css={footer}>
+        <p>Copyright &copy; {copyrightYear} Michaux Kelley. All rights reserved.</p>
+      </footer>
     </>
   );
 };

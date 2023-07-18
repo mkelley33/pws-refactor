@@ -1,6 +1,6 @@
 import React from 'react';
-import Layout from '@components/layout';
 import 'normalize.css';
+import Layout from '@components/layout';
 import profilePic from '../../images/profile-pic.jpg';
 
 const getDateDiffInYears = (secondDate: Date, firstDate: Date) => {
@@ -17,22 +17,22 @@ const IndexPage = (): JSX.Element => {
   }, [numYearsHacking]);
 
   return (
-    <Layout>
+    <Layout style={{ border: '1px red solid' }}>
       <section>
         <h1>About me</h1>
         <p>
           <img
             src={profilePic as string}
             alt="Michaux Kelley Profile Pic"
-            style={{ float: 'left', width: '200px', marginRight: '2rem', marginBottom: '2rem', clear: 'right' }}
-          />{' '}
+            style={{ float: 'left', width: '150px', marginRight: '1rem', marginBottom: '1rem', clear: 'right' }}
+          />
           Michaux Kelley&mdash;a software developer, music lover, player of instruments, modern dude,
           natural-born-world-shaker, aspiring lepidopterist, philatelist, punk, writer, poet, and JavaScript/TypeScript
           hacker.
         </p>
         <p>
           I&apos;ve been in software development for about {numYearsHacking} years now and have coded everything from
-          full stack to more recently as a full-on front-end engineer. What can I say? I love to code!
+          full stack to more recently as a full-on front-end engineer.
         </p>
       </section>
     </Layout>
