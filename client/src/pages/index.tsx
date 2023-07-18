@@ -24,7 +24,7 @@ const IndexPage = (): JSX.Element => {
           <img
             src={profilePic as string}
             alt="Michaux Kelley Profile Pic"
-            style={{ float: 'left', width: '150px', marginRight: '1rem', marginBottom: '1rem', clear: 'right' }}
+            style={{ float: 'left', width: '150px', marginRight: '1rem', marginBottom: '1rem' }}
           />
           Michaux Kelley&mdash;a software developer, music lover, player of instruments, modern dude,
           natural-born-world-shaker, aspiring lepidopterist, philatelist, punk, writer, poet, and JavaScript/TypeScript
