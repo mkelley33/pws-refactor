@@ -17,7 +17,7 @@ const IndexPage = (): JSX.Element => {
   }, [numYearsHacking]);
 
   return (
-    <Layout style={{ border: '1px red solid' }}>
+    <Layout>
       <section>
         <h1>About me</h1>
         <p>
