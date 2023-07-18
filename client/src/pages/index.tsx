@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from '@components/layout';
 import 'normalize.css';
+import profilePic from '../../images/profile-pic.jpg';
 
 const getDateDiffInYears = (secondDate: Date, firstDate: Date) => {
   let diff = (secondDate.getTime() - firstDate.getTime()) / 1000;
@@ -20,7 +21,12 @@ const IndexPage = (): JSX.Element => {
       <section>
         <h1>About me</h1>
         <p>
-          I&apos;m Michaux Kelley&mdash;a software developer, music lover, player of instruments, modern dude,
+          <img
+            src={profilePic as string}
+            alt="Michaux Kelley Profile Pic"
+            style={{ float: 'left', width: '200px', marginRight: '2rem', marginBottom: '2rem', clear: 'right' }}
+          />{' '}
+          Michaux Kelley&mdash;a software developer, music lover, player of instruments, modern dude,
           natural-born-world-shaker, aspiring lepidopterist, philatelist, punk, writer, poet, and JavaScript/TypeScript
           hacker.
         </p>

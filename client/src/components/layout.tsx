@@ -1,7 +1,8 @@
 import React, { ReactNode, useEffect } from 'react';
 import { Link } from 'gatsby';
 import { css, keyframes } from '@emotion/react';
-import profilePic from '../../images/profile-pic.jpg';
+import nebulousPic from '../../images/nebulous.png';
+
 import { defineCustomElements as deckDeckGoHighlightElement } from '@deckdeckgo/highlight-code/dist/loader';
 
 const makeCssTheme = (jsTheme: object, namespace: string) =>
@@ -35,31 +36,23 @@ const main = css`
 `;
 
 const appHeader = css`
-  background: linear-gradient(to bottom, var(--default-lightBlue) 0%, var(--default-cobalt2blue) 100%);
-  border: 1px solid #00298d;
+  background: #020204 url(${nebulousPic}) 0 0 no-repeat;
+  /* background: linear-gradient(to bottom, var(--default-lightBlue) 0%, var(--default-cobalt2blue) 100%); */
+  border-bottom: 1px solid #00298d;
   border-bottom: 1px solid #ccc;
-  box-shadow: inset 0 1px 0 #0f56ba;
   color: white;
   border-bottom: 7px solid var(--default-variableBlue);
   display: flex;
   justify-content: center;
   flex-direction: column;
   min-width: 320px;
-`;
-
-const appHeaderPhoto = css`
-  background: transparent url(${profilePic}) no-repeat;
-  background-size: cover;
-  width: 5rem;
-  height: 5rem;
-  border: 2px solid var(--default-white);
-  border-radius: 50%;
-  margin: 0 auto;
+  min-height: 200px;
 `;
 
 const appHeaderHandle = css`
   margin-top: 0.25rem;
   text-align: center;
+  font-size: 3rem;
 `;
 
 const appHeaderNav = css`
@@ -125,7 +118,6 @@ const Layout = (props: ILayout) => {
   return (
     <>
       <header style={cssTheme} css={appHeader}>
-        <div css={appHeaderPhoto}></div>
         <div css={appHeaderHandle}>@mkelley33</div>
         <nav css={appHeaderNav}>
           <ul css={appHeaderMenuNav}>
