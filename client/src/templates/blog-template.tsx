@@ -1,5 +1,5 @@
 import { graphql, Link } from 'gatsby';
-
+import { css } from '@emotion/react';
 import Layout from '@components/layout';
 import { ReactNode } from 'react';
 
@@ -30,6 +30,12 @@ interface IBlog {
   };
 }
 
+const blogPostTitleCss = css`
+  @media (max-width: 320px) {
+    font-size: 1.25rem;
+  }
+`;
+
 const BlogTemplate = ({ data, pageContext }: IBlog) => {
   const { currentPage, isFirstPage, isLastPage, totalPages } = pageContext;
   const nextPage = `/blog/${String(currentPage + 1)}`;
@@ -40,7 +46,7 @@ const BlogTemplate = ({ data, pageContext }: IBlog) => {
       <h1>Blog Posts</h1>
       {data.allMarkdownRemark.edges.map(({ node }) => (
         <div key={node.id}>
-          <h2>
+          <h2 css={blogPostTitleCss}>
             <Link to={`/posts${node.fields.slug}`}>{node.frontmatter.title}</Link> - {node.frontmatter.date}
           </h2>
           <p>{node.excerpt}</p>
