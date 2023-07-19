@@ -9,7 +9,7 @@ const getDateDiffInYears = (secondDate: Date, firstDate: Date) => {
   return Math.abs(Math.round(diff / 365.25));
 };
 
-const IndexPage = (): JSX.Element => {
+const IndexPage = () => {
   const [numYearsHacking, setNumYearsHacking] = React.useState(0);
 
   React.useEffect(() => {
