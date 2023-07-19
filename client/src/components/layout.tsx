@@ -37,7 +37,7 @@ const main = css`
       font-size: 1.25rem;
     }
     p {
-      font-size: 0.85rem;
+      font-size: 1rem;
     }
   }
 `;
