@@ -100,6 +100,7 @@ const appHeaderMenuNav = css`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
+  padding: 0;
 `;
 
 // const appHeaderLoginNav = css`
