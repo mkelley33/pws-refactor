@@ -26,7 +26,7 @@ const IndexPage = () => {
             alt="Michaux Kelley Profile Pic"
             style={{ float: 'left', width: '150px', marginRight: '1rem', marginBottom: '0.5rem' }}
           />
-          Michaux Kelley&mdash;a software developer, music lover, player of instruments, modern dude,
+          Michaux Kelley: a software developer, music lover, player of instruments, modern dude,
           natural-born-world-shaker, aspiring lepidopterist, philatelist, punk, writer, poet, and JavaScript/TypeScript
           hacker.
         </p>
