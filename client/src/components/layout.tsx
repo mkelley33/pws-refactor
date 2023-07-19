@@ -42,7 +42,7 @@ const main = css`
   }
 `;
 
-const footer = css`
+const footerCss = css`
   font-size: 2rem;
   clear: both;
   text-align: center;
@@ -51,7 +51,7 @@ const footer = css`
   @media (max-width: 320px) {
     margin: 0 auto;
     p {
-      font-size: 0.75rem;
+      font-size: 1rem;
       padding: 0.5rem 0 0 0;
       margin-block-start: 0;
       margin-block-end: 0;
@@ -180,7 +180,7 @@ const Layout = (props: ILayout) => {
       <main style={cssTheme} css={[main, fadeInAnimation]}>
         {props.children}
       </main>
-      <footer style={cssTheme} css={footer}>
+      <footer style={cssTheme} css={footerCss}>
         <p>Copyright &copy; {copyrightYear} Michaux Kelley. All rights reserved.</p>
       </footer>
     </>
