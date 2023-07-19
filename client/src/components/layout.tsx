@@ -28,10 +28,9 @@ const defaultTheme = {
   selectionBlue: '#0050a4',
 };
 
-const main = css`
+const mainCss = css`
   padding: 1rem 4rem;
-  @media (max-width: 320px) {
-    max-width: 300px;
+  @media (max-width: 480px) {
     padding: 0 0.5rem;
     h1 {
       font-size: 1.25rem;
@@ -48,7 +47,7 @@ const footerCss = css`
   text-align: center;
   border-top: 2px solid var(--default-variableBlue);
 
-  @media (max-width: 320px) {
+  @media (max-width: 480px) {
     margin: 0 auto;
     p {
       font-size: 1rem;
@@ -177,7 +176,7 @@ const Layout = (props: ILayout) => {
           </ul>
         </nav> */}
       </header>
-      <main style={cssTheme} css={[main, fadeInAnimation]}>
+      <main style={cssTheme} css={[mainCss, fadeInAnimation]}>
         {props.children}
       </main>
       <footer style={cssTheme} css={footerCss}>
