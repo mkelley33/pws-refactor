@@ -4,7 +4,7 @@ import Layout from '@components/layout';
 import React, { ReactNode } from 'react';
 import Meta from '@components/meta';
 import MetaOg from '@components/meta-og';
-import profilePic from '../../images/profile-pic.jpg';
+import profilePic from '@images/profile-pic.jpg';
 
 interface INode {
   node: {
@@ -115,7 +115,7 @@ export const Head = ({ location }: IHead) => {
         type="website"
         title={title}
         description={description}
-        imageSecureUrl={`${canonicalUrl}${profilePic as string}`}
+        imageSecureUrl={`https://mkelley33.com${profilePic as string}`}
         url={canonicalUrl}
         siteName={'mkelley33, coding blog'}
       />

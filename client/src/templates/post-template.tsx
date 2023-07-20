@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from '@components/layout';
 import { graphql } from 'gatsby';
 import { Disqus } from 'gatsby-plugin-disqus';
-import profilePic from '../../images/profile-pic.jpg';
+import profilePic from '@images/profile-pic.jpg';
 import Meta from '@components/meta';
 import MetaOg from '@components/meta-og';
 interface IPost {
@@ -72,7 +72,7 @@ export const Head = ({ location, data }: IHead) => {
         type="article"
         title={title}
         description={description}
-        imageSecureUrl={`${canonicalUrl}${profilePic as string}`}
+        imageSecureUrl={`https://mkelley33.com${profilePic as string}`}
         url={canonicalUrl}
         siteName={'mkelley33, coding blog'}
       />
