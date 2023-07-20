@@ -36,6 +36,10 @@ module.exports = {
         icon: `./icons/favicon-32x32.png`, // This path is relative to the root of the site.
         icons: [
           {
+            src: `./icons/favicon-16x16.png`,
+            type: `image/png`,
+          },
+          {
             src: `./icons/apple-touch-icon.png`,
             type: `image/png`,
             sizes: `180x180`,
