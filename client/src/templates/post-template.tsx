@@ -24,6 +24,7 @@ const PostTemplate = ({ data: post, pageContext }: IPost) => (
   <Layout>
     <h1>{post.markdownRemark.frontmatter.title}</h1>
     <div dangerouslySetInnerHTML={{ __html: post.markdownRemark.html }} />
+    {/* https://github.com/tterb/gatsby-plugin-disqus/issues/73 document.write violation in console */}
     <Disqus
       config={{
         url: `https://mkelley33.com${pageContext.slug}`,
