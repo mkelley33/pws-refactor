@@ -18,6 +18,12 @@ module.exports = {
         ],
       },
     },
+    {
+      resolve: `gatsby-plugin-disqus`,
+      options: {
+        shortname: `mkelley33`,
+      },
+    },
     'gatsby-plugin-tsconfig-paths',
     {
       resolve: `gatsby-plugin-manifest`,

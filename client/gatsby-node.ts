@@ -5,7 +5,7 @@ const PostTemplate = path.resolve('./src/templates/post-template.tsx');
 const BlogTemplate = path.resolve('./src/templates/blog-template.tsx');
 
 interface IOnCreateNode {
-  node: { internal: { type: string } };
+  node: { internal: { type: string }; id: string };
   getNode: object;
   actions: {
     createNodeField: (nodeField: INodeField) => void;
@@ -26,6 +26,11 @@ export const onCreateNode = ({ node, getNode, actions }: IOnCreateNode) => {
       node,
       name: 'slug',
       value: slug,
+    });
+    createNodeField({
+      node,
+      name: 'id',
+      value: node.id,
     });
   }
 };
@@ -72,6 +77,7 @@ interface INode {
   node: {
     fields: {
       slug: string;
+      id: string;
     };
   };
 }
@@ -84,6 +90,7 @@ export const createPages = async ({ graphql, actions }: ICreatePages) => {
         edges {
           node {
             fields {
+              id
               slug
             }
           }
@@ -99,6 +106,7 @@ export const createPages = async ({ graphql, actions }: ICreatePages) => {
       component: PostTemplate,
       context: {
         slug: post.fields.slug,
+        id: post.fields.id,
       },
     });
   });
