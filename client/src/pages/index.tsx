@@ -2,6 +2,8 @@ import React from 'react';
 import 'normalize.css';
 import Layout from '@components/layout';
 import profilePic from '../../images/profile-pic.jpg';
+import MetaOg from '@components/meta-og';
+import Meta from '@components/meta';
 
 const getDateDiffInYears = (secondDate: Date, firstDate: Date) => {
   let diff = (secondDate.getTime() - firstDate.getTime()) / 1000;
@@ -38,5 +40,29 @@ const IndexPage = () => {
     </Layout>
   );
 };
+
+const firstName = 'Michaux';
+const lastName = 'Kelley';
+const mkelley33 = 'mkelley33';
+const description =
+  'A site and coding blog made for software developers, engineers, and web workers using React, JavaScript, HTML5, CSS3, Node.js';
+const title = `${mkelley33} - About ${firstName} ${lastName}`;
+const canonicalUrl = `https://${mkelley33}.com`;
+
+export const Head = () => (
+  <>
+    <Meta title={title} description={description} canonicalUrl={canonicalUrl} />
+    <MetaOg
+      type={'profile'}
+      firstName={'Michaux'}
+      lastName={'Kelley'}
+      title={title}
+      description={description}
+      imageSecureUrl={`${canonicalUrl}${profilePic as string}`}
+      url={canonicalUrl}
+      siteName={`${mkelley33}, coding blog`}
+    />
+  </>
+);
 
 export default IndexPage;

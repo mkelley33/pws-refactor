@@ -1,7 +1,10 @@
 import { graphql, Link } from 'gatsby';
 import { css } from '@emotion/react';
 import Layout from '@components/layout';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
+import Meta from '@components/meta';
+import MetaOg from '@components/meta-og';
+import profilePic from '../../images/profile-pic.jpg';
 
 interface INode {
   node: {
@@ -31,7 +34,7 @@ interface IBlog {
 }
 
 const blogPostTitleCss = css`
-  @media (max-width: 320px) {
+  @media (max-width: 480px) {
     font-size: 1.25rem;
   }
 `;
@@ -94,5 +97,30 @@ export const query = graphql`
     }
   }
 `;
+
+interface IHead {
+  location: {
+    pathname: string;
+  };
+}
+
+export const Head = ({ location }: IHead) => {
+  const title = 'mkelley33 - Blog Posts by Michaux Kelley';
+  const description = 'View articles about coding in React, TypeScript, JavaScript, and Node.js';
+  const canonicalUrl = `https://mkelley33.com${location.pathname}`;
+  return (
+    <>
+      <Meta title={title} description={description} canonicalUrl={canonicalUrl} />
+      <MetaOg
+        type="website"
+        title={title}
+        description={description}
+        imageSecureUrl={`${canonicalUrl}${profilePic as string}`}
+        url={canonicalUrl}
+        siteName={'mkelley33, coding blog'}
+      />
+    </>
+  );
+};
 
 export default BlogTemplate;

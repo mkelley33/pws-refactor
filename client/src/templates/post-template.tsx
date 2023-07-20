@@ -1,7 +1,10 @@
+import React from 'react';
 import Layout from '@components/layout';
 import { graphql } from 'gatsby';
 import { Disqus } from 'gatsby-plugin-disqus';
-
+import profilePic from '../../images/profile-pic.jpg';
+import Meta from '@components/meta';
+import MetaOg from '@components/meta-og';
 interface IPost {
   data: {
     markdownRemark: {
@@ -37,9 +40,44 @@ export const query = graphql`
       html
       frontmatter {
         title
+        date
+        description
       }
     }
   }
 `;
+
+interface IHead {
+  location: {
+    pathname: string;
+  };
+  data: {
+    markdownRemark: {
+      frontmatter: {
+        title: string;
+        description: string;
+      };
+    };
+  };
+}
+
+export const Head = ({ location, data }: IHead) => {
+  const { title: pageTitle, description } = data.markdownRemark.frontmatter;
+  const title = `mkelley33 - ${pageTitle}`;
+  const canonicalUrl = `https://mkelley33.com${location.pathname}`;
+  return (
+    <>
+      <Meta title={title} description={description} canonicalUrl={canonicalUrl} />
+      <MetaOg
+        type="article"
+        title={title}
+        description={description}
+        imageSecureUrl={`${canonicalUrl}${profilePic as string}`}
+        url={canonicalUrl}
+        siteName={'mkelley33, coding blog'}
+      />
+    </>
+  );
+};
 
 export default PostTemplate;

@@ -1,6 +1,7 @@
 ---
 title: 'Using Google Recaptcha V2 with Formik and Node.js'
 date: '2020-06-22'
+description: 'How to set up Google Recaptcha V2 using React, Formik, and Node.js'
 ---
 
 This post intends to demonstrate how to integrate recaptcha with formik
@@ -126,5 +127,7 @@ export default { verify };
 ```
 
 And that's about all you need to do to fully integrate Google reCAPTCHA v2 with
-Formik and Node.js. Feel free to [contact me](/contact) if you have any
-questions or comments.
+Formik and Node.js.
+
+<!-- Feel free to [contact me](/contact) if you have any
+questions or comments. -->

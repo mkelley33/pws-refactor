@@ -1,6 +1,7 @@
 ---
 title: 'How to use the tsx REPL to explore your ES2022 models'
 date: '2023-07-07'
+description: 'A node.js tutorial about the tsx REPL and inspecting your mongoose models'
 ---
 
 Open a new shell, and install the following dependencies\:
