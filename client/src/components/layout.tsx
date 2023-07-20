@@ -30,9 +30,13 @@ const defaultTheme = {
 
 const mainCss = css`
   padding: 1rem 4rem;
+  line-height: 1.5rem;
   @media (max-width: 480px) {
     padding: 0 0.5rem;
     h1 {
+      font-size: 1.5rem;
+    }
+    h2 {
       font-size: 1.25rem;
     }
     p {
