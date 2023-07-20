@@ -12,29 +12,35 @@ const getDateDiffInYears = (secondDate: Date, firstDate: Date) => {
 };
 
 const IndexPage = () => {
-  const [numYearsHacking, setNumYearsHacking] = React.useState(0);
+  const [numYearsFrontEnd, setNumYearsFrontEnd] = React.useState(0);
+  const [numYearsReact, setNumYearsReact] = React.useState(0);
 
   React.useEffect(() => {
-    setNumYearsHacking(getDateDiffInYears(new Date(2005, 8, 1), new Date()));
-  }, [numYearsHacking]);
+    setNumYearsFrontEnd(getDateDiffInYears(new Date(2014, 4, 1), new Date()));
+    setNumYearsReact(getDateDiffInYears(new Date(2014, 4, 1), new Date()));
+  }, [numYearsFrontEnd, numYearsReact]);
 
   return (
     <Layout>
       <section>
         <h1>About me</h1>
+        <img
+          src={profilePic as string}
+          alt="Michaux Kelley Profile Pic"
+          style={{ float: 'left', width: '150px', marginRight: '1rem', marginBottom: '0.5rem' }}
+        />
         <p>
-          <img
-            src={profilePic as string}
-            alt="Michaux Kelley Profile Pic"
-            style={{ float: 'left', width: '150px', marginRight: '1rem', marginBottom: '0.5rem' }}
-          />
-          Michaux Kelley: a software developer, music lover, player of instruments, modern dude,
-          natural-born-world-shaker, aspiring lepidopterist, philatelist, punk, writer, poet, and JavaScript/TypeScript
-          hacker.
+          I&apos;m Michaux Kelley, and for about {numYearsFrontEnd} years now I&apos;ve been mostly a front-end software
+          engineer, developing software primarily with{' '}
+          <a href="https://react.dev/" target="react-dev">
+            React
+          </a>
+          , using HTML5, CSS3, JavaScript, and TypeScript to build responsive web apps that scale and support mobile
+          devices. Mostly, I just like helping people solve problems in a user-friendly way.
         </p>
         <p>
-          I&apos;ve been in software development for about {numYearsHacking} years now and have coded everything from
-          full stack to more recently as a full-on front-end engineer.
+          Aside from coding, I love music (especially listening to records), play a few instruments, collect stamps,
+          read mostly non-fiction, meditate, and write in a notebook.
         </p>
       </section>
     </Layout>
