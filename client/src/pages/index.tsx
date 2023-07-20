@@ -13,12 +13,10 @@ const getDateDiffInYears = (secondDate: Date, firstDate: Date) => {
 
 const IndexPage = () => {
   const [numYearsFrontEnd, setNumYearsFrontEnd] = React.useState(0);
-  const [numYearsReact, setNumYearsReact] = React.useState(0);
 
   React.useEffect(() => {
     setNumYearsFrontEnd(getDateDiffInYears(new Date(2014, 4, 1), new Date()));
-    setNumYearsReact(getDateDiffInYears(new Date(2014, 4, 1), new Date()));
-  }, [numYearsFrontEnd, numYearsReact]);
+  }, [numYearsFrontEnd]);
 
   return (
     <Layout>
