@@ -28,6 +28,7 @@ router.use(function (err: APIError, req: Request, res: Response, next: NextFunct
     console.log(res);
     res.status(422).json({ errors: { email: 'Something went wrong.' } });
   }
+  console.log(err);
   return next(err);
 });
 
