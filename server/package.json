@@ -10,7 +10,7 @@
   "scripts": {
     "build": "./node_modules/.bin/tsc -b -v",
     "clean": "rimraf ./src/**/bin ./bin ./src/**/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
-    "rebuild": "npm run clean && npm run build",
+    "start": "npm run clean && npm run build",
     "buildw": "tsc -b -v -w --preserveWatchOutput -watch --extendedDiagnostics",
     "eslint": "./node_modules/.bin/eslint \"./src/**/**.ts\"",
     "node": "set TS_NODE_FILES=true & node --inspect --loader ts-node/esm src/index.ts",
