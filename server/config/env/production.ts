@@ -2,11 +2,11 @@ import dotenv from 'dotenv';
 dotenv.config({ path: './.env/production' });
 
 export default {
-  env: 'development',
+  env: 'production',
   server: {
     protocol: 'https',
     host: 'pws-nodejs-65dd168ef313.herokuapp.com',
-    port: ':8080',
+    port: 8080,
   },
   client: {
     protocol: 'https',
@@ -21,7 +21,7 @@ export default {
     port: process.env.EMAIL_PORT, // 587
   },
   mongoose: {
-    debug: true,
+    debug: false,
   },
   jwtSecret: process.env.JWT_SECRET,
   db: {

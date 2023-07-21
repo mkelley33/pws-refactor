@@ -17,7 +17,7 @@ const debug = debugging('index');
 mongoose.Promise = Promise;
 mongoose.connect(config.default.db.uri, config.default.db.options);
 mongoose.connection.on('error', () => {
-  throw new Error(`Unable to connect to database: ${config.default.db.uri}`);
+  if (config.default.env !== 'production') throw new Error(`Unable to connect to database: ${config.default.db.uri}`);
 });
 
 // Print mongoose logs if this is set to true
@@ -27,9 +27,12 @@ if (config.default.mongoose.debug) {
   });
 }
 
-http.createServer(app).listen(8080, 'localhost', () => {
-  const { host, port } = config.default.server;
-  console.log(`Server started at host ${host} on port ${port} (${process.env.NODE_ENV})`);
-});
+const { host, port } = config.default.server;
+
+if (process.env.NODE_ENV === 'production') app.listen(8080);
+else
+  http.createServer(app).listen(port, host, () => {
+    console.log(`Server started at host ${host} on port ${port} (${process.env.NODE_ENV})`);
+  });
 
 export default app;
