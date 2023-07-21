@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "./node_modules/.bin/tsc -b -v",
-    "clean": "rimraf ./src/**/bin ./bin ./src/**/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
+    "clean": "./node_modules/.bin/rimraf ./src/**/bin ./bin ./src/**/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
     "start": "npm run clean && npm run build",
     "buildw": "tsc -b -v -w --preserveWatchOutput -watch --extendedDiagnostics",
     "eslint": "./node_modules/.bin/eslint \"./src/**/**.ts\"",
