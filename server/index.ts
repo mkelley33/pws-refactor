@@ -27,7 +27,7 @@ const debug = debugging('index');
 //   });
 // }
 
-// const { host, port } = config.default.server;
+const { host, port } = config.default.server;
 
 if (process.env.NODE_ENV === 'production') app.listen(8080);
 else
