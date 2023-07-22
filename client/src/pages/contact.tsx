@@ -53,6 +53,7 @@ const ContactForm = () => {
         api
           .post<IRecaptcha>('/recaptcha', { token })
           .then((res) => {
+            console.log(JSON.stringify(res.data), 'Res data >>>');
             if (res.data.error) setValue('recaptcha', '');
             else setValue('recaptcha', token, { shouldValidate: true });
           })
