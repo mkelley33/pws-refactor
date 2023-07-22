@@ -8,9 +8,9 @@
     "node": "18.16.0"
   },
   "scripts": {
-    "build": "./node_modules/.bin/tsc -b -v",
+    "start": "./node_modules/.bin/tsc -b -v",
     "clean": "./node_modules/rimraf/dist/cjs/src/bin.js ./src/**/bin ./bin ./src/**/tsconfig.tsbuildinfo tsconfig.tsbuildinfo",
-    "start": "npm run clean && npm run build",
+    "buildc": "npm run clean && npm run build",
     "buildw": "tsc -b -v -w --preserveWatchOutput -watch --extendedDiagnostics",
     "eslint": "./node_modules/.bin/eslint \"./src/**/**.ts\"",
     "node": "set TS_NODE_FILES=true & node --inspect --loader ts-node/esm src/index.ts",
