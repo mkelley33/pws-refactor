@@ -42,28 +42,25 @@ interface IRecaptcha {
 
 const ContactForm = () => {
   useEffect(() => {
-    // Formik causes multiple renders so don't add script multiple times
-    if (!document.querySelector('#recaptchaScript')) {
-      const script = document.createElement('script');
-      script.id = 'recaptchaScript';
-      script.src = 'https://www.google.com/recaptcha/api.js';
-      script.async = true;
-      script.defer = true;
-      (window as IWindow).onSubmit = (token: string) => {
-        api
-          .post<IRecaptcha>('/recaptcha', { token })
-          .then((res) => {
-            console.log(JSON.stringify(res.data), 'Res data >>>');
-            if (res.data.error) setValue('recaptcha', '');
-            else setValue('recaptcha', token, { shouldValidate: true });
-          })
-          .catch(() => {
-            setValue('recaptcha', '');
-          });
-      };
-      (window as IWindow).onExpired = () => setValue('recaptcha', '');
-      document.body.appendChild(script);
-    }
+    const script = document.createElement('script');
+    script.id = 'recaptchaScript';
+    script.src = 'https://www.google.com/recaptcha/api.js';
+    script.async = true;
+    script.defer = true;
+    (window as IWindow).onSubmit = (token: string) => {
+      api
+        .post<IRecaptcha>('/recaptcha', { token })
+        .then((res) => {
+          console.log(JSON.stringify(res.data), 'Res data >>>');
+          if (res.data.error) setValue('recaptcha', '');
+          else setValue('recaptcha', token, { shouldValidate: true });
+        })
+        .catch(() => {
+          setValue('recaptcha', '');
+        });
+    };
+    (window as IWindow).onExpired = () => setValue('recaptcha', '');
+    document.body.appendChild(script);
   }, []);
 
   const {
