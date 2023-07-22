@@ -29,7 +29,7 @@ const debug = debugging('index');
 
 const { host, port } = config.default.server;
 
-if (process.env.NODE_ENV === 'production') app.listen(8080);
+if (process.env.NODE_ENV === 'production') app.listen(process.env.PORT || 5001);
 else
   http.createServer(app).listen(port, host, () => {
     console.log(`Server started at host ${host} on port ${port} (${process.env.NODE_ENV})`);
