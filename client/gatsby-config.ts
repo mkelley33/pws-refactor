@@ -1,4 +1,8 @@
 module.exports = {
+  flags: {
+    PRESERVE_WEBPACK_CACHE: false,
+    PRESERVE_FILE_DOWNLOAD_CACHE: false,
+  },
   plugins: [
     {
       resolve: `gatsby-transformer-remark`,
