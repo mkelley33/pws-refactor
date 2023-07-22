@@ -9,6 +9,7 @@ export default {
     },
     client: {
         protocol: 'https',
+        www: 'www.',
         host: 'mkelley33.com',
     },
     mail: {
