@@ -64,14 +64,16 @@ const corsOptions = {
     credentials: true,
 };
 app.use(cors(corsOptions));
-const allowCrossDomain = function (_req, res, next) {
+const allowCrossDomain = function (req, res, next) {
     const { protocol: clientProtocol, host: clientHost, port: clientPort, www } = config.default.client;
     if (process.env.NODE_ENV !== 'production') {
         res.header('Access-Control-Allow-Origin', `${clientProtocol}://${clientHost}:${clientPort}`);
     }
     else {
-        res.header('Access-Control-Allow-Origin', `${clientProtocol}://${clientHost}`);
-        res.header('Access-Control-Allow-Origin', `${clientProtocol}://${www}${clientHost}`);
+        if (req.originalUrl.indexOf(www) !== -1)
+            res.header('Access-Control-Allow-Origin', `${clientProtocol}://${www}${clientHost}`);
+        else
+            res.header('Access-Control-Allow-Origin', `${clientProtocol}://${clientHost}`);
     }
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type,token');
