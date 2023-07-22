@@ -14,20 +14,20 @@ else dotenv.config({ path: './.env' });
 const debug = debugging('index');
 
 // Use bluebird promises in mongoose
-mongoose.Promise = Promise;
-mongoose.connect(config.default.db.uri, config.default.db.options);
-mongoose.connection.on('error', () => {
-  if (config.default.env !== 'production') throw new Error(`Unable to connect to database: ${config.default.db.uri}`);
-});
+// mongoose.Promise = Promise;
+// mongoose.connect(config.default.db.uri, config.default.db.options);
+// mongoose.connection.on('error', () => {
+//   if (config.default.env !== 'production') throw new Error(`Unable to connect to database: ${config.default.db.uri}`);
+// });
 
-// Print mongoose logs if this is set to true
-if (config.default.mongoose.debug) {
-  mongoose.set('debug', (collectionName, method, query, doc) => {
-    debug(`${collectionName}.${method}`, util.inspect(query, false, 20), doc);
-  });
-}
+// // Print mongoose logs if this is set to true
+// if (config.default.mongoose.debug) {
+//   mongoose.set('debug', (collectionName, method, query, doc) => {
+//     debug(`${collectionName}.${method}`, util.inspect(query, false, 20), doc);
+//   });
+// }
 
-const { host, port } = config.default.server;
+// const { host, port } = config.default.server;
 
 if (process.env.NODE_ENV === 'production') app.listen(8080);
 else
