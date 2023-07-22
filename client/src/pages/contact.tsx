@@ -47,7 +47,7 @@ const ContactForm = () => {
       script.id = 'recaptchaScript';
       script.src = 'https://www.google.com/recaptcha/api.js';
       script.async = true;
-      script.defer = true;
+      // script.defer = true;
       document.body.appendChild(script);
     }
     (window as IWindow).onSubmit = (token: string) => {
@@ -125,7 +125,7 @@ const ContactForm = () => {
               className="g-recaptcha"
               data-callback="onSubmit"
               data-expired-callback="onExpired"
-              data-sitekey={process.env.RECAPTCHA_SITE_KEY}
+              data-sitekey={process.env.GATSBY_RECAPTCHA_SITE_KEY}
             ></div>
             {errors.recaptcha && <div css={formErrorText}>{errors.recaptcha.message}</div>}
           </div>
