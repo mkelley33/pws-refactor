@@ -63,8 +63,9 @@ const ContactForm = (props) => {
 
   useEffect(() => {
     // Formik causes multiple renders so don't add script multiple times
+    let script;
     if (!document.querySelector('#recaptchaScript')) {
-      const script = document.createElement('script');
+      script = document.createElement('script');
       script.id = 'recaptchaScript';
       script.src = 'https://www.google.com/recaptcha/api.js';
       script.async = true;
@@ -77,6 +78,9 @@ const ContactForm = (props) => {
       };
       window.onExpired = () => setFieldValue('recaptcha', '');
       document.body.appendChild(script);
+    }
+    return () => {
+      if (script) document.body.removeChild(script);
     }
   }, []);
 

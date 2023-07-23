@@ -40,13 +40,7 @@ interface IRecaptcha {
   error: string;
 }
 
-interface IProps {
-  location: {
-    href: string;
-  };
-}
-
-const ContactForm = ({ location }: IProps) => {
+const ContactForm = () => {
   useEffect(() => {
     const recaptchaScript = document.querySelector('#recaptchaScript');
     let script: HTMLScriptElement;
