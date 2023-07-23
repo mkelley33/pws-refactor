@@ -41,10 +41,9 @@ interface IRecaptcha {
 }
 
 const ContactForm = () => {
-  let script;
   useEffect(() => {
     if (!document.querySelector('#recaptchaScript')) {
-      script = document.createElement('script');
+      const script = document.createElement('script');
       script.id = 'recaptchaScript';
       script.src = 'https://www.google.com/recaptcha/api.js';
       script.async = true;
@@ -64,7 +63,7 @@ const ContactForm = () => {
         });
     };
     (window as IWindow).onExpired = () => setValue('recaptcha', '');
-  }, [script]);
+  }, []);
 
   const {
     register,
