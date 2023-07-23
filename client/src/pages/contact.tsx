@@ -40,9 +40,13 @@ interface IRecaptcha {
   error: string;
 }
 
-const ContactForm = () => {
+interface IProps {
+  pathname: string;
+}
+
+const ContactForm = ({ pathname }: IProps) => {
   useEffect(() => {
-    console.log('use effect ran >>>');
+    console.log('use effect ran >>>', pathname);
     if (!document.querySelector('#recaptchaScript')) {
       const script = document.createElement('script');
       script.id = 'recaptchaScript';
@@ -64,7 +68,7 @@ const ContactForm = () => {
         });
     };
     (window as IWindow).onExpired = () => setValue('recaptcha', '');
-  }, []);
+  }, [pathname]);
 
   const {
     register,
