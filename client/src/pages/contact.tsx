@@ -42,6 +42,7 @@ interface IRecaptcha {
 
 const ContactForm = () => {
   useEffect(() => {
+    console.log('use effect ran >>>');
     if (!document.querySelector('#recaptchaScript')) {
       const script = document.createElement('script');
       script.id = 'recaptchaScript';
