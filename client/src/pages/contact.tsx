@@ -47,7 +47,7 @@ const ContactForm = () => {
       script.id = 'recaptchaScript';
       script.src = 'https://www.google.com/recaptcha/api.js';
       script.async = true;
-      // script.defer = true;
+      script.defer = true;
       document.body.appendChild(script);
     }
     (window as IWindow).onSubmit = (token: string) => {
