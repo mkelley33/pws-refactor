@@ -48,7 +48,6 @@ interface IProps {
 
 const ContactForm = ({ location }: IProps) => {
   useEffect(() => {
-    console.log('use effect ran >>>', location.href);
     const recaptchaScript = document.querySelector('#recaptchaScript');
     let script: HTMLScriptElement;
     if (!recaptchaScript) {
@@ -63,7 +62,6 @@ const ContactForm = ({ location }: IProps) => {
       api
         .post<IRecaptcha>('/recaptcha', { token })
         .then((res) => {
-          console.log(JSON.stringify(res.data), 'Res data >>>');
           if (res.data.error) setValue('recaptcha', '');
           else setValue('recaptcha', token, { shouldValidate: true });
         })
@@ -75,7 +73,7 @@ const ContactForm = ({ location }: IProps) => {
     return () => {
       if (script) document.body.removeChild(script);
     };
-  }, [location.href]);
+  }, []);
 
   const {
     register,
