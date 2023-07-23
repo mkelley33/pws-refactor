@@ -14,7 +14,7 @@
     "develop": "gatsby develop",
     "lint": "npx eslint . --fix",
     "start": "npm run develop",
-    "build": "gatsby build",
+    "build": "DISABLE_PERSISTENT_CACHE=1 gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "typecheck": "tsc --noEmit"
