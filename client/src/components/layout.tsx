@@ -30,7 +30,7 @@ const defaultTheme = {
 
 const mainCss = css`
   padding: 1rem 4rem;
-  line-height: 1.5rem;
+  line-height: 1.75rem;
   h1 {
     font-size: 2.25rem;
   }
