@@ -170,9 +170,6 @@ const Layout = (props: ILayout) => {
               <Link to="/contact">Contact</Link>
             </li>
             {/* <li>
-              <Link to="/contact">Contact</Link>
-            </li> */}
-            {/* <li>
               <Link to="/photos">Photos</Link>
             </li> */}
           </ul>
