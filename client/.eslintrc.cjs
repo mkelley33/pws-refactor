@@ -15,7 +15,7 @@ module.exports = {
   ],
   plugins: ['@typescript-eslint', 'react', 'prettier'],
   rules: {
-    'react/no-unknown-property': ['error', { ignore: ['css'] }],
+    'react/no-unknown-property': ['error', { ignore: ['css', 'register'] }],
     'react/react-in-jsx-scope': 'off',
     'react/jsx-uses-react': 'off',
     'react/prop-types': 'off',
