@@ -13,4 +13,4 @@ axios.doMockReset = () => {
 
 axios.create = jest.fn(() => axios);
 
-module.exports = axios;
+export default axios;
