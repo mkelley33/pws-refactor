@@ -32,7 +32,6 @@ export const registerUser = createAsyncThunk(
     try {
       const response = await api.post('/users', { email, firstName, lastName, password });
       // Password isn't returned with the user info
-      console.log(JSON.stringify(response.data));
       return response.data as IUserInfo;
     } catch (error) {
       return rejectWithValue(error);
