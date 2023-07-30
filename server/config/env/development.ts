@@ -6,12 +6,12 @@ export default {
   server: {
     protocol: 'http',
     host: 'localhost',
-    port: ':8080',
+    port: '8080',
   },
   client: {
     protocol: 'http',
     host: 'localhost',
-    port: ':8000',
+    port: '8000',
   },
   mail: {
     address: process.env.EMAIL,
