@@ -24,20 +24,11 @@ const schema = yup.object().shape({
 });
 
 interface IContactForm {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  message?: string;
-  recaptcha?: string;
-}
-
-interface IWindow extends Window {
-  onSubmit?: (token: string) => void;
-  onExpired?: () => void;
-}
-
-interface IRecaptcha {
-  error: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  message: string;
+  recaptcha: string;
 }
 
 const ContactForm = () => {
@@ -86,11 +77,11 @@ const ContactForm = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmitHandler: SubmitHandler<IContactForm> = (data) => {
+  const handleOnSubmit: SubmitHandler<IContactForm> = (data) => {
     // TODO: Add a loading spinner for form submission
     if (isValid) {
       api
-        .post(`/contact`, data)
+        .post('/contact', data)
         .then(async () => {
           await navigate('/post-contact');
         })
@@ -108,7 +99,7 @@ const ContactForm = () => {
     <Layout>
       <section style={{ textAlign: 'center' }}>
         <h1>Contact</h1>
-        <form noValidate onSubmit={handleSubmit(onSubmitHandler)}>
+        <form noValidate onSubmit={handleSubmit(handleOnSubmit)}>
           <TextInput id="firstName" label="First Name" register={register} errors={errors as IErrors} />
           <TextInput id="lastName" label="Last Name" register={register} errors={errors as IErrors} />
           <TextInput
