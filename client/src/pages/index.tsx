@@ -1,7 +1,7 @@
 import React from 'react';
 import 'normalize.css';
 import Layout from '@components/layout';
-import profilePic from '../../images/profile-pic.jpg';
+import profilePic from '../../images/profile-pic.webp';
 import MetaOg from '@components/meta-og';
 import Meta from '@components/meta';
 
@@ -25,6 +25,8 @@ const IndexPage = () => {
         <img
           src={profilePic as string}
           alt="Michaux Kelley Profile Pic"
+          width="150"
+          height="150"
           style={{ float: 'left', width: '150px', marginRight: '1rem', marginBottom: '0.5rem' }}
         />
         <p>
