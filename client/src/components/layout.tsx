@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect } from 'react';
 import { Link } from 'gatsby';
 import { css, keyframes } from '@emotion/react';
-import nebulousPic from '../../images/nebulous.png';
+import nebulousPic from '../../images/nebulous.webp';
 
 import { defineCustomElements as deckDeckGoHighlightElement } from '@deckdeckgo/highlight-code/dist/loader';
 
