@@ -1,19 +1,22 @@
+import React from 'react';
 import * as yup from 'yup';
-import { useEffect } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { AxiosResponse } from 'axios';
 
-import api from '../api';
 import Layout from '@components/layout';
 import TextInput from '@components/common/forms/text-input';
 import { registerUser } from '../features/auth/authSlice';
-import { formGroup, formErrorText } from '@components/common-css';
+import { formErrorText, formGroup } from '@components/common-css';
 import { toast } from 'react-toastify';
 import { navigate } from 'gatsby';
-import { text } from 'stream/consumers';
+import useRecaptacha from 'src/hooks/useRecaptcha';
+import Recaptcha from '@components/recaptcha';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { shallowEqual } from 'react-redux';
 
-const schema = yup.object().shape({
+const schema = yup.object({
   firstName: yup.string().required('First name is required.'),
   lastName: yup.string().required('Last name is required.'),
   email: yup.string().email('Invalid email address').required('Email is required!'),
@@ -30,15 +33,17 @@ const schema = yup.object().shape({
     .oneOf([yup.ref('password')], 'Passwords must match')
     .required('Password confirm is required'),
   recaptcha: yup.string().required(),
+  apiError: yup.string(),
 });
 
-interface IRegistrationForm {
+interface IRegistrationForm extends FieldValues {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
   confirmPassword: string;
   recaptcha: string;
+  apiError: string;
 }
 
 const RegistrationForm = () => {
@@ -48,6 +53,8 @@ const RegistrationForm = () => {
     formState: { errors, isSubmitting, isDirty, isValid },
     reset,
     setValue,
+    setError,
+    getValues,
   } = useForm<IRegistrationForm>({
     defaultValues: {
       firstName: '',
@@ -56,107 +63,76 @@ const RegistrationForm = () => {
       password: '',
       confirmPassword: '',
       recaptcha: '',
+      apiError: '',
     },
     mode: 'all',
-    resolver: yupResolver(schema),
+    // @ts-expect-error No suitable type/conversion found
+    resolver: yupResolver<IRegistrationForm>(schema),
   });
 
   const dispatch = useAppDispatch();
 
+  const { error, loading } = useAppSelector((state) => state.auth);
   const handleOnSubmit: SubmitHandler<IRegistrationForm> = (data) => {
-    // TODO: Add a loading spinner for form submission
     if (isValid) {
-      dispatch(registerUser(data))
-        .then(async () => {
+      void dispatch(registerUser(data)).then(async (error) => {
+        console.log(error, '<<< error');
+        if (!error) {
           await navigate('/post-registration');
-        })
-        .catch(() => {
-          // TODO: Add logging for what went wrong
-          toast.error('Something went wrong', {
-            position: toast.POSITION.TOP_CENTER,
-            hideProgressBar: true,
-          });
-        });
+        } else if (JSON.stringify(error.payload).includes('email')) {
+          // TODO: log error
+          setError('apiError', { message: 'That e-mail address has already been registered' }, { shouldFocus: true });
+        }
+      });
     }
   };
 
-  useEffect(() => {
-    const recaptchaScript = document.querySelector('#recaptchaScript');
-    let script: HTMLScriptElement;
-    if (!recaptchaScript) {
-      console.log('recaptcha');
-      script = document.createElement('script');
-      script.id = 'recaptchaScript';
-      script.src = 'https://www.google.com/recaptcha/api.js';
-      script.async = true;
-      script.defer = true;
-      document.body.appendChild(script);
-    }
-    (window as IWindow).onSubmit = (token: string) => {
-      api
-        .post<IRecaptcha>('/recaptcha', { token })
-        .then((res) => {
-          if (res.data.error) setValue('recaptcha', '');
-          else setValue('recaptcha', token, { shouldValidate: true });
-        })
-        .catch(() => {
-          setValue('recaptcha', '');
-        });
-    };
-    (window as IWindow).onExpired = () => setValue('recaptcha', '');
-    return () => {
-      if (script) document.body.removeChild(script);
-    };
-  }, []);
+  const handleReset = () => {
+    const formValues = getValues();
+    const recaptcha = formValues.recaptcha;
+    reset();
+    setValue('recaptcha', recaptcha);
+  };
 
-  const isLoading = useAppSelector((state) => state.auth.loading);
+  useRecaptacha<IRegistrationForm>(setValue);
 
-  return isLoading ? (
+  return loading ? (
+    <Layout>Loading</Layout>
+  ) : (
     <Layout>
       <section style={{ textAlign: 'center' }}>
         <h1>Registration Form</h1>
-        <form onSubmit={handleSubmit(handleOnSubmit)}>
-          <TextInput id="firstName" errors={errors as IErrors} label="First Name" register={register} />
-          <TextInput id="lastName" label="Last Name" errors={errors as IErrors} register={register} />
+        <form noValidate onSubmit={handleSubmit(handleOnSubmit)}>
+          <TextInput id="firstName" errors={errors as IErrors} label="First Name" {...register('firstName')} />
+          <TextInput id="lastName" label="Last Name" errors={errors as IErrors} {...register('lastName')} />
           <TextInput
             id="email"
             type="email"
             label="Email"
             errors={errors as IErrors}
-            register={register}
             autoComplete="email username"
+            {...register('email')}
           />
+          {errors.apiError && <div css={formErrorText}>{errors.apiError.message}</div>}
           <TextInput
             id="password"
             type="password"
             label="Password"
             errors={errors as IErrors}
-            register={register}
             autoComplete="new-password"
+            {...register('password')}
           />
           <TextInput
             id="confirmPassword"
             type="password"
             label="Confirm Password"
             errors={errors as IErrors}
-            register={register}
+            {...register('confirmPassword')}
             autoComplete="confirm-password"
           />
-          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <input id="recaptcha" type="hidden" {...register('recaptcha')} />
+          <Recaptcha errors={errors as IErrors & IRecaptchaMessage} {...register('recaptcha')} />
           <div css={formGroup}>
-            <div
-              id="recaptchaSettings"
-              style={{ width: '304px', margin: '0 auto' }}
-              className="g-recaptcha"
-              data-callback="onSubmit"
-              data-expired-callback="onExpired"
-              data-sitekey={process.env.GATSBY_RECAPTCHA_SITE_KEY}
-            ></div>
-            {errors.recaptcha && <div css={formErrorText}>{errors.recaptcha.message}</div>}
-          </div>
-          <div css={formGroup}>
-            <button type="button" onClick={() => reset()} disabled={!isDirty || isSubmitting}>
+            <button type="button" onClick={handleReset} disabled={!isDirty || isSubmitting}>
               Reset
             </button>
             <button type="submit" disabled={!isDirty || isSubmitting}>
@@ -166,8 +142,6 @@ const RegistrationForm = () => {
         </form>
       </section>
     </Layout>
-  ) : (
-    <>Loading</>
   );
 };
 

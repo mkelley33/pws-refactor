@@ -23,10 +23,8 @@ router.use(function (err, req, res, next) {
         }
     }
     else {
-        console.log(JSON.stringify(res), 'res >>>');
         res.status(422).json({ errors: { email: 'Something went wrong.' } });
     }
-    console.log(err);
     return next(err);
 });
 export default router;

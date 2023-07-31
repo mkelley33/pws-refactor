@@ -6,3 +6,7 @@ interface IWindow extends Window {
 interface IRecaptcha {
   error: string;
 }
+
+interface IRecaptchaMessage {
+  recaptcha: { message: string };
+}

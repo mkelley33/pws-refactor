@@ -1,7 +1,7 @@
+import axios, { AxiosError } from 'axios';
+
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import api from '../../api';
-import store from '../../store';
-import { stat } from 'fs';
 
 interface IUserInfo {
   firstName: string;
@@ -14,7 +14,7 @@ interface IAuthState {
   loading: boolean;
   userInfo: IUserInfo | null;
   userToken: string | null;
-  error: string | null;
+  error: object | null;
   success: boolean;
 }
 
@@ -31,10 +31,13 @@ export const registerUser = createAsyncThunk(
   async ({ email, firstName, lastName, password }: IUserInfo, { rejectWithValue }) => {
     try {
       const response = await api.post('/users', { email, firstName, lastName, password });
-      // Password isn't returned with the user info
       return response.data as IUserInfo;
     } catch (error) {
-      return rejectWithValue(error);
+      const _error = error as AxiosError;
+      if (!_error.response) {
+        throw _error;
+      }
+      return rejectWithValue(_error.response.data);
     }
   },
 );
@@ -48,14 +51,14 @@ const authSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(registerUser.fulfilled, (state, action) => {
+    builder.addCase(registerUser.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.success = true;
-      state.userInfo = action.payload;
+      state.userInfo = payload as IUserInfo;
     });
     builder.addCase(registerUser.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
+      state.error = action.payload as AxiosError;
     });
   },
 });

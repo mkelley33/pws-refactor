@@ -10,12 +10,14 @@ import { formGroup, formErrorText } from '@components/common-css';
 import Layout from '@components/layout';
 import TextInput from '@components/common/forms/text-input';
 import TextArea from '@components/common/forms/text-area';
+import Recaptcha from '@components/recaptcha';
+import useRecaptacha from 'src/hooks/useRecaptcha';
 
 // https://github.com/orgs/react-hook-form/discussions/10653
 // https://github.com/orgs/react-hook-form/discussions/3099
 // Another example of isValid not working:
 // https://codesandbox.io/s/react-hook-form-validationschema-v6-forked-9ezus?file=/src/index.js
-const schema = yup.object().shape({
+const schema = yup.object({
   firstName: yup.string().required('First name is required'),
   lastName: yup.string().required('Last name is required'),
   email: yup.string().email('Invalid email address').required('Email is required'),
@@ -32,34 +34,6 @@ interface IContactForm {
 }
 
 const ContactForm = () => {
-  useEffect(() => {
-    const recaptchaScript = document.querySelector('#recaptchaScript');
-    let script: HTMLScriptElement;
-    if (!recaptchaScript) {
-      script = document.createElement('script');
-      script.id = 'recaptchaScript';
-      script.src = 'https://www.google.com/recaptcha/api.js';
-      script.async = true;
-      script.defer = true;
-      document.body.appendChild(script);
-    }
-    (window as IWindow).onSubmit = (token: string) => {
-      api
-        .post<IRecaptcha>('/recaptcha', { token })
-        .then((res) => {
-          if (res.data.error) setValue('recaptcha', '');
-          else setValue('recaptcha', token, { shouldValidate: true });
-        })
-        .catch(() => {
-          setValue('recaptcha', '');
-        });
-    };
-    (window as IWindow).onExpired = () => setValue('recaptcha', '');
-    return () => {
-      if (script) document.body.removeChild(script);
-    };
-  }, []);
-
   const {
     register,
     handleSubmit,
@@ -76,6 +50,8 @@ const ContactForm = () => {
     mode: 'all',
     resolver: yupResolver(schema),
   });
+
+  useRecaptacha(setValue);
 
   const handleOnSubmit: SubmitHandler<IContactForm> = (data) => {
     // TODO: Add a loading spinner for form submission
@@ -100,30 +76,18 @@ const ContactForm = () => {
       <section style={{ textAlign: 'center' }}>
         <h1>Contact</h1>
         <form noValidate onSubmit={handleSubmit(handleOnSubmit)}>
-          <TextInput id="firstName" label="First Name" register={register} errors={errors as IErrors} />
-          <TextInput id="lastName" label="Last Name" register={register} errors={errors as IErrors} />
+          <TextInput id="firstName" label="First Name" errors={errors as IErrors} {...register('firstName')} />
+          <TextInput id="lastName" label="Last Name" errors={errors as IErrors} {...register('lastName')} />
           <TextInput
             id="email"
             type="email"
             label="Email"
             autoComplete="username email"
-            register={register}
             errors={errors as IErrors}
+            {...register('email')}
           />
-          <TextArea id="message" label="Message" register={register} errors={errors as IErrors} />
-          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-          <input id="recaptcha" type="hidden" {...register('recaptcha')} />
-          <div css={formGroup}>
-            <div
-              id="recaptchaSettings"
-              style={{ width: '304px', margin: '0 auto' }}
-              className="g-recaptcha"
-              data-callback="onSubmit"
-              data-expired-callback="onExpired"
-              data-sitekey={process.env.GATSBY_RECAPTCHA_SITE_KEY}
-            ></div>
-            {errors.recaptcha && <div css={formErrorText}>{errors.recaptcha.message}</div>}
-          </div>
+          <TextArea id="message" label="Message" errors={errors as IErrors} {...register('message')} />
+          <Recaptcha errors={errors as IErrors & IRecaptchaMessage} {...register('recaptcha')} />
           <div css={formGroup}>
             <input type="submit" disabled={isSubmitting || !isDirty} />
           </div>

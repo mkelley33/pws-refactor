@@ -25,10 +25,8 @@ router.use(function (err: APIError, req: Request, res: Response, next: NextFunct
       res.status(422).json({ errors: { email: 'That e-mail is already being used.' } });
     }
   } else {
-    console.log(JSON.stringify(res), 'res >>>');
     res.status(422).json({ errors: { email: 'Something went wrong.' } });
   }
-  console.log(err);
   return next(err);
 });
 
