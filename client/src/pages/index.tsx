@@ -27,6 +27,7 @@ const IndexPage = () => {
           alt="Michaux Kelley Profile Pic"
           width="150"
           height="150"
+          loading="lazy"
           style={{ float: 'left', width: '150px', marginRight: '1rem', marginBottom: '0.5rem' }}
         />
         <p>
