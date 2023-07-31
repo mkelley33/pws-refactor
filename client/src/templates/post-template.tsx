@@ -2,7 +2,7 @@ import React from 'react';
 import Layout from '@components/layout';
 import { graphql } from 'gatsby';
 import { Disqus } from 'gatsby-plugin-disqus';
-import profilePic from '@images/profile-pic.jpg';
+import profilePic from '@images/profile-pic.webp';
 import Meta from '@components/meta';
 import MetaOg from '@components/meta-og';
 interface IPost {
