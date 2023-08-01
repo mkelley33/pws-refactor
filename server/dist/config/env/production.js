@@ -25,7 +25,7 @@ export default {
     },
     jwtSecret: process.env.JWT_SECRET,
     db: {
-        uri: `mongodb+srv://${process.env.PWS_USER}:${process.env.PWS_PASS}@cluster0.9peoqjl.mongodb.net/?retryWrites=true&w=majority&authSource=${process.env.PWS_USER}`,
+        uri: `mongodb+srv://${process.env.PWS_USER}:${process.env.PWS_PASS}@cluster0.9peoqjl.mongodb.net/?retryWrites=true&w=majority`,
         options: {
             useNewUrlParser: true,
             socketTimeoutMS: 0,
