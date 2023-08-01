@@ -1,15 +1,6 @@
-import nodeMailer from 'nodemailer';
 import config from '../../config/env/index.js';
+import transporter from 'app/helpers/transporter.js';
 function sendContactEmail(firstName, lastName, email, message, next) {
-    const transporter = nodeMailer.createTransport({
-        service: config.default.mail.service,
-        host: config.default.mail.smtp,
-        port: config.default.mail.port,
-        auth: {
-            user: config.default.mail.address,
-            pass: config.default.mail.password,
-        },
-    });
     const mailOptions = {
         from: email,
         to: config.default.mail.address,

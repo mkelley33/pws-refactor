@@ -1,12 +1,12 @@
 import User, { ROLE_ADMIN } from '../models/user.model.js';
 import Token from '../models/token.model.js';
-import nodeMailer from 'nodemailer';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import config from '../../config/env/index.js';
 import APIError from '../helpers/APIError.js';
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
+import transporter from 'app/helpers/transporter.js';
 function sendVerificationEmail(user) {
     // TODO: add a timestamp to the token so that there is a way to retrieve the latest one created for the user
     const token = new Token({
@@ -18,38 +18,9 @@ function sendVerificationEmail(user) {
         // TODO: possibly write token to a file from which it
         // can later be read in tests
     }
-    let smtpConfig = {};
-    if (['development', 'test'].includes(process.env.NODE_ENV ?? 'development')) {
-        // This is the smtp config for mailcatcher
-        smtpConfig = {
-            host: '127.0.0.1',
-            port: 1025,
-            // TODO: Secure upgrade later with STARTTLS
-            secure: false,
-            auth: {
-                // user and pass can be anything but blank
-                type: 'basic',
-                user: 'user',
-                pass: 'password',
-            },
-        };
-    }
-    else {
-        smtpConfig = {
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: true,
-            auth: {
-                user: config.default.mail.address,
-                pass: config.default.mail.password,
-            },
-        };
-    }
-    const transporter = nodeMailer.createTransport(smtpConfig);
     let port = config.default.client.port;
     port = port ? `:${port}` : '';
     const verificationUrl = `${config.default.client.protocol}://${config.default.client.host}${port}/email-verification/${token.token}`;
-    console.log(verificationUrl);
     const mailOptions = {
         from: config.default.mail.sender,
         to: user.email,

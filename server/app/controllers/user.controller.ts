@@ -8,6 +8,7 @@ import { NextFunction, Request, Response } from 'express';
 import APIError from '../helpers/APIError.js';
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
+import transporter from 'app/helpers/transporter.js';
 
 interface IError {
   error: string;
@@ -25,38 +26,10 @@ function sendVerificationEmail(user: IUserDocument) {
     // can later be read in tests
   }
 
-  let smtpConfig = {};
-  if (['development', 'test'].includes(process.env.NODE_ENV ?? 'development')) {
-    // This is the smtp config for mailcatcher
-    smtpConfig = {
-      host: '127.0.0.1',
-      port: 1025,
-      // TODO: Secure upgrade later with STARTTLS
-      secure: false,
-      auth: {
-        // user and pass can be anything but blank
-        type: 'basic',
-        user: 'user',
-        pass: 'password',
-      },
-    };
-  } else {
-    smtpConfig = {
-      host: 'smtp.gmail.com',
-      port: 587,
-      secure: true,
-      auth: {
-        user: config.default.mail.address,
-        pass: config.default.mail.password,
-      },
-    };
-  }
-
-  const transporter = nodeMailer.createTransport(smtpConfig);
   let port = config.default.client.port;
   port = port ? `:${port}` : '';
   const verificationUrl = `${config.default.client.protocol}://${config.default.client.host}${port}/email-verification/${token.token}`;
-  console.log(verificationUrl);
+
   const mailOptions = {
     from: config.default.mail.sender, // sender address
     to: user.email, // list of receivers
