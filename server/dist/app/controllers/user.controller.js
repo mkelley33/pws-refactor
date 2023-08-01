@@ -20,7 +20,6 @@ function sendVerificationEmail(user) {
     }
     let smtpConfig = {};
     if (['development', 'test'].includes(process.env.NODE_ENV ?? 'development')) {
-        console.log(process.env.NODE_ENV);
         // This is the smtp config for mailcatcher
         smtpConfig = {
             host: '127.0.0.1',
@@ -38,16 +37,18 @@ function sendVerificationEmail(user) {
     else {
         smtpConfig = {
             host: 'smtp.gmail.com',
-            port: 465,
+            port: 587,
             secure: true,
             auth: {
-                user: config.default.mail.user,
+                user: config.default.mail.address,
                 pass: config.default.mail.password,
             },
         };
     }
     const transporter = nodeMailer.createTransport(smtpConfig);
-    const verificationUrl = `${config.default.protocol}://${config.default.host}${config.default.port}/email-verification/${token.token}`;
+    let port = config.default.client.port;
+    port = port ? `:${port}` : '';
+    const verificationUrl = `${config.default.client.protocol}://${config.default.client.host}${port}/email-verification/${token.token}`;
     console.log(verificationUrl);
     const mailOptions = {
         from: config.default.mail.sender,
