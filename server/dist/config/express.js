@@ -64,8 +64,8 @@ const corsOptions = {
     credentials: true,
 };
 app.use(cors(corsOptions));
-const { protocol: clientProtocol, host: clientHost, port: clientPort, www } = config.default.client;
 const allowCrossDomain = function (req, res, next) {
+    const { protocol: clientProtocol, host: clientHost, port: clientPort, www } = config.default.client;
     if (process.env.NODE_ENV !== 'production') {
         res.header('Access-Control-Allow-Origin', `${clientProtocol}://${clientHost}:${clientPort}`);
     }
