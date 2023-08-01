@@ -15,7 +15,7 @@ const debug = debugging('index');
 
 // Use bluebird promises in mongoose
 mongoose.Promise = Promise;
-mongoose.connect(config.default.db.uri, config.default.db.options);
+mongoose.connect(config.default.db.uri);
 mongoose.connection.on('error', () => {
   if (config.default.env !== 'production') throw new Error(`Unable to connect to database: ${config.default.db.uri}`);
 });
