@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import api from '../../api';
@@ -14,7 +14,6 @@ interface IAuthState {
   loading: boolean;
   userInfo: IUserInfo | null;
   userToken: string | null;
-  error: object | null;
   success: boolean;
 }
 
@@ -22,7 +21,6 @@ const initialState = {
   loading: false,
   userInfo: null,
   userToken: null,
-  error: null,
   success: false,
 } as IAuthState;
 
@@ -49,16 +47,14 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(registerUser.pending, (state) => {
       state.loading = true;
-      state.error = null;
     });
     builder.addCase(registerUser.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.success = true;
       state.userInfo = payload;
     });
-    builder.addCase(registerUser.rejected, (state, action) => {
+    builder.addCase(registerUser.rejected, (state) => {
       state.loading = false;
-      state.error = action.payload as AxiosError;
     });
   },
 });

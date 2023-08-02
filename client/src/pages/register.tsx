@@ -3,18 +3,14 @@ import * as yup from 'yup';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AxiosResponse } from 'axios';
 
 import Layout from '@components/layout';
 import TextInput from '@components/common/forms/text-input';
 import { registerUser } from '../features/auth/authSlice';
 import { formErrorText, formGroup } from '@components/common-css';
-import { toast } from 'react-toastify';
 import { navigate } from 'gatsby';
 import useRecaptacha from 'src/hooks/useRecaptcha';
 import Recaptcha from '@components/recaptcha';
-import { PayloadAction } from '@reduxjs/toolkit';
-import { shallowEqual } from 'react-redux';
 
 const schema = yup.object({
   firstName: yup.string().required('First name is required.'),
@@ -72,7 +68,7 @@ const RegistrationForm = () => {
 
   const dispatch = useAppDispatch();
 
-  const { error, loading } = useAppSelector((state) => state.auth);
+  const { loading } = useAppSelector((state) => state.auth);
 
   const handleOnSubmit: SubmitHandler<IRegistrationForm> = (data) => {
     if (isValid) {
