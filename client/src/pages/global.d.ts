@@ -10,3 +10,9 @@ interface IRecaptcha {
 interface IRecaptchaMessage {
   recaptcha: { message: string };
 }
+
+interface IResponseData {
+  errors: {
+    [key: string]: string;
+  };
+}

@@ -1,7 +1,6 @@
-import nodeMailer from 'nodemailer';
 import { Request, Response, NextFunction } from 'express';
 import config from '../../config/env/index.js';
-import transporter from 'app/helpers/transporter.js';
+import transporter from '../helpers/transporter.js';
 
 function sendContactEmail(firstName: string, lastName: string, email: string, message: string, next: NextFunction) {
   const mailOptions = {

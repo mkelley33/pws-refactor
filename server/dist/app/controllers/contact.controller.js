@@ -1,5 +1,5 @@
 import config from '../../config/env/index.js';
-import transporter from 'app/helpers/transporter.js';
+import transporter from '../helpers/transporter.js';
 function sendContactEmail(firstName, lastName, email, message, next) {
     const mailOptions = {
         from: email,

@@ -73,15 +73,17 @@ const RegistrationForm = () => {
   const dispatch = useAppDispatch();
 
   const { error, loading } = useAppSelector((state) => state.auth);
+
   const handleOnSubmit: SubmitHandler<IRegistrationForm> = (data) => {
     if (isValid) {
-      void dispatch(registerUser(data)).then(async (error) => {
-        console.log(error, '<<< error');
-        if (!error) {
-          await navigate('/post-registration');
-        } else if (JSON.stringify(error.payload).includes('email')) {
-          // TODO: log error
+      void dispatch(registerUser(data)).then(async (response) => {
+        const payload = response.payload as IResponseData;
+        // TODO: log error
+        // email is the only error returned from the server
+        if (payload.errors?.email) {
           setError('apiError', { message: 'That e-mail address has already been registered' }, { shouldFocus: true });
+        } else {
+          await navigate('/post-registration');
         }
       });
     }

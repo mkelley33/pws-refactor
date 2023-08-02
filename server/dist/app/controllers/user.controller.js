@@ -6,7 +6,7 @@ import config from '../../config/env/index.js';
 import APIError from '../helpers/APIError.js';
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
-import transporter from 'app/helpers/transporter.js';
+import transporter from '../helpers/transporter.js';
 function sendVerificationEmail(user) {
     // TODO: add a timestamp to the token so that there is a way to retrieve the latest one created for the user
     const token = new Token({

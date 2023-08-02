@@ -8,7 +8,7 @@ import { NextFunction, Request, Response } from 'express';
 import APIError from '../helpers/APIError.js';
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
-import transporter from 'app/helpers/transporter.js';
+import transporter from '../helpers/transporter.js';
 
 interface IError {
   error: string;
