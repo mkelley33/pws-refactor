@@ -15,6 +15,7 @@ interface IAuthState {
   userInfo: IUserInfo | null;
   userToken: string | null;
   success: boolean;
+  error: IResponseData | null;
 }
 
 const initialState = {
@@ -22,6 +23,7 @@ const initialState = {
   userInfo: null,
   userToken: null,
   success: false,
+  error: null,
 } as IAuthState;
 
 export const registerUser = createAsyncThunk(
@@ -47,14 +49,16 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(registerUser.pending, (state) => {
       state.loading = true;
+      state.error = null;
     });
     builder.addCase(registerUser.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.success = true;
       state.userInfo = payload;
     });
-    builder.addCase(registerUser.rejected, (state) => {
+    builder.addCase(registerUser.rejected, (state, { payload }) => {
       state.loading = false;
+      state.error = payload as IResponseData;
     });
   },
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as yup from 'yup';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
@@ -68,22 +68,22 @@ const RegistrationForm = () => {
 
   const dispatch = useAppDispatch();
 
-  const { loading } = useAppSelector((state) => state.auth);
+  const { error, loading, success } = useAppSelector((state) => state.auth);
 
   const handleOnSubmit: SubmitHandler<IRegistrationForm> = (data) => {
     if (isValid) {
-      void dispatch(registerUser(data)).then(async (response) => {
-        const payload = response.payload as IResponseData;
-        // TODO: log error
-        // email is the only error returned from the server
-        if (payload.errors?.email) {
-          setError('apiError', { message: 'That e-mail address has already been registered' }, { shouldFocus: true });
-        } else {
-          await navigate('/post-registration');
-        }
-      });
+      void dispatch(registerUser(data));
     }
   };
+
+  useEffect(() => {
+    if (error?.errors.email) {
+      setError('apiError', { message: 'That e-mail address has already been registered' }, { shouldFocus: true });
+    }
+    if (success) {
+      void navigate('/post-registration');
+    }
+  }, [error, success]);
 
   const handleReset = () => {
     const formValues = getValues();
