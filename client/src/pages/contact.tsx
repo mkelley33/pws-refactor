@@ -1,12 +1,11 @@
 import * as yup from 'yup';
 import { navigate } from 'gatsby';
 import { toast } from 'react-toastify';
-import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import api from '../api';
-import { formGroup, formErrorText } from '@components/common-css';
+import { formGroup } from '@components/common-css';
 import Layout from '@components/layout';
 import TextInput from '@components/common/forms/text-input';
 import TextArea from '@components/common/forms/text-area';
