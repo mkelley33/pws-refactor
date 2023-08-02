@@ -43,6 +43,13 @@ const IndexPage = () => {
           Aside from coding, I love music (especially listening to records), play a few instruments, collect stamps,
           read mostly non-fiction, meditate, and write in a notebook.
         </p>
+        <p>
+          You can view the source for this Web site on{' '}
+          <a href="https://github.com/mkelley33/pws-refactor" target="github">
+            GitHub
+          </a>
+          .
+        </p>
       </section>
     </Layout>
   );
