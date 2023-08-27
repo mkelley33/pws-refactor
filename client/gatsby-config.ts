@@ -107,6 +107,9 @@ export default {
         cssPropOptimization: true,
       },
     },
+    {
+      resolve: `gatsby-plugin-netlify`,
+    },
     `gatsby-plugin-image`,
     `gatsby-plugin-mdx`,
     `gatsby-plugin-sharp`,
