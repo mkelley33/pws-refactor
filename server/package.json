@@ -16,6 +16,7 @@
     "eslint": "./node_modules/.bin/eslint \"./src/**/**.ts\"",
     "node": "set TS_NODE_FILES=true & node --inspect --loader ts-node/esm src/index.ts",
     "tsc-watch": "NODE_ENV=development tsc-watch -b -v -i -w --noclear --compiler \"./node_modules/.bin/tsc\" --onSuccess \"node ./dist/index.js\"",
+    "test-tsc-watch": "NODE_ENV=test tsc-watch -b -v -i -w --noclear --compiler \"./node_modules/.bin/tsc\" --onSuccess \"node ./dist/index.js\"",
     "test": "NODE_ENV=test mocha ./tests/**/*.ts",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test",
     "repl": "tsx --loader @esbuild-kit/esm-loader"

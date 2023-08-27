@@ -22,6 +22,7 @@ https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/
 1. brew update
 1. brew install mongodb-community@6.0
 1. brew services start mongodb-community@6.0
+1. brew services stop mongodb-community@6.0 (we're going to start it manually for authentication reasons)
 
 ### Setting up MongoDB
 
@@ -51,7 +52,7 @@ Stop the MongoDB instance and start it again with access control.
 
 Connect and authenticate as the user.
 
-`use 'api-development'`
+`use api-development`
 `db.auth("admin", "replace-with-your-passowrd")`
 
 It should output `{ ok: 1 }` if you have authenticated.

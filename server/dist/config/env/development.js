@@ -25,7 +25,7 @@ export default {
     },
     jwtSecret: process.env.JWT_SECRET,
     db: {
-        uri: 'mongodb://127.0.0.1:27017/api-test',
+        uri: 'mongodb://127.0.0.1:27017/api-development',
         options: {
             useNewUrlParser: true,
             socketTimeoutMS: 0,
