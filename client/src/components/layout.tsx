@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { Link } from 'gatsby';
 import { css, keyframes } from '@emotion/react';
 import nebulousPic from '../../images/nebulous.webp';
