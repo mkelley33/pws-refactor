@@ -2,6 +2,7 @@ import React, { ReactNode, useEffect } from 'react';
 import { Link } from 'gatsby';
 import { css, keyframes } from '@emotion/react';
 import nebulousPic from '../../images/nebulous.webp';
+import nebulousRepeatPic from '../../images/nebulous-repeat.webp';
 
 import { defineCustomElements as deckDeckGoHighlightElement } from '@deckdeckgo/highlight-code/dist/loader';
 import { Theme, useThemeContext } from './theme-context';
@@ -120,7 +121,9 @@ const Layout = (props: ILayout) => {
   `;
 
   const appHeader = css`
-    background: #020204 url(${nebulousPic}) 0 0 no-repeat;
+    background:
+      url(${nebulousPic as string}) 0 0 no-repeat,
+      url(${nebulousRepeatPic as string}) 0 0 repeat-x;
     color: white;
     border-bottom: 7px solid var(--${theme}-headerBottomBorderColor);
     display: flex;
