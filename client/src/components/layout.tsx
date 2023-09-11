@@ -27,7 +27,7 @@ const lightTheme = {
   dustyBlue: '#34424C',
   highlightBlue: '#1F4662',
   selectionBlue: '#0050a4',
-  backgroundColor: '#f5f5f5',
+  backgroundColor: '#fff',
   foregroundColor: '#222222',
   linkColor: '#0047ab',
   headerBottomBorderColor: '#0d3a58',
@@ -78,6 +78,7 @@ const Layout = (props: ILayout) => {
     line-height: 1.75rem;
     background-color: var(--${theme}-backgroundColor);
     color: var(--${theme}-foregroundColor);
+    min-height: calc(100vh - 310px);
     h1 {
       font-size: 2.25rem;
     }
@@ -106,7 +107,7 @@ const Layout = (props: ILayout) => {
     clear: both;
     text-align: center;
     border-top: 2px solid var(--${theme}-variableBlue);
-
+    max-height: 75px;
     @media (max-width: 480px) {
       margin: 0 auto;
       p {
