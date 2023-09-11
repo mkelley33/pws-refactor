@@ -32,7 +32,7 @@ const IndexPage = () => {
             React
           </a>
           , using HTML5, CSS3, JavaScript, and TypeScript to build responsive web apps that scale and support a variety
-          of devices. Mostly, I just like helping people solve problems in a user-friendly way.
+          of devices. I enjoy assisting people by solving complex problems in a user-friendly way.
         </p>
         <p>
           Aside from coding, I love music (especially listening to records), play a few instruments, collect stamps,
