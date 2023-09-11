@@ -26,17 +26,18 @@ const IndexPage = () => {
           style={{ float: 'left', width: '150px', marginRight: '1rem', marginBottom: '0.5rem' }}
         />
         <p>
-          I&apos;m Michaux Kelley, and for about {numYearsFrontEnd} years now I&apos;ve been mostly a front-end software
-          engineer, developing software primarily with{' '}
+          I&apos;m Michaux Kelley, and for {numYearsFrontEnd} years now I&apos;ve been a front-end software engineer,
+          developing software primarily with{' '}
           <a href="https://react.dev/" target="react-dev">
             React
           </a>
-          , using HTML5, CSS3, JavaScript, and TypeScript to build responsive web apps that scale and support mobile
-          devices. Mostly, I just like helping people solve problems in a user-friendly way.
+          , using HTML5, CSS3, JavaScript, and TypeScript to build responsive web apps that scale and support a variety
+          of devices. Mostly, I just like helping people solve problems in a user-friendly way.
         </p>
         <p>
           Aside from coding, I love music (especially listening to records), play a few instruments, collect stamps,
-          read mostly non-fiction, meditate, and write in a notebook.
+          read mostly non-fiction, meditate, and write in a notebook daily about all the things for which I&apos;m
+          grateful as well as a few bits and pieces around my meanderinig thoughts and ideas.
         </p>
         <p>
           You can view the source for this Web site on{' '}
