@@ -35,9 +35,8 @@ const IndexPage = () => {
           of devices. I enjoy assisting people by solving complex problems in a user-friendly way.
         </p>
         <p>
-          Aside from coding, I love music (especially listening to records), play a few instruments, collect stamps,
-          read mostly non-fiction, meditate, and write in a notebook daily about all the things for which I&apos;m
-          grateful as well as a few bits and pieces around my meanderinig thoughts and ideas.
+          Aside from coding, I love listening to music, playing musical instruments, collecting stamps, reading
+          non-fiction, meditating, and journaling.
         </p>
         <p>
           You can view the source for this Web site on{' '}
