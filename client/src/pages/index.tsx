@@ -42,8 +42,8 @@ const IndexPage = () => {
           You can view the source for this Web site on{' '}
           <a href="https://github.com/mkelley33/pws-refactor" target="github">
             GitHub
-          </a>
-          .
+          </a>{' '}
+          and you can contact me at <a href="mailto:me@mkelley33.com">me@mkelley33.com</a>.
         </p>
       </section>
     </Layout>
